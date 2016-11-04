@@ -5,8 +5,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,28 +12,19 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class JMonstroService {
-    private static final Logger logger = LoggerFactory.getLogger(JMonstroService.class);
     private static TreeItem<String> root;
 
-    private JSONObject loadResource(String src) {
+    public TreeItem<String> getTree(String jsonName, String src) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = (JSONObject) parser.parse(new FileReader(src));
-        } catch (IOException | ParseException e) {
-            logger.warn(JMonstroService.class.getName(), e);
-        }
-
-        return jsonObject;
-    }
-
-    public TreeItem<String> getTree(String jsonName, String src){
-        JSONObject jsonObject = loadResource(src);
+        Object jsonObject  = parser.parse(new FileReader(src));
 
         if(jsonObject != null) {
+            if(jsonObject instanceof JSONArray){
+                jsonName = "[" + ((JSONArray) jsonObject).size() + "] : " + jsonName;
+            }
+
             root = getNode(jsonName, jsonObject);
-            root.setExpanded(false);
+            root.setExpanded(true);
         }
 
         return root;
@@ -48,21 +37,43 @@ public class JMonstroService {
             Map<String, Object> nodeMap = (Map<String, Object>) node;
 
             for (Map.Entry<String, Object> entry : nodeMap.entrySet()) {
-                treeNode.getChildren().add(getNode(entry.getKey(), entry.getValue()));
+                String keyName = entry.getKey();
+
+                if(entry.getValue() instanceof JSONArray){
+                    keyName = "[" + ((JSONArray) entry.getValue()).size() + "] : " + keyName;
+                }
+
+                if(
+                        entry.getValue() instanceof String ||
+                        entry.getValue() instanceof Long ||
+                        entry.getValue() instanceof Boolean ||
+                        entry.getValue() instanceof Double
+                ){
+                    treeNode.getChildren().add(new TreeItem<>(String.format("%s : %s", keyName, entry.getValue())));
+                }else if(entry.getValue() == null){
+                    treeNode.getChildren().add(new TreeItem<>(String.format("%s : null", keyName)));
+                } else{
+                    treeNode.getChildren().add(getNode(keyName, entry.getValue()));
+                }
             }
         }
 
         if(node instanceof JSONArray){
             JSONArray nodeArray = (JSONArray) node;
-            Iterator<String> iterator = nodeArray.iterator();
+            Iterator<Object> iterator = nodeArray.iterator();
 
+            int idx = 0;
             while (iterator.hasNext()) {
-                treeNode.getChildren().add(new TreeItem<>(iterator.next()));
-            }
-        }
+                Object item = iterator.next();
 
-        if(node instanceof String){
-            treeNode.getChildren().add(new TreeItem<>((String) node));
+                if(item instanceof JSONObject) {
+                    treeNode.getChildren().add(getNode("[" + idx + "] : ", item));
+                }else{
+                    treeNode.getChildren().add(new TreeItem<>("[" + idx + "] : " + item.toString()));
+                }
+
+                idx++;
+            }
         }
 
         return treeNode;

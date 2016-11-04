@@ -1,21 +1,36 @@
 package br.jmonstro.controller;
 
+import br.jmonstro.service.JMonstroService;
 import javafx.scene.control.TreeItem;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 public class MainController extends MainForm {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     public void processarJsonAction(){
-        String[] rootItems = new String[]{"a", "b", "c"};
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Selecionar JSON");
 
-        TreeItem<String> root = new TreeItem<String>("Root Node");
-        root.setExpanded(true);
-        for (String itemString: rootItems) {
-            root.getChildren().add(new TreeItem<String>(itemString));
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON", "*.json");
+        chooser.getExtensionFilters().add(extFilter);
+
+        File file = chooser.showOpenDialog(new Stage());
+
+        if(file != null) {
+            txtPathJson.setText(file.getAbsolutePath());
+
+            JMonstroService jMonstroService = new JMonstroService();
+            TreeItem<String> root = jMonstroService.getTree(file.getName(), file.getAbsolutePath());
+
+            tree.setRoot(root);
+            tree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                txtValor.setText(newValue.getValue());
+            });
         }
-
-        tree.setRoot(root);
     }
 }

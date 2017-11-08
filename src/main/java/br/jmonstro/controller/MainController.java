@@ -1,6 +1,8 @@
 package br.jmonstro.controller;
 
 import br.jmonstro.service.JMonstroService;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -37,7 +39,16 @@ public class MainController extends MainForm {
                 });
             }catch (IOException|ParseException e){
                 logger.warn(MainController.class.getName(), e);
+                alertError(e.toString());
             }
         }
+    }
+
+    public static void alertError(String msg){
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(msg);
+            alert.showAndWait();
+        });
     }
 }

@@ -31,6 +31,7 @@
     </Button>
     <TreeView fx:id="tree" GridPane.rowIndex="1"/>
     <Label text="Valor:" GridPane.rowIndex="2" />
+    <Button text="Hex View" GridPane.rowIndex="2" onAction="#hexViewAction"/>
     <TextArea fx:id="txtValor" GridPane.rowIndex="3" wrapText="true"/>
     <padding>
         <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>

@@ -1,9 +1,11 @@
 package br.jmonstro.controller;
 
+import br.jmonstro.main.Ui;
 import br.jmonstro.service.JMonstroService;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TreeItem;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.json.simple.parser.ParseException;
@@ -13,8 +15,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 
-public class MainController extends MainForm {
+public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static final Ui ui = new Ui();
+
+    @FXML TextField txtPathJson;
+    @FXML TreeView<String> tree;
+    @FXML TextArea txtValor;
 
     public void processarJsonAction(){
         FileChooser chooser = new FileChooser();
@@ -42,6 +49,14 @@ public class MainController extends MainForm {
                 alertError(e.toString());
             }
         }
+    }
+
+    public void hexViewAction(){
+        Scene scene = ui.newScene("hexview.fxml", 600, 400);
+        Stage stage = new Stage();
+        stage.setTitle("Hex View");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void alertError(String msg){

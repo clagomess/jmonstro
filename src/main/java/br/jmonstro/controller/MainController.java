@@ -4,6 +4,7 @@ import br.jmonstro.main.Ui;
 import br.jmonstro.service.JMonstroService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
@@ -52,11 +53,14 @@ public class MainController {
     }
 
     public void hexViewAction(){
-        Scene scene = ui.newScene("hexview.fxml", 600, 400);
+        FXMLLoader loader = ui.fxmlLoad("hexview.fxml");
         Stage stage = new Stage();
         stage.setTitle("Hex View");
-        stage.setScene(scene);
+        stage.setScene(new Scene(loader.getRoot(), 600, 400));
         stage.show();
+
+        HexViewController hvc = loader.getController();
+        hvc.init("VRAU");
     }
 
     public static void alertError(String msg){

@@ -2,11 +2,13 @@ package br.jmonstro.controller;
 
 import br.jmonstro.main.Ui;
 import br.jmonstro.service.JMonstroService;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.json.simple.parser.ParseException;
@@ -47,7 +49,7 @@ public class MainController {
                 });
             }catch (IOException|ParseException e){
                 logger.warn(MainController.class.getName(), e);
-                alertError(e.toString());
+                ui.alertError(e.toString());
             }
         }
     }
@@ -60,14 +62,6 @@ public class MainController {
         stage.show();
 
         HexViewController hvc = loader.getController();
-        hvc.init("VRAU");
-    }
-
-    public static void alertError(String msg){
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText(msg);
-            alert.showAndWait();
-        });
+        hvc.init(txtValor.getText());
     }
 }

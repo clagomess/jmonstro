@@ -1,12 +1,11 @@
 package br.jmonstro.main;
 
+import br.jmonstro.service.HexViewerService;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Main extends Application {
     private static final String SYS_TITLE = "jMonstro";
@@ -32,5 +31,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+//        String str = "desArquivoFoto : iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAIAAAD2HxkiAAJZ3UlEQVR42sy8Wa9l63UdNufXr3b3p6uqW81t2FOWZJm0aAuIYctykMRBgjj5OfoJQfKch8BwY";
+//        System.out.println(HexViewerService.print(str.getBytes()));
+//        System.exit(0);
     }
 }

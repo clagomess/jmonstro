@@ -1,7 +1,9 @@
 package br.jmonstro.main;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,5 +38,13 @@ public class Ui {
 
     public Scene newScene(String fxmlFile, Integer width, Integer height) {
         return new Scene(fxmlLoad(fxmlFile).getRoot(), width, height);
+    }
+
+    public void alertError(String msg){
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(msg);
+            alert.showAndWait();
+        });
     }
 }

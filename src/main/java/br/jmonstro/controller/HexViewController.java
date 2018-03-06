@@ -1,16 +1,26 @@
 package br.jmonstro.controller;
 
 import br.jmonstro.service.HexViewerService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
+import java.util.Base64;
+
 public class HexViewController {
-    @FXML
-    TextArea txtHex;
+    @FXML TextArea txtHex;
 
     void init(String base64Hex){
-        String printed = HexViewerService.print(base64Hex.getBytes());
+        byte[] parsed = HexViewerService.parse(base64Hex);
 
-        this.txtHex.setText(printed);
+        try{
+            parsed = Base64.getDecoder().decode(parsed);
+        } catch (Exception ignore){
+            //@TODO: Colocar alert aqui;
+        }
+
+        final String printed = HexViewerService.print(parsed);
+
+        Platform.runLater(() -> this.txtHex.setText(printed));
     }
 }

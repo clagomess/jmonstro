@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.Pane?>
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.jmonstro.controller.HexViewController">
-    <TextArea fx:id="txtHex" editable="false" prefWidth="Infinity" style="-fx-font-family: monospace" />
-    <!--<padding>
-        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
-    </padding>-->
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.jmonstro.controller.HexViewController">
+    <TextArea fx:id="txtHex" editable="false" prefWidth="600" prefHeight="400" style="-fx-font-family: monospace" />
 </Pane>

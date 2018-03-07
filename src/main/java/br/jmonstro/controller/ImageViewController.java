@@ -1,7 +1,6 @@
 package br.jmonstro.controller;
 
 import br.jmonstro.main.Ui;
-import br.jmonstro.service.HexViewerService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,15 +13,13 @@ import java.util.Base64;
 public class ImageViewController {
     @FXML ImageView img;
 
-    void init(String base64Hex){
-        byte[] parsed = HexViewerService.parse(base64Hex);
-
+    void init(String content){
         try{
-            parsed = Base64.getDecoder().decode(parsed);
+            final byte[] parsed = Base64.getDecoder().decode(content.getBytes());
             final ByteArrayInputStream logoByte = new ByteArrayInputStream(parsed);
             Platform.runLater(() -> img.setImage(new Image(logoByte)));
         } catch (Exception ignore){
-            Ui.alertError(Alert.AlertType.INFORMATION, "Não possivel carregar como Base64");
+            Ui.alertError(Alert.AlertType.WARNING, MainController.MSG_ERRO_BASE64);
         }
     }
 }

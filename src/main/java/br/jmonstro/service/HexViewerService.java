@@ -41,9 +41,9 @@ public class HexViewerService {
         return sb.toString();
     }
 
-    public static byte[] parse(final String content){
+    public static String parse(final String content){
         if(content == null){
-            return new byte[]{(byte) 0x20};
+            return " ";
         }
 
         String result = null;
@@ -67,6 +67,6 @@ public class HexViewerService {
             result = content;
         }
 
-        return result.getBytes();
+        return result;
     }
 }

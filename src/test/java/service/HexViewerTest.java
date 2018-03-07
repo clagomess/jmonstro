@@ -12,14 +12,14 @@ public class HexViewerTest {
 
     @Test
     public void parse(){
-        Assert.assertEquals("arquivo.json", new String(HexViewerService.parse("[4] : arquivo.json")));
-        Assert.assertEquals("", new String(HexViewerService.parse("[0] : ")));
-        Assert.assertEquals("arquivo.json", new String(HexViewerService.parse("arquivo.json")));
-        Assert.assertEquals("VEVTVEU=", new String(HexViewerService.parse("[1] : VEVTVEU=")));
-        Assert.assertEquals("VEVTVEU=", new String(HexViewerService.parse("desArquivoFoto : VEVTVEU=")));
-        Assert.assertEquals("true", new String(HexViewerService.parse("status : true")));
-        Assert.assertEquals("equivalenttome", new String(HexViewerService.parse("[13] : equivalenttome")));
-        Assert.assertEquals("null", new String(HexViewerService.parse("dispositivos : null")));
-        Assert.assertEquals(" ", new String(HexViewerService.parse(null)));
+        Assert.assertEquals("arquivo.json", HexViewerService.parse("[4] : arquivo.json"));
+        Assert.assertEquals("", HexViewerService.parse("[0] : "));
+        Assert.assertEquals("arquivo.json", HexViewerService.parse("arquivo.json"));
+        Assert.assertEquals("VEVTVEU=", HexViewerService.parse("[1] : VEVTVEU="));
+        Assert.assertEquals("VEVTVEU=", HexViewerService.parse("desArquivoFoto : VEVTVEU="));
+        Assert.assertEquals("true", HexViewerService.parse("status : true"));
+        Assert.assertEquals("equivalenttome", HexViewerService.parse("[13] : equivalenttome"));
+        Assert.assertEquals("null", HexViewerService.parse("dispositivos : null"));
+        Assert.assertEquals(" ", HexViewerService.parse(null));
     }
 }

@@ -12,13 +12,17 @@ import java.util.Base64;
 public class HexViewController {
     @FXML TextArea txtHex;
 
-    void init(String base64Hex){
-        byte[] parsed = HexViewerService.parse(base64Hex);
+    void init(Boolean base64, String content){
+        byte[] parsed = new byte[]{};
 
-        try{
-            parsed = Base64.getDecoder().decode(parsed);
-        } catch (Exception ignore){
-            Ui.alertError(Alert.AlertType.INFORMATION, "Não possivel carregar como Base64");
+        if(base64) {
+            try {
+                parsed = Base64.getDecoder().decode(content.getBytes());
+            } catch (Exception ignore) {
+                Ui.alertError(Alert.AlertType.WARNING, MainController.MSG_ERRO_BASE64);
+            }
+        }else{
+            parsed = content.getBytes();
         }
 
         final String printed = HexViewerService.print(parsed);

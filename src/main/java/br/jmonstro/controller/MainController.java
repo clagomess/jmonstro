@@ -4,6 +4,7 @@ import br.jmonstro.main.Ui;
 import br.jmonstro.service.HexViewerService;
 import br.jmonstro.service.JMonstroService;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,6 +22,8 @@ import java.util.Base64;
 public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     private static final Ui ui = new Ui();
+
+    public static final String MSG_ERRO_BASE64 = "Não foi possível carregar valor como Base64";
 
     @FXML TextField txtPathJson;
     @FXML TreeView<String> tree;
@@ -49,7 +52,9 @@ public class MainController {
 
                     Platform.runLater(() -> {
                         tree.setRoot(root);
-                        tree.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> txtValor.setText(nv.getValue()));
+                        tree.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) ->
+                            txtValor.setText(HexViewerService.parse(nv.getValue()))
+                        );
                         progress.setProgress(0);
                     });
                 }catch (Exception e){
@@ -61,7 +66,11 @@ public class MainController {
         }
     }
 
-    public void hexViewAction(){
+    public void hexViewAction(Event event){
+        if(!validarTxtValor()){return;}
+
+        final Button button = (Button) event.getTarget();
+
         FXMLLoader loader = ui.fxmlLoad("hexview.fxml");
         Stage stage = new Stage();
         stage.setTitle("Hex View");
@@ -69,10 +78,14 @@ public class MainController {
         stage.show();
 
         HexViewController hvc = loader.getController();
-        hvc.init(txtValor.getText());
+        hvc.init(button.getText().contains("Base64"), txtValor.getText());
+
+        System.out.println(event);
     }
 
     public void imageViewAction(){
+        if(!validarTxtValor()){return;}
+
         FXMLLoader loader = ui.fxmlLoad("imageview.fxml");
         Stage stage = new Stage();
         stage.setTitle("Image View");
@@ -83,7 +96,10 @@ public class MainController {
         hvc.init(txtValor.getText());
     }
 
-    public void saveBinAction(){
+    public void saveBinAction(Event event){
+        if(!validarTxtValor()){return;}
+
+        final Button button = (Button) event.getTarget();
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Save BIN");
         chooser.setInitialFileName("file.bin");
@@ -92,15 +108,30 @@ public class MainController {
 
         if(file != null){
             try{
-                byte[] content = HexViewerService.parse(txtValor.getText());
-                content = Base64.getDecoder().decode(content);
+                byte[] content = txtValor.getText().getBytes();
+
+                if(button.getText().contains("Base64")) {
+                    content = Base64.getDecoder().decode(content);
+                }
 
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(content);
                 fos.close();
             } catch (IOException e) {
                 logger.error(MainController.class.getName(), e);
+                Ui.alertError(Alert.AlertType.WARNING, e.getMessage());
             }
+        }
+    }
+
+    private Boolean validarTxtValor(){
+        String content = txtValor.getText();
+
+        if(content == null || "".equals(content.trim())){
+            Ui.alertError(Alert.AlertType.WARNING, "É necessário ter algum valor para a opção selecionada");
+            return false;
+        }else{
+            return true;
         }
     }
 }

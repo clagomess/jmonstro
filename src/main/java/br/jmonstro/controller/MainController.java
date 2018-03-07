@@ -1,6 +1,7 @@
 package br.jmonstro.controller;
 
 import br.jmonstro.main.Ui;
+import br.jmonstro.service.HexViewerService;
 import br.jmonstro.service.JMonstroService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -13,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 
 public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -62,5 +66,37 @@ public class MainController {
 
         HexViewController hvc = loader.getController();
         hvc.init(txtValor.getText());
+    }
+
+    public void imageViewAction(){
+        FXMLLoader loader = ui.fxmlLoad("imageview.fxml");
+        Stage stage = new Stage();
+        stage.setTitle("Image View");
+        stage.setScene(new Scene(loader.getRoot(), 640, 480));
+        stage.show();
+
+        ImageViewController hvc = loader.getController();
+        hvc.init(txtValor.getText());
+    }
+
+    public void saveBinAction(){
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Save BIN");
+        chooser.setInitialFileName("file.bin");
+
+        File file = chooser.showSaveDialog(new Stage());
+
+        if(file != null){
+            try{
+                byte[] content = HexViewerService.parse(txtValor.getText());
+                content = Base64.getDecoder().decode(content);
+
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(content);
+                fos.close();
+            } catch (IOException e) {
+                logger.error(MainController.class.getName(), e);
+            }
+        }
     }
 }

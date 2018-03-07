@@ -38,22 +38,26 @@ public class MainController {
 
         if(file != null) {
             Platform.runLater(() -> {
-                try {
-                    progress.setProgress(-1);
-                    txtPathJson.setText(file.getAbsolutePath());
+                progress.setProgress(-1);
+                txtPathJson.setText(file.getAbsolutePath());
+            });
 
+            new Thread(() -> {
+                try {
                     JMonstroService jMonstroService = new JMonstroService();
                     TreeItem<String> root = jMonstroService.getTree(file.getName(), file.getAbsolutePath());
 
-                    tree.setRoot(root);
-                    tree.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> txtValor.setText(nv.getValue()));
+                    Platform.runLater(() -> {
+                        tree.setRoot(root);
+                        tree.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> txtValor.setText(nv.getValue()));
+                        progress.setProgress(0);
+                    });
                 }catch (Exception e){
                     logger.error(MainController.class.getName(), e);
-                    Ui.alertError(Alert.AlertType.ERROR, e.toString());
-                } finally {
                     progress.setProgress(0);
+                    Ui.alertError(Alert.AlertType.ERROR, e.toString());
                 }
-            });
+            }).start();
         }
     }
 

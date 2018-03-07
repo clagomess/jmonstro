@@ -40,15 +40,17 @@
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints prefHeight="30" vgrow="ALWAYS" />
         </rowConstraints>
         <Button GridPane.columnIndex="0" text="Hex View - Base64" onAction="#hexViewAction"/>
-        <Button GridPane.columnIndex="1" text="Image View - Base64" onAction="#imageViewAction"/>
-        <Button GridPane.columnIndex="2" text="Save Bin - Base64" onAction="#saveBinAction"/>
-        <Button GridPane.columnIndex="3" text="Hex View" onAction="#hexViewAction"/>
-        <Button GridPane.columnIndex="4" text="Save Bin" onAction="#saveBinAction"/>
+        <Button GridPane.columnIndex="1" text="Image View" onAction="#imageViewAction"/>
+        <Button GridPane.columnIndex="2" text="RawToImage" onAction="#rawToImageAction"/>
+        <Button GridPane.columnIndex="3" text="Save Bin - Base64" onAction="#saveBinAction"/>
+        <Button GridPane.columnIndex="4" text="Hex View" onAction="#hexViewAction"/>
+        <Button GridPane.columnIndex="5" text="Save Bin" onAction="#saveBinAction"/>
     </GridPane>
 
     <TextArea fx:id="txtValor" GridPane.rowIndex="3" wrapText="true"/>

@@ -1,6 +1,14 @@
 package br.jmonstro.service;
 
+import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,5 +76,60 @@ public class HexViewerService {
         }
 
         return result;
+    }
+
+    public static byte[] rawToImage(byte[] content, int width, int height) throws Exception {
+        if(width * height != content.length){
+            throw new Exception("[width] ou [height] não está com a proporção correta");
+        }
+
+        final BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+        final BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(content));
+
+        int i = 0, x = 0, y = 0;
+        while (i < content.length) {
+
+            int pixel = bis.read();
+
+            // Grava Pixel
+            Color cor = new Color(pixel, pixel, pixel);
+            bi.setRGB(x, y, cor.getRGB());
+
+
+            if (x < (width - 1)) {
+                x++;
+            } else {
+                x = 0;
+                y++;
+            }
+
+            i++;
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write( bi, "jpg", baos );
+        baos.flush();
+        byte[] toReturn = baos.toByteArray();
+        baos.close();
+
+        return toReturn;
+    }
+
+    public static List<int[]> getDimension(int size){
+        List<int[]> sizes = new ArrayList<>();
+
+        int max = (int) Math.ceil(Math.sqrt((double) 16/9 * (double) size));
+
+        for(int w = 0; w <= max; w++){
+            for (int h = 0;h <= max; h++){
+                if(w*h == size){
+                    sizes.add(new int[]{w, h});
+                }
+                h++;
+            }
+            w++;
+        }
+
+        return sizes;
     }
 }

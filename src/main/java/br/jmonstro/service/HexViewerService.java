@@ -1,6 +1,6 @@
 package br.jmonstro.service;
 
-import java.util.Base64;
+import javax.xml.bind.DatatypeConverter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,8 +12,9 @@ public class HexViewerService {
         int i = 0;
 
         for (byte readByte : binaryContent) {
-            lineHex.append((readByte <= 0xF) ? "0" : "");
-            lineHex.append(Integer.toHexString(readByte).toUpperCase());
+            readByte = (byte) (readByte & 0xFF);
+
+            lineHex.append(DatatypeConverter.printHexBinary(new byte[]{readByte}));
             lineHex.append(" ");
             lineHex.append((i == 7 ? " " : ""));
 

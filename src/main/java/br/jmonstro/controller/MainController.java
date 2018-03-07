@@ -2,21 +2,17 @@ package br.jmonstro.controller;
 
 import br.jmonstro.main.Ui;
 import br.jmonstro.service.JMonstroService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 
 public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -25,6 +21,7 @@ public class MainController {
     @FXML TextField txtPathJson;
     @FXML TreeView<String> tree;
     @FXML TextArea txtValor;
+    @FXML ProgressBar progress;
 
     public void processarJsonAction(){
         FileChooser chooser = new FileChooser();
@@ -36,21 +33,23 @@ public class MainController {
         File file = chooser.showOpenDialog(new Stage());
 
         if(file != null) {
-            txtPathJson.setText(file.getAbsolutePath());
+            Platform.runLater(() -> {
+                try {
+                    progress.setProgress(-1);
+                    txtPathJson.setText(file.getAbsolutePath());
 
-            try {
-                JMonstroService jMonstroService = new JMonstroService();
-                TreeItem<String> root = jMonstroService.getTree(file.getName(), file.getAbsolutePath());
+                    JMonstroService jMonstroService = new JMonstroService();
+                    TreeItem<String> root = jMonstroService.getTree(file.getName(), file.getAbsolutePath());
 
-                tree.setRoot(root);
-
-                tree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                    txtValor.setText(newValue.getValue());
-                });
-            }catch (IOException|ParseException e){
-                logger.warn(MainController.class.getName(), e);
-                ui.alertError(e.toString());
-            }
+                    tree.setRoot(root);
+                    tree.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> txtValor.setText(nv.getValue()));
+                }catch (Exception e){
+                    logger.error(MainController.class.getName(), e);
+                    Ui.alertError(Alert.AlertType.ERROR, e.toString());
+                } finally {
+                    progress.setProgress(0);
+                }
+            });
         }
     }
 

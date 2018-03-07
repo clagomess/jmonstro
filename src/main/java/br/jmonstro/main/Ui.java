@@ -40,9 +40,9 @@ public class Ui {
         return new Scene(fxmlLoad(fxmlFile).getRoot(), width, height);
     }
 
-    public void alertError(String msg){
+    public static void alertError(Alert.AlertType alertType, String msg){
         Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(alertType);
             alert.setContentText(msg);
             alert.showAndWait();
         });

@@ -54,7 +54,7 @@ public class MainController {
                     });
                 }catch (Exception e){
                     logger.error(MainController.class.getName(), e);
-                    progress.setProgress(0);
+                    Platform.runLater(() -> progress.setProgress(0));
                     Ui.alertError(Alert.AlertType.ERROR, e.toString());
                 }
             }).start();

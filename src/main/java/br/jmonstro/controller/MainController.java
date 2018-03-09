@@ -124,6 +124,19 @@ public class MainController {
         }
     }
 
+    public void rawToImageAction(){
+        if(!validarTxtValor()){return;}
+
+        FXMLLoader loader = ui.fxmlLoad("rawtoimage.fxml");
+        Stage stage = new Stage();
+        stage.setTitle("RawToImage View");
+        stage.setScene(new Scene(loader.getRoot(), 640, 480));
+        stage.show();
+
+        RawToImageController hvc = loader.getController();
+        hvc.init(txtValor.getText());
+    }
+
     private Boolean validarTxtValor(){
         String content = txtValor.getText();
 

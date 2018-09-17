@@ -74,12 +74,15 @@ public class MainController {
         Stage stage = new Stage();
         stage.setTitle("Hex View");
         stage.setScene(new Scene(loader.getRoot(), 600, 400));
-        stage.show();
 
         HexViewController hvc = loader.getController();
-        hvc.init(button.getText().contains("Base64"), txtValor.getText());
+        boolean showController = hvc.init(button.getText().contains("Base64"), txtValor.getText());
 
-        System.out.println(event);
+        if(showController){
+            stage.show();
+        }else {
+            stage.close();
+        }
     }
 
     public void imageViewAction(){
@@ -89,10 +92,15 @@ public class MainController {
         Stage stage = new Stage();
         stage.setTitle("Image View");
         stage.setScene(new Scene(loader.getRoot(), 640, 480));
-        stage.show();
 
         ImageViewController hvc = loader.getController();
-        hvc.init(txtValor.getText());
+        boolean showController = hvc.init(txtValor.getText());
+
+        if(showController){
+            stage.show();
+        }else {
+            stage.close();
+        }
     }
 
     public void saveBinAction(Event event){
@@ -133,7 +141,13 @@ public class MainController {
         stage.show();
 
         RawToImageController hvc = loader.getController();
-        hvc.init(txtValor.getText());
+        boolean showController = hvc.init(txtValor.getText());
+
+        if(showController){
+            stage.show();
+        }else {
+            stage.close();
+        }
     }
 
     private Boolean validarTxtValor(){

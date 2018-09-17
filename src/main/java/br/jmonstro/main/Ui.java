@@ -16,21 +16,16 @@ public class Ui {
         FXMLLoader fxml = null;
 
         try {
-            fxml = new FXMLLoader(getClass().getResource("../fxml/" + fxmlFile));
-            fxml.setRoot(fxml.load());
-        }catch (Exception ea){
-            logger.warn(Main.class.getName(), ea);
+            URL url = Thread.currentThread().getContextClassLoader().getResource("fxml/" + fxmlFile);
 
-            try {
-                URL url = Thread.currentThread().getContextClassLoader().getResource(Main.SYS_PATH + "fxml/" + fxmlFile);
-
-                if(url != null) {
-                    fxml = new FXMLLoader(url);
-                    fxml.setRoot(fxml.load());
-                }
-            }catch (Exception eb) {
-                logger.warn(Main.class.getName(), eb);
+            if(url == null){
+                throw new Exception("Falha ao carregar o " + fxmlFile);
             }
+
+            fxml = new FXMLLoader(url);
+            fxml.setRoot(fxml.load());
+        }catch (Throwable e){
+            logger.error(Ui.class.getName(), e);
         }
 
         return fxml;

@@ -13,7 +13,7 @@ public class Main extends Application {
         Scene scene = ui.newScene("main.fxml", 600, 600);
 
         if(scene != null) {
-            primaryStage.setTitle("jMonstro");
+            primaryStage.setTitle("jMonstro - " + getVersion());
             primaryStage.setScene(scene);
             primaryStage.getIcons().add(new Image("icon.png"));
             primaryStage.setOnCloseRequest(t -> {
@@ -26,5 +26,9 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private synchronized String getVersion(){
+        return getClass().getPackage().getImplementationVersion();
     }
 }

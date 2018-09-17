@@ -3,11 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <artifactId>br.jmonstro</artifactId>
-    <name>jmonstro</name>
+    <artifactId>jmonstro</artifactId>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>jmonstro</groupId>
-    <version>1.0.2</version>
+    <groupId>br.jmonstro</groupId>
+    <version>1.0.3</version>
 
     <dependencies>
         <dependency>

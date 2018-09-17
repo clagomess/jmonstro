@@ -11,16 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
+@Slf4j
 public class MainController {
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     private static final Ui ui = new Ui();
 
     public static final String MSG_ERRO_BASE64 = "Não foi possível carregar valor como Base64";
@@ -58,7 +57,7 @@ public class MainController {
                         progress.setProgress(0);
                     });
                 }catch (Exception e){
-                    logger.error(MainController.class.getName(), e);
+                    log.error(MainController.class.getName(), e);
                     Platform.runLater(() -> progress.setProgress(0));
                     Ui.alertError(Alert.AlertType.ERROR, e.toString());
                 }
@@ -118,7 +117,7 @@ public class MainController {
                 fos.write(content);
                 fos.close();
             } catch (IOException e) {
-                logger.error(MainController.class.getName(), e);
+                log.error(MainController.class.getName(), e);
                 Ui.alertError(Alert.AlertType.WARNING, e.getMessage());
             }
         }

@@ -4,14 +4,14 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 
+@Slf4j
 public class Ui {
-    private static final Logger logger = LoggerFactory.getLogger(Ui.class);
-
     public FXMLLoader fxmlLoad(String fxmlFile){
         FXMLLoader fxml = null;
 
@@ -25,7 +25,7 @@ public class Ui {
             fxml = new FXMLLoader(url);
             fxml.setRoot(fxml.load());
         }catch (Throwable e){
-            logger.error(Ui.class.getName(), e);
+            log.error(Ui.class.getName(), e);
         }
 
         return fxml;

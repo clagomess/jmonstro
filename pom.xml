@@ -4,10 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <artifactId>jmonstro</artifactId>
-    <name>jmonstro</name>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>jmonstro</groupId>
-    <version>1.0.2</version>
+    <groupId>br.jmonstro</groupId>
+    <version>1.0.3</version>
 
     <dependencies>
         <dependency>
@@ -17,7 +16,7 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
+            <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.5</version>
         </dependency>
         <dependency>
@@ -26,20 +25,16 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
-
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.fxml</include>
-                    <include>**/*.png</include>
-                </includes>
-            </resource>
-        </resources>
 
         <plugins>
             <plugin>

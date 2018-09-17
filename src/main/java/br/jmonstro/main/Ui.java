@@ -4,33 +4,26 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
 
+@Slf4j
 public class Ui {
-    private static final Logger logger = LoggerFactory.getLogger(Ui.class);
-
     public FXMLLoader fxmlLoad(String fxmlFile){
         FXMLLoader fxml = null;
 
         try {
-            fxml = new FXMLLoader(getClass().getResource("../fxml/" + fxmlFile));
-            fxml.setRoot(fxml.load());
-        }catch (Exception ea){
-            logger.warn(Main.class.getName(), ea);
+            URL url = Thread.currentThread().getContextClassLoader().getResource("fxml/" + fxmlFile);
 
-            try {
-                URL url = Thread.currentThread().getContextClassLoader().getResource(Main.SYS_PATH + "fxml/" + fxmlFile);
-
-                if(url != null) {
-                    fxml = new FXMLLoader(url);
-                    fxml.setRoot(fxml.load());
-                }
-            }catch (Exception eb) {
-                logger.warn(Main.class.getName(), eb);
+            if(url == null){
+                throw new Exception("Falha ao carregar o " + fxmlFile);
             }
+
+            fxml = new FXMLLoader(url);
+            fxml.setRoot(fxml.load());
+        }catch (Throwable e){
+            log.error(Ui.class.getName(), e);
         }
 
         return fxml;

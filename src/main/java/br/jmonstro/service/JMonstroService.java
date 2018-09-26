@@ -4,23 +4,23 @@ import javafx.scene.control.TreeItem;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
+import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
 public class JMonstroService {
     private static TreeItem<String> root;
 
-    public TreeItem<String> getTree(String jsonName, String src) throws IOException, ParseException {
+    public TreeItem<String> getTree(File file) throws Throwable {
         JSONParser parser = new JSONParser();
-        Object jsonObject  = parser.parse(new FileReader(src));
+        Object jsonObject  = parser.parse(new FileReader(file));
+        String jsonName = file.getName();
 
         if(jsonObject != null) {
             if(jsonObject instanceof JSONArray){
-                jsonName = "[" + ((JSONArray) jsonObject).size() + "] : " + jsonName;
+                jsonName = "[" + ((JSONArray) jsonObject).size() + "] : " + file.getName();
             }
 
             root = getNode(jsonName, jsonObject);
@@ -66,10 +66,10 @@ public class JMonstroService {
             while (iterator.hasNext()) {
                 Object item = iterator.next();
 
-                if(item instanceof JSONObject) {
+                if(item instanceof JSONObject || item instanceof JSONArray) {
                     treeNode.getChildren().add(getNode("[" + idx + "] : ", item));
                 }else{
-                    treeNode.getChildren().add(new TreeItem<>("[" + idx + "] : " + item.toString()));
+                    treeNode.getChildren().add(new TreeItem<>("[" + idx + "] : " + (item == null ? "null" : item.toString())));
                 }
 
                 idx++;

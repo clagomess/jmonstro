@@ -47,7 +47,7 @@ public class MainController {
             new Thread(() -> {
                 try {
                     JMonstroService jMonstroService = new JMonstroService();
-                    TreeItem<String> root = jMonstroService.getTree(file.getName(), file.getAbsolutePath());
+                    TreeItem<String> root = jMonstroService.getTree(file);
 
                     Platform.runLater(() -> {
                         tree.setRoot(root);
@@ -56,7 +56,7 @@ public class MainController {
                         );
                         progress.setProgress(0);
                     });
-                }catch (Exception e){
+                }catch (Throwable e){
                     log.error(MainController.class.getName(), e);
                     Platform.runLater(() -> progress.setProgress(0));
                     Ui.alertError(Alert.AlertType.ERROR, e.toString());

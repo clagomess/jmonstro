@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+          prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="br.jmonstro.controller.RestController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints/>
+    </rowConstraints>
+
+    <GridPane GridPane.rowIndex="1">
+        <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+        </columnConstraints>
+        <ChoiceBox GridPane.columnIndex="0">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="GET"/>
+                    <String fx:value="POST"/>
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+        <TextField GridPane.columnIndex="1" />
+    </GridPane>
+
+    <Label GridPane.rowIndex="2" text="Form Data"/>
+    <TableView GridPane.rowIndex="3">
+        <TableColumn prefWidth="200" text="KEY">
+            <cellValueFactory>
+                <PropertyValueFactory property="nomDispositivo" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="VALUE">
+            <cellValueFactory>
+                <PropertyValueFactory property="nomDispositivo" />
+            </cellValueFactory>
+        </TableColumn>
+    </TableView>
+
+    <Label GridPane.rowIndex="4" text="Header"/>
+    <TableView GridPane.rowIndex="5">
+        <TableColumn prefWidth="200" text="KEY">
+            <cellValueFactory>
+                <PropertyValueFactory property="nomDispositivo" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="VALUE">
+            <cellValueFactory>
+                <PropertyValueFactory property="nomDispositivo" />
+            </cellValueFactory>
+        </TableColumn>
+    </TableView>
+
+    <Label GridPane.rowIndex="6" text="Cookie"/>
+    <TableView GridPane.rowIndex="7">
+        <TableColumn prefWidth="200" text="KEY">
+            <cellValueFactory>
+                <PropertyValueFactory property="nomDispositivo" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="VALUE">
+            <cellValueFactory>
+                <PropertyValueFactory property="nomDispositivo" />
+            </cellValueFactory>
+        </TableColumn>
+    </TableView>
+
+    <GridPane GridPane.rowIndex="8">
+        <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+        </columnConstraints>
+        <TextField GridPane.columnIndex="0"/>
+        <TextField GridPane.columnIndex="1"/>
+        <TextField GridPane.columnIndex="2"/>
+    </GridPane>
+</GridPane>

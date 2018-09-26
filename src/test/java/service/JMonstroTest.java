@@ -6,8 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.json.Json;
+import javax.json.stream.JsonParser;
 import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 import java.net.URL;
+import java.nio.file.Files;
 
 @Slf4j
 public class JMonstroTest {
@@ -74,8 +79,8 @@ public class JMonstroTest {
 
         Assert.assertEquals("sample_03.json", root.getValue());
         Assert.assertEquals(22, root.getChildren().size());
-        Assert.assertEquals(3, root.getChildren().get(9).getChildren().size());
-        Assert.assertEquals(2, root.getChildren().get(9).getChildren().get(0).getChildren().size());
-        Assert.assertEquals("id : 0", root.getChildren().get(9).getChildren().get(0).getChildren().get(1).getValue());
+        Assert.assertEquals(3, root.getChildren().get(19).getChildren().size());
+        Assert.assertEquals(2, root.getChildren().get(19).getChildren().get(0).getChildren().size());
+        Assert.assertEquals("id : 0", root.getChildren().get(19).getChildren().get(0).getChildren().get(0).getValue());
     }
 }

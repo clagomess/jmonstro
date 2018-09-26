@@ -18,6 +18,7 @@ public class JMonstroTest {
         JMonstroService jms = new JMonstroService();
         TreeItem<String> root = jms.getTree(new File(sample01.getPath()));
 
+        Assert.assertEquals("[14] : sample_01.json", root.getValue());
         Assert.assertEquals(14, root.getChildren().size());
         Assert.assertEquals("[0] : 0", root.getChildren().get(0).getValue());
         Assert.assertEquals("[1] : 999", root.getChildren().get(1).getValue());
@@ -44,6 +45,7 @@ public class JMonstroTest {
         JMonstroService jms = new JMonstroService();
         TreeItem<String> root = jms.getTree(new File(sample02.getPath()));
 
+        Assert.assertEquals("sample_02.json", root.getValue());
         Assert.assertEquals(14, root.getChildren().size());
         Assert.assertEquals("a : 0", root.getChildren().get(0).getValue());
         Assert.assertEquals("b : 999", root.getChildren().get(1).getValue());
@@ -70,6 +72,7 @@ public class JMonstroTest {
         JMonstroService jms = new JMonstroService();
         TreeItem<String> root = jms.getTree(new File(sample03.getPath()));
 
+        Assert.assertEquals("sample_03.json", root.getValue());
         Assert.assertEquals(22, root.getChildren().size());
         Assert.assertEquals(3, root.getChildren().get(9).getChildren().size());
         Assert.assertEquals(2, root.getChildren().get(9).getChildren().get(0).getChildren().size());

@@ -6,13 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.json.Json;
-import javax.json.stream.JsonParser;
 import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
 import java.net.URL;
-import java.nio.file.Files;
 
 @Slf4j
 public class JMonstroTest {
@@ -23,8 +18,8 @@ public class JMonstroTest {
         JMonstroService jms = new JMonstroService();
         TreeItem<String> root = jms.getTree(new File(sample01.getPath()));
 
-        Assert.assertEquals("[14] : sample_01.json", root.getValue());
-        Assert.assertEquals(14, root.getChildren().size());
+        Assert.assertEquals("[15] : sample_01.json", root.getValue());
+        Assert.assertEquals(15, root.getChildren().size());
         Assert.assertEquals("[0] : 0", root.getChildren().get(0).getValue());
         Assert.assertEquals("[1] : 999", root.getChildren().get(1).getValue());
         Assert.assertEquals("[2] : 999.99", root.getChildren().get(2).getValue());
@@ -41,6 +36,7 @@ public class JMonstroTest {
         Assert.assertEquals("[11] : null", root.getChildren().get(11).getValue());
         Assert.assertEquals("[12] : ", root.getChildren().get(12).getValue());
         Assert.assertEquals("[13] :  ", root.getChildren().get(13).getValue());
+        Assert.assertEquals("[14] : Ação Açucar", root.getChildren().get(14).getValue());
     }
 
     @Test
@@ -51,7 +47,7 @@ public class JMonstroTest {
         TreeItem<String> root = jms.getTree(new File(sample02.getPath()));
 
         Assert.assertEquals("sample_02.json", root.getValue());
-        Assert.assertEquals(14, root.getChildren().size());
+        Assert.assertEquals(15, root.getChildren().size());
         Assert.assertEquals("a : 0", root.getChildren().get(0).getValue());
         Assert.assertEquals("b : 999", root.getChildren().get(1).getValue());
         Assert.assertEquals("c : 999.99", root.getChildren().get(2).getValue());
@@ -68,6 +64,7 @@ public class JMonstroTest {
         Assert.assertEquals("l : null", root.getChildren().get(11).getValue());
         Assert.assertEquals("m : ", root.getChildren().get(12).getValue());
         Assert.assertEquals("n :  ", root.getChildren().get(13).getValue());
+        Assert.assertEquals("o : Ação Açucar", root.getChildren().get(14).getValue());
     }
 
     @Test
@@ -82,5 +79,17 @@ public class JMonstroTest {
         Assert.assertEquals(3, root.getChildren().get(19).getChildren().size());
         Assert.assertEquals(2, root.getChildren().get(19).getChildren().get(0).getChildren().size());
         Assert.assertEquals("id : 0", root.getChildren().get(19).getChildren().get(0).getChildren().get(0).getValue());
+    }
+
+    @Test
+    public void sample04() throws Throwable {
+        // Arquivo charset ANSI
+        URL sample03 = Thread.currentThread().getContextClassLoader().getResource("sample_04.json");
+
+        JMonstroService jms = new JMonstroService();
+        TreeItem<String> root = jms.getTree(new File(sample03.getPath()));
+
+        Assert.assertEquals(1, root.getChildren().size());
+        Assert.assertEquals("a : Ação Açucar", root.getChildren().get(0).getValue());
     }
 }

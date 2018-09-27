@@ -29,15 +29,15 @@ public class RestParam {
         this.url = form.txtUrl.getText();
 
         for(RestForm.KeyValueTable item : form.tblFormData.getItems()){
-            this.formData.add(item.getKey().getValue(), item.getValue().getValue());
+            this.formData.add(item.getKey(), item.getValue());
         }
 
         for(RestForm.KeyValueTable item : form.tblHeader.getItems()){
-            this.header.add(item.getKey().getValue(), item.getValue().getValue());
+            this.header.add(item.getKey(), item.getValue());
         }
 
         for(RestForm.KeyValueTable item : form.tblCookie.getItems()){
-            this.cookie.put(item.getKey().getValue(), item.getValue().getValue());
+            this.cookie.put(item.getKey(), item.getValue());
         }
 
         this.body = form.txtBodyJson.getText();

@@ -17,6 +17,8 @@ public class RestController extends RestForm {
 
     void init(MainForm mainForm){
         this.mainForm = mainForm;
+
+        this.tblFormData.getItems().add(new KeyValueTable("foo", "barr")); //@TODO: só pra ver de qault
     }
 
     public void executeAction(){

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.String?>
-<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.jmonstro.controller.RestController">
+<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.jmonstro.controller.RestController">
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" />
     </columnConstraints>
@@ -26,7 +26,7 @@
             </items>
         </ChoiceBox>
         <TextField fx:id="txtUrl" GridPane.columnIndex="1" promptText="URL" />
-        <Button onAction="#executeAction" GridPane.columnIndex="2" text="Executar" style="-fx-base: #0079ff"/>
+        <Button fx:id="btnExecutar" onAction="#executeAction" GridPane.columnIndex="2" text="Executar" style="-fx-base: #0079ff"/>
     </GridPane>
 
     <GridPane GridPane.rowIndex="2" hgap="10.0" vgap="10.0">

@@ -16,6 +16,9 @@ public class RestForm {
     protected TextField txtUrl;
 
     @FXML
+    protected Button btnExecutar;
+
+    @FXML
     protected TableView<RestForm.KeyValueTable> tblFormData;
 
     @FXML

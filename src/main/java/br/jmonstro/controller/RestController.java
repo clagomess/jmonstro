@@ -6,6 +6,7 @@ import br.jmonstro.bean.RestParam;
 import br.jmonstro.main.Ui;
 import br.jmonstro.service.JMonstroService;
 import br.jmonstro.service.RestService;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,22 +18,26 @@ public class RestController extends RestForm {
 
     void init(MainForm mainForm){
         this.mainForm = mainForm;
-
-        this.tblFormData.getItems().add(new KeyValueTable("foo", "barr")); //@TODO: só pra ver de qault
     }
 
     public void executeAction(){
-        try {
-            File file = RestService.get(new RestParam(this));
+        Platform.runLater(() -> btnExecutar.setDisable(true));
 
-            Ui.alert(Alert.AlertType.INFORMATION, "Executado com sucesso!");
+        new Thread(() -> {
+            try {
+                File file = RestService.get(new RestParam(this));
 
-            JMonstroService jMonstroService = new JMonstroService();
-            jMonstroService.processar(file, mainForm);
-        }catch (Throwable e){
-            Ui.alert(Alert.AlertType.WARNING, e.getMessage());
-            log.warn(RestController.class.getName(), e);
-        }
+                Ui.alert(Alert.AlertType.INFORMATION, "Executado com sucesso!");
+
+                JMonstroService jMonstroService = new JMonstroService();
+                jMonstroService.processar(file, mainForm);
+            }catch (Throwable e){
+                log.error(JMonstroService.class.getName(), e);
+                Ui.alert(Alert.AlertType.ERROR, e.getMessage());
+            }finally {
+                Platform.runLater(() -> btnExecutar.setDisable(false));
+            }
+        }).start();
     }
 
     public void chxProxyAction(){

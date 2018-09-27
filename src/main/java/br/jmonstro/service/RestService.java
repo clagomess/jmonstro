@@ -2,6 +2,7 @@ package br.jmonstro.service;
 
 import br.jmonstro.bean.RestParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
@@ -30,13 +31,15 @@ public class RestService {
             client = ClientBuilder.newClient();
         }
 
+        client.property(ClientProperties.CONNECT_TIMEOUT, 1000 * 10);
+
         WebTarget webTarget = client.target(restParam.getUrl());
         Invocation.Builder invocationBuilder = webTarget.request();
         invocationBuilder.headers(restParam.getHeader());
         Response response;
 
         if(restParam.getMetodo() == RestParam.Metodo.POST){
-            response = invocationBuilder.post(restParam.getBody() != null ? Entity.json(restParam.getBody()) : Entity.form(restParam.getFormData()));
+            response = invocationBuilder.post(!StringUtils.isEmpty(restParam.getBody()) ? Entity.json(restParam.getBody()) : Entity.form(restParam.getFormData()));
         }else{
             response = invocationBuilder.get();
         }

@@ -33,7 +33,7 @@ public class Ui {
         return new Scene(fxmlLoad(fxmlFile).getRoot(), width, height);
     }
 
-    public static void alertError(Alert.AlertType alertType, String msg){
+    public static void alert(Alert.AlertType alertType, String msg){
         Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setContentText(msg);

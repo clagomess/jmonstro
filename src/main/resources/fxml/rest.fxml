@@ -16,7 +16,7 @@
             <ColumnConstraints hgrow="ALWAYS" percentWidth="15" />
             <ColumnConstraints hgrow="ALWAYS" />
         </columnConstraints>
-        <ChoiceBox value="GET" GridPane.columnIndex="0">
+        <ChoiceBox fx:id="cbxMetodo" value="GET" GridPane.columnIndex="0">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="GET" />
@@ -24,53 +24,59 @@
                 </FXCollections>
             </items>
         </ChoiceBox>
-        <TextField GridPane.columnIndex="1" promptText="URL" />
+        <TextField fx:id="txtUrl" GridPane.columnIndex="1" promptText="URL" />
     </GridPane>
 
     <Label text="Form Data" GridPane.rowIndex="2" />
-    <TableView GridPane.rowIndex="3">
-        <TableColumn prefWidth="200" text="KEY">
-            <cellValueFactory>
-                <PropertyValueFactory property="nomDispositivo" />
-            </cellValueFactory>
-        </TableColumn>
-        <TableColumn text="VALUE">
-            <cellValueFactory>
-                <PropertyValueFactory property="nomDispositivo" />
-            </cellValueFactory>
-        </TableColumn>
+    <TableView fx:id="tblFormData" GridPane.rowIndex="3">
+        <columns>
+            <TableColumn prefWidth="200" text="KEY">
+                <cellValueFactory>
+                    <PropertyValueFactory property="key" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="VALUE">
+                <cellValueFactory>
+                    <PropertyValueFactory property="value" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
     </TableView>
 
     <Label text="Header" GridPane.rowIndex="4" />
-    <TableView GridPane.rowIndex="5">
-        <TableColumn prefWidth="200" text="KEY">
-            <cellValueFactory>
-                <PropertyValueFactory property="nomDispositivo" />
-            </cellValueFactory>
-        </TableColumn>
-        <TableColumn text="VALUE">
-            <cellValueFactory>
-                <PropertyValueFactory property="nomDispositivo" />
-            </cellValueFactory>
-        </TableColumn>
+    <TableView fx:id="tblHeader" GridPane.rowIndex="5">
+        <columns>
+            <TableColumn prefWidth="200" text="KEY">
+                <cellValueFactory>
+                    <PropertyValueFactory property="key" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="VALUE">
+                <cellValueFactory>
+                    <PropertyValueFactory property="value" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
     </TableView>
 
     <Label text="Cookie" GridPane.rowIndex="6" />
-    <TableView GridPane.rowIndex="7">
-        <TableColumn prefWidth="200" text="KEY">
-            <cellValueFactory>
-                <PropertyValueFactory property="nomDispositivo" />
-            </cellValueFactory>
-        </TableColumn>
-        <TableColumn text="VALUE">
-            <cellValueFactory>
-                <PropertyValueFactory property="nomDispositivo" />
-            </cellValueFactory>
-        </TableColumn>
+    <TableView fx:id="tblCookie" GridPane.rowIndex="7">
+        <columns>
+            <TableColumn prefWidth="200" text="KEY">
+                <cellValueFactory>
+                    <PropertyValueFactory property="key" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="VALUE">
+                <cellValueFactory>
+                    <PropertyValueFactory property="value" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
     </TableView>
 
     <Label text="Body JSON" GridPane.rowIndex="8" />
-    <TextArea GridPane.rowIndex="9" promptText="Body JSON"/>
+    <TextArea fx:id="txtBodyJson" GridPane.rowIndex="9" promptText="Body JSON"/>
 
     <GridPane GridPane.rowIndex="10" hgap="10.0" vgap="10.0">
         <columnConstraints>
@@ -78,10 +84,12 @@
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
         </columnConstraints>
-        <TextField GridPane.columnIndex="0" promptText="Proxy URI"/>
-        <TextField GridPane.columnIndex="1" promptText="Proxy Username"/>
-        <PasswordField GridPane.columnIndex="2" promptText="Proxy Password"/>
+        <TextField fx:id="txtProxyUrl" GridPane.columnIndex="0" promptText="Proxy URI"/>
+        <TextField fx:id="txtProxyUsername" GridPane.columnIndex="1" promptText="Proxy Username"/>
+        <PasswordField fx:id="txtProxyPassword" GridPane.columnIndex="2" promptText="Proxy Password"/>
     </GridPane>
+
+    <Button onAction="#executeAction" GridPane.rowIndex="11" text="Executar"/>
 
     <padding>
         <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />

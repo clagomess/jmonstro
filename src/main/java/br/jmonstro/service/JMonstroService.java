@@ -1,6 +1,11 @@
 package br.jmonstro.service;
 
+import br.jmonstro.bean.MainForm;
+import br.jmonstro.main.Ui;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.json.*;
 import javax.json.stream.JsonParser;
@@ -10,8 +15,39 @@ import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.Map;
 
+@Slf4j
 public class JMonstroService {
-    private static TreeItem<String> root;
+    private TreeItem<String> root;
+
+    public void processar(File file, MainForm mainForm){
+        if(file == null || !file.isFile()) {
+            return;
+        }
+
+        Platform.runLater(() -> {
+            mainForm.getProgress().setProgress(-1);
+            mainForm.getTxtPathJson().setText(file.getAbsolutePath());
+        });
+
+        new Thread(() -> {
+            try {
+                JMonstroService jMonstroService = new JMonstroService();
+                TreeItem<String> root = jMonstroService.getTree(file);
+
+                Platform.runLater(() -> {
+                    mainForm.getTree().setRoot(root);
+                    mainForm.getTree().getSelectionModel().selectedItemProperty().addListener((o, ov, nv) ->
+                            mainForm.getTxtValor().setText(HexViewerService.parse(nv.getValue()))
+                    );
+                    mainForm.getProgress().setProgress(0);
+                });
+            }catch (Throwable e){
+                log.error(JMonstroService.class.getName(), e);
+                Platform.runLater(() -> mainForm.getProgress().setProgress(0));
+                Ui.alert(Alert.AlertType.ERROR, e.toString());
+            }
+        }).start();
+    }
 
     public TreeItem<String> getTree(File file) throws Throwable {
         String jsonName = file.getName();

@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Slf4j
 public class RestService {
-    public static File get(String url, RestParam restParam) throws Throwable {
+    public static File get(RestParam restParam) throws Throwable {
         Client client;
 
         if(restParam.getProxy() != null){
@@ -30,7 +30,7 @@ public class RestService {
             client = ClientBuilder.newClient();
         }
 
-        WebTarget webTarget = client.target(url);
+        WebTarget webTarget = client.target(restParam.getUrl());
         Invocation.Builder invocationBuilder = webTarget.request();
         invocationBuilder.headers(restParam.getHeader());
         Response response;

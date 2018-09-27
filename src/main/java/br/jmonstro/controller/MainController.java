@@ -1,14 +1,13 @@
 package br.jmonstro.controller;
 
+import br.jmonstro.bean.MainForm;
 import br.jmonstro.main.Ui;
-import br.jmonstro.service.HexViewerService;
 import br.jmonstro.service.JMonstroService;
-import javafx.application.Platform;
 import javafx.event.Event;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +18,9 @@ import java.io.IOException;
 import java.util.Base64;
 
 @Slf4j
-public class MainController {
+public class MainController extends MainForm {
     private static final Ui ui = new Ui();
-
     public static final String MSG_ERRO_BASE64 = "Não foi possível carregar valor como Base64";
-
-    @FXML TextField txtPathJson;
-    @FXML TreeView<String> tree;
-    @FXML TextArea txtValor;
-    @FXML ProgressBar progress;
 
     public void processarJsonAction(){
         FileChooser chooser = new FileChooser();
@@ -38,31 +31,8 @@ public class MainController {
 
         File file = chooser.showOpenDialog(new Stage());
 
-        if(file != null) {
-            Platform.runLater(() -> {
-                progress.setProgress(-1);
-                txtPathJson.setText(file.getAbsolutePath());
-            });
-
-            new Thread(() -> {
-                try {
-                    JMonstroService jMonstroService = new JMonstroService();
-                    TreeItem<String> root = jMonstroService.getTree(file);
-
-                    Platform.runLater(() -> {
-                        tree.setRoot(root);
-                        tree.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) ->
-                            txtValor.setText(HexViewerService.parse(nv.getValue()))
-                        );
-                        progress.setProgress(0);
-                    });
-                }catch (Throwable e){
-                    log.error(MainController.class.getName(), e);
-                    Platform.runLater(() -> progress.setProgress(0));
-                    Ui.alertError(Alert.AlertType.ERROR, e.toString());
-                }
-            }).start();
-        }
+        JMonstroService jMonstroService = new JMonstroService();
+        jMonstroService.processar(file, this);
     }
 
     public void hexViewAction(Event event){
@@ -126,7 +96,7 @@ public class MainController {
                 fos.close();
             } catch (IOException e) {
                 log.error(MainController.class.getName(), e);
-                Ui.alertError(Alert.AlertType.WARNING, e.getMessage());
+                Ui.alert(Alert.AlertType.WARNING, e.getMessage());
             }
         }
     }
@@ -155,13 +125,16 @@ public class MainController {
         stage.setTitle("REST");
         stage.setScene(new Scene(loader.getRoot(), 640, 600));
         stage.show();
+
+        RestController hvc = loader.getController();
+        hvc.init(this);
     }
 
     private Boolean validarTxtValor(){
         String content = txtValor.getText();
 
         if(content == null || "".equals(content.trim())){
-            Ui.alertError(Alert.AlertType.WARNING, "É necessário ter algum valor para a opção selecionada");
+            Ui.alert(Alert.AlertType.WARNING, "É necessário ter algum valor para a opção selecionada");
             return false;
         }else{
             return true;

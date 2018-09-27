@@ -17,15 +17,21 @@
         <RowConstraints prefHeight="40.0" vgrow="NEVER"/>
         <RowConstraints/>
     </rowConstraints>
-    <TextField fx:id="txtPathJson" maxWidth="400.0" GridPane.rowIndex="0"/>
-    <Button onAction="#processarJsonAction" text="Selecionar JSON" GridPane.rowIndex="0">
-        <GridPane.margin>
-            <Insets left="414.0"/>
-        </GridPane.margin>
-    </Button>
+
+    <GridPane GridPane.rowIndex="0" hgap="10.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" percentWidth="15"/>
+            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" percentWidth="15" />
+        </columnConstraints>
+        <TextField fx:id="txtPathJson" GridPane.rowIndex="0"/>
+        <Button onAction="#processarJsonAction" text="Arquivo" GridPane.columnIndex="1" />
+        <Button onAction="#processarJsonRestAction" text="REST" GridPane.columnIndex="2" style="-fx-base: #337ab7"/>
+    </GridPane>
+
     <TreeView fx:id="tree" GridPane.rowIndex="1"/>
 
-    <GridPane GridPane.rowIndex="2" layoutX="14.0" layoutY="14.0" prefWidth="600">
+    <GridPane GridPane.rowIndex="2" layoutX="14.0" layoutY="14.0" hgap="10.0" vgap="10.0">
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />

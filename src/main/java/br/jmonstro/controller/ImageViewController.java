@@ -25,7 +25,7 @@ public class ImageViewController {
         } catch (Throwable e){
             sucesso = false;
             log.warn(ImageViewController.class.getName(), e);
-            Ui.alertError(Alert.AlertType.WARNING, MainController.MSG_ERRO_BASE64);
+            Ui.alert(Alert.AlertType.WARNING, MainController.MSG_ERRO_BASE64);
         }
 
         return sucesso;

@@ -38,7 +38,7 @@ public class RawToImageController {
         } catch (Throwable e){
             sucesso = false;
             log.warn(RawToImageController.class.getName(), e);
-            Ui.alertError(Alert.AlertType.WARNING, e.getMessage());
+            Ui.alert(Alert.AlertType.WARNING, e.getMessage());
         }
 
         return sucesso;

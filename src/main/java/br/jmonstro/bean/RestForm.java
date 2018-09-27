@@ -19,10 +19,34 @@ public class RestForm {
     protected TableView<RestForm.KeyValueTable> tblFormData;
 
     @FXML
+    protected TextField tblFormDataKey;
+
+    @FXML
+    protected TextField tblFormDataValue;
+
+    @FXML
+    protected Button tblFormDataBtnAdd;
+
+    @FXML
+    protected Button tblFormDataBtnRemove;
+
+    @FXML
     protected TableView<RestForm.KeyValueTable> tblHeader;
 
     @FXML
+    protected TextField tblHeaderKey;
+
+    @FXML
+    protected TextField tblHeaderValue;
+
+    @FXML
     protected TableView<RestForm.KeyValueTable> tblCookie;
+
+    @FXML
+    protected TextField tblCookieKey;
+
+    @FXML
+    protected TextField tblCookieValue;
 
     @FXML
     protected TextArea txtBodyJson;
@@ -43,6 +67,11 @@ public class RestForm {
     public static class KeyValueTable {
         private SimpleStringProperty key;
         private SimpleStringProperty value;
+
+        public KeyValueTable(TextField key, TextField value){
+            this.key = new SimpleStringProperty(key.getText());
+            this.value = new SimpleStringProperty(value.getText());
+        }
 
         public KeyValueTable(String key, String value){
             this.key = new SimpleStringProperty(key);

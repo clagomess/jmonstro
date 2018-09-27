@@ -48,5 +48,37 @@ public class RestController extends RestForm {
 
         tblFormData.setDisable(disable);
         txtBodyJson.setDisable(disable);
+        tblFormDataBtnAdd.setDisable(disable);
+        tblFormDataBtnRemove.setDisable(disable);
+    }
+
+    public void tblFormDataAddAction(){
+        tblFormData.getItems().add(new KeyValueTable(tblFormDataKey, tblFormDataValue));
+        tblFormDataKey.setText("");
+        tblFormDataValue.setText("");
+    }
+
+    public void tblFormDataRemoveAction(){
+        tblFormData.getItems().remove(0, tblFormData.getItems().size());
+    }
+
+    public void tblHeaderAddAction(){
+        tblHeader.getItems().add(new KeyValueTable(tblHeaderKey, tblHeaderValue));
+        tblHeaderKey.setText("");
+        tblHeaderValue.setText("");
+    }
+
+    public void tblHeaderRemoveAction(){
+        tblHeader.getItems().remove(0, tblHeader.getItems().size());
+    }
+
+    public void tblCookieAddAction(){
+        tblCookie.getItems().add(new KeyValueTable(tblCookieKey, tblCookieValue));
+        tblCookieKey.setText("");
+        tblCookieValue.setText("");
+    }
+
+    public void tblCookieRemoveAction(){
+        tblCookie.getItems().remove(0, tblCookie.getItems().size());
     }
 }

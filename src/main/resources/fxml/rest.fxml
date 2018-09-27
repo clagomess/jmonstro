@@ -13,9 +13,9 @@
 
     <GridPane GridPane.rowIndex="1">
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="15" />
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
             <ColumnConstraints hgrow="ALWAYS" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" percentWidth="15"/>
+            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" maxWidth="80"/>
         </columnConstraints>
         <ChoiceBox fx:id="cbxMetodo" onAction="#cbxMetodoAction" value="GET" GridPane.columnIndex="0">
             <items>
@@ -29,7 +29,20 @@
         <Button onAction="#executeAction" GridPane.columnIndex="2" text="Executar" style="-fx-base: #0079ff"/>
     </GridPane>
 
-    <Label text="Form Data" GridPane.rowIndex="2" />
+    <GridPane GridPane.rowIndex="2" hgap="10.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+        </columnConstraints>
+        <Label text="Form Data" GridPane.rowIndex="0" />
+        <TextField fx:id="tblFormDataKey" GridPane.columnIndex="1" promptText="KEY" />
+        <TextField fx:id="tblFormDataValue" GridPane.columnIndex="2" promptText="VALUE" />
+        <Button fx:id="tblFormDataBtnAdd" onAction="#tblFormDataAddAction" GridPane.columnIndex="3" text="Add" disable="true"/>
+        <Button fx:id="tblFormDataBtnRemove" onAction="#tblFormDataRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red" disable="true"/>
+    </GridPane>
     <TableView editable="true" fx:id="tblFormData" disable="true" GridPane.rowIndex="3">
         <columns>
             <TableColumn text="KEY">
@@ -54,7 +67,20 @@
         </columnResizePolicy>
     </TableView>
 
-    <Label text="Header" GridPane.rowIndex="4" />
+    <GridPane GridPane.rowIndex="4" hgap="10.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+        </columnConstraints>
+        <Label text="Header" GridPane.rowIndex="0" />
+        <TextField fx:id="tblHeaderKey" GridPane.columnIndex="1" promptText="KEY" />
+        <TextField fx:id="tblHeaderValue" GridPane.columnIndex="2" promptText="VALUE" />
+        <Button onAction="#tblHeaderAddAction" GridPane.columnIndex="3" text="Add"/>
+        <Button onAction="#tblHeaderRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red"/>
+    </GridPane>
     <TableView fx:id="tblHeader" GridPane.rowIndex="5">
         <columns>
             <TableColumn text="KEY">
@@ -79,7 +105,20 @@
         </columnResizePolicy>
     </TableView>
 
-    <Label text="Cookie" GridPane.rowIndex="6" />
+    <GridPane GridPane.rowIndex="6" hgap="10.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+        </columnConstraints>
+        <Label text="Cookie" GridPane.rowIndex="0" />
+        <TextField fx:id="tblCookieKey" GridPane.columnIndex="1" promptText="KEY" />
+        <TextField fx:id="tblCookieValue" GridPane.columnIndex="2" promptText="VALUE" />
+        <Button onAction="#tblCookieAddAction" GridPane.columnIndex="3" text="Add"/>
+        <Button onAction="#tblCookieRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red"/>
+    </GridPane>
     <TableView fx:id="tblCookie" GridPane.rowIndex="7">
         <columns>
             <TableColumn text="KEY">

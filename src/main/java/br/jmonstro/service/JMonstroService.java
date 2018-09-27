@@ -36,9 +36,12 @@ public class JMonstroService {
 
                 Platform.runLater(() -> {
                     mainForm.getTree().setRoot(root);
-                    mainForm.getTree().getSelectionModel().selectedItemProperty().addListener((o, ov, nv) ->
-                            mainForm.getTxtValor().setText(HexViewerService.parse(nv.getValue()))
-                    );
+                    mainForm.getTree().getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
+                        if(nv != null) {
+                            mainForm.getTxtValor().setText(HexViewerService.parse(nv.getValue()));
+                        }
+                    });
+
                     mainForm.getProgress().setProgress(0);
                 });
             }catch (Throwable e){

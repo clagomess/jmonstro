@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -131,9 +132,7 @@ public class MainController extends MainForm {
     }
 
     private Boolean validarTxtValor(){
-        String content = txtValor.getText();
-
-        if(content == null || "".equals(content.trim())){
+        if(StringUtils.isEmpty(txtValor.getText())){
             Ui.alert(Alert.AlertType.WARNING, "É necessário ter algum valor para a opção selecionada");
             return false;
         }else{

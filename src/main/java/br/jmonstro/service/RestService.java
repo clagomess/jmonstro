@@ -13,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -36,6 +37,13 @@ public class RestService {
         WebTarget webTarget = client.target(restParam.getUrl());
         Invocation.Builder invocationBuilder = webTarget.request();
         invocationBuilder.headers(restParam.getHeader());
+
+        if(!restParam.getCookie().isEmpty()){
+            for (Map.Entry<String, String> item : restParam.getCookie().entrySet()) {
+                invocationBuilder.cookie(item.getKey(), item.getValue());
+            }
+        }
+
         Response response;
 
         if(restParam.getMetodo() == RestParam.Metodo.POST){

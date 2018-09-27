@@ -3,6 +3,7 @@ package br.jmonstro.bean;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -24,25 +25,40 @@ public class RestParam {
         this.url = url;
     }
 
-    public RestParam(RestForm form){
+    public RestParam(RestForm form) throws Exception {
         this.metodo = Metodo.valueOf(form.cbxMetodo.getValue());
+
+        if(StringUtils.isEmpty(form.txtUrl.getText())){
+            throw new Exception("É necessário informar a URL de requisição");
+        }
+
         this.url = form.txtUrl.getText();
 
         for(RestForm.KeyValueTable item : form.tblFormData.getItems()){
-            this.formData.add(item.getKey(), item.getValue());
+            if(!item.isEmpty()) {
+                this.formData.add(item.getKey(), item.getValue());
+            }
         }
 
         for(RestForm.KeyValueTable item : form.tblHeader.getItems()){
-            this.header.add(item.getKey(), item.getValue());
+            if(!item.isEmpty()) {
+                this.header.add(item.getKey(), item.getValue());
+            }
         }
 
         for(RestForm.KeyValueTable item : form.tblCookie.getItems()){
-            this.cookie.put(item.getKey(), item.getValue());
+            if(!item.isEmpty()) {
+                this.cookie.put(item.getKey(), item.getValue());
+            }
         }
 
         this.body = form.txtBodyJson.getText();
 
-        if(form.txtProxyUrl.getText() != null && !"".equals(form.txtProxyUrl.getText().trim())){
+        if(form.chxProxy.isSelected()){
+            if(StringUtils.isEmpty(form.txtProxyUrl.getText())){
+                throw new Exception("É necessário informar a URL do Proxy");
+            }
+
             this.proxy = new Proxy(
                     form.txtProxyUrl.getText(),
                     form.txtProxyUsername.getText(),

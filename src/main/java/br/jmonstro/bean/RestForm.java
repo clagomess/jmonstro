@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 
 @Data
 public class RestForm {
@@ -27,6 +28,9 @@ public class RestForm {
     protected TextArea txtBodyJson;
 
     @FXML
+    protected CheckBox chxProxy;
+
+    @FXML
     protected TextField txtProxyUrl;
 
     @FXML
@@ -43,6 +47,10 @@ public class RestForm {
         public KeyValueTable(String key, String value){
             this.key = new SimpleStringProperty(key);
             this.value = new SimpleStringProperty(value);
+        }
+
+        public boolean isEmpty(){
+            return StringUtils.isEmpty(getKey()) || StringUtils.isEmpty(getValue());
         }
 
         public String getKey() {

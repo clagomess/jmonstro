@@ -17,7 +17,7 @@
             <ColumnConstraints hgrow="ALWAYS" />
             <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" percentWidth="15"/>
         </columnConstraints>
-        <ChoiceBox fx:id="cbxMetodo" value="GET" GridPane.columnIndex="0">
+        <ChoiceBox fx:id="cbxMetodo" onAction="#cbxMetodoAction" value="GET" GridPane.columnIndex="0">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="GET" />
@@ -30,7 +30,7 @@
     </GridPane>
 
     <Label text="Form Data" GridPane.rowIndex="2" />
-    <TableView editable="true" fx:id="tblFormData" GridPane.rowIndex="3">
+    <TableView editable="true" fx:id="tblFormData" disable="true" GridPane.rowIndex="3">
         <columns>
             <TableColumn text="KEY">
                 <cellValueFactory>
@@ -104,17 +104,19 @@
         </columnResizePolicy>
     </TableView>
 
-    <TextArea fx:id="txtBodyJson" GridPane.rowIndex="8" promptText="Body JSON"/>
+    <TextArea fx:id="txtBodyJson" GridPane.rowIndex="8" promptText="Body JSON" disable="true"/>
 
     <GridPane GridPane.rowIndex="9" hgap="10.0" vgap="10.0">
         <columnConstraints>
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="25"/>
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
         </columnConstraints>
-        <TextField fx:id="txtProxyUrl" GridPane.columnIndex="0" promptText="Proxy URI"/>
-        <TextField fx:id="txtProxyUsername" GridPane.columnIndex="1" promptText="Proxy Username"/>
-        <PasswordField fx:id="txtProxyPassword" GridPane.columnIndex="2" promptText="Proxy Password"/>
+        <CheckBox fx:id="chxProxy" onAction="#chxProxyAction" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtProxyUrl" GridPane.columnIndex="1" promptText="Proxy URI" disable="true"/>
+        <TextField fx:id="txtProxyUsername" GridPane.columnIndex="2" promptText="Proxy Username" disable="true"/>
+        <PasswordField fx:id="txtProxyPassword" GridPane.columnIndex="3" promptText="Proxy Password" disable="true"/>
     </GridPane>
 
     <padding>

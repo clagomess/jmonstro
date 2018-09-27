@@ -34,4 +34,19 @@ public class RestController extends RestForm {
             log.warn(RestController.class.getName(), e);
         }
     }
+
+    public void chxProxyAction(){
+        boolean disable = !chxProxy.isSelected();
+
+        txtProxyUrl.setDisable(disable);
+        txtProxyUsername.setDisable(disable);
+        txtProxyPassword.setDisable(disable);
+    }
+
+    public void cbxMetodoAction(){
+        boolean disable = RestParam.Metodo.valueOf(cbxMetodo.getValue()) == RestParam.Metodo.GET;
+
+        tblFormData.setDisable(disable);
+        txtBodyJson.setDisable(disable);
+    }
 }

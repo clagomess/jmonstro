@@ -1,42 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-          prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="br.jmonstro.controller.RestController">
+<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.jmonstro.controller.RestController">
     <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS"/>
+        <ColumnConstraints hgrow="ALWAYS" />
     </columnConstraints>
-    <rowConstraints>
-        <RowConstraints vgrow="ALWAYS"/>
-        <RowConstraints vgrow="ALWAYS"/>
-        <RowConstraints vgrow="ALWAYS"/>
-        <RowConstraints vgrow="ALWAYS"/>
-        <RowConstraints vgrow="ALWAYS"/>
-        <RowConstraints/>
-    </rowConstraints>
 
     <GridPane GridPane.rowIndex="1">
         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="15" />
+            <ColumnConstraints hgrow="ALWAYS" />
         </columnConstraints>
-        <ChoiceBox GridPane.columnIndex="0">
+        <ChoiceBox value="GET" GridPane.columnIndex="0">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="GET"/>
-                    <String fx:value="POST"/>
+                    <String fx:value="GET" />
+                    <String fx:value="POST" />
                 </FXCollections>
             </items>
         </ChoiceBox>
-        <TextField GridPane.columnIndex="1" />
+        <TextField GridPane.columnIndex="1" promptText="URL" />
     </GridPane>
 
-    <Label GridPane.rowIndex="2" text="Form Data"/>
+    <Label text="Form Data" GridPane.rowIndex="2" />
     <TableView GridPane.rowIndex="3">
         <TableColumn prefWidth="200" text="KEY">
             <cellValueFactory>
@@ -50,7 +41,7 @@
         </TableColumn>
     </TableView>
 
-    <Label GridPane.rowIndex="4" text="Header"/>
+    <Label text="Header" GridPane.rowIndex="4" />
     <TableView GridPane.rowIndex="5">
         <TableColumn prefWidth="200" text="KEY">
             <cellValueFactory>
@@ -64,7 +55,7 @@
         </TableColumn>
     </TableView>
 
-    <Label GridPane.rowIndex="6" text="Cookie"/>
+    <Label text="Cookie" GridPane.rowIndex="6" />
     <TableView GridPane.rowIndex="7">
         <TableColumn prefWidth="200" text="KEY">
             <cellValueFactory>
@@ -78,14 +69,21 @@
         </TableColumn>
     </TableView>
 
-    <GridPane GridPane.rowIndex="8">
+    <Label text="Body JSON" GridPane.rowIndex="8" />
+    <TextArea GridPane.rowIndex="9" promptText="Body JSON"/>
+
+    <GridPane GridPane.rowIndex="10" hgap="10.0" vgap="10.0">
         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
         </columnConstraints>
-        <TextField GridPane.columnIndex="0"/>
-        <TextField GridPane.columnIndex="1"/>
-        <TextField GridPane.columnIndex="2"/>
+        <TextField GridPane.columnIndex="0" promptText="Proxy URI"/>
+        <TextField GridPane.columnIndex="1" promptText="Proxy Username"/>
+        <PasswordField GridPane.columnIndex="2" promptText="Proxy Password"/>
     </GridPane>
+
+    <padding>
+        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+    </padding>
 </GridPane>

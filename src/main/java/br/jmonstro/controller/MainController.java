@@ -138,7 +138,6 @@ public class MainController {
         Stage stage = new Stage();
         stage.setTitle("RawToImage View");
         stage.setScene(new Scene(loader.getRoot(), 640, 480));
-        stage.show();
 
         RawToImageController hvc = loader.getController();
         boolean showController = hvc.init(txtValor.getText());
@@ -148,6 +147,14 @@ public class MainController {
         }else {
             stage.close();
         }
+    }
+
+    public void processarJsonRestAction(){
+        FXMLLoader loader = ui.fxmlLoad("rest.fxml");
+        Stage stage = new Stage();
+        stage.setTitle("REST");
+        stage.setScene(new Scene(loader.getRoot(), 640, 600));
+        stage.show();
     }
 
     private Boolean validarTxtValor(){

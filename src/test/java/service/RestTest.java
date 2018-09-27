@@ -1,11 +1,12 @@
 package service;
 
+import br.jmonstro.bean.RestParam;
 import br.jmonstro.service.RestService;
 import org.junit.Test;
 
 public class RestTest {
     @Test
     public void get() throws Throwable {
-        RestService.get("http://127.0.0.1:8888/sample_01.json");
+        RestService.get("http://127.0.0.1:8888/sample_01.json", new RestParam());
     }
 }

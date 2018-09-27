@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,7 @@ public class MainController extends MainForm {
         FXMLLoader loader = ui.fxmlLoad("hexview.fxml");
         Stage stage = new Stage();
         stage.setTitle("Hex View");
+        stage.getIcons().add(new Image("icon.png"));
         stage.setScene(new Scene(loader.getRoot(), 600, 400));
 
         HexViewController hvc = loader.getController();
@@ -62,6 +64,7 @@ public class MainController extends MainForm {
         FXMLLoader loader = ui.fxmlLoad("imageview.fxml");
         Stage stage = new Stage();
         stage.setTitle("Image View");
+        stage.getIcons().add(new Image("icon.png"));
         stage.setScene(new Scene(loader.getRoot(), 640, 480));
 
         ImageViewController hvc = loader.getController();
@@ -108,6 +111,7 @@ public class MainController extends MainForm {
         FXMLLoader loader = ui.fxmlLoad("rawtoimage.fxml");
         Stage stage = new Stage();
         stage.setTitle("RawToImage View");
+        stage.getIcons().add(new Image("icon.png"));
         stage.setScene(new Scene(loader.getRoot(), 640, 480));
 
         RawToImageController hvc = loader.getController();
@@ -124,6 +128,7 @@ public class MainController extends MainForm {
         FXMLLoader loader = ui.fxmlLoad("rest.fxml");
         Stage stage = new Stage();
         stage.setTitle("REST");
+        stage.getIcons().add(new Image("icon.png"));
         stage.setScene(new Scene(loader.getRoot(), 640, 600));
         stage.show();
 

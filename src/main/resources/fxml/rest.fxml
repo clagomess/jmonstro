@@ -26,7 +26,7 @@
             </items>
         </ChoiceBox>
         <TextField fx:id="txtUrl" GridPane.columnIndex="1" promptText="URL" />
-        <Button fx:id="btnExecutar" onAction="#executeAction" GridPane.columnIndex="2" text="Executar" style="-fx-base: #0079ff"/>
+        <Button fx:id="btnExecutar" onAction="#executeAction" GridPane.columnIndex="2" text="Executar" style="-fx-base: #337ab7"/>
     </GridPane>
 
     <GridPane GridPane.rowIndex="2" hgap="10.0" vgap="10.0">

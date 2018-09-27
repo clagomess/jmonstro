@@ -18,15 +18,15 @@
         <RowConstraints/>
     </rowConstraints>
 
-    <GridPane GridPane.rowIndex="0">
+    <GridPane GridPane.rowIndex="0" hgap="10.0" vgap="10.0">
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" percentWidth="15"/>
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" percentWidth="15" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" percentWidth="15"/>
+            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" percentWidth="15" />
         </columnConstraints>
         <TextField fx:id="txtPathJson" GridPane.rowIndex="0"/>
         <Button onAction="#processarJsonAction" text="Arquivo" GridPane.columnIndex="1" />
-        <Button onAction="#processarJsonRestAction" text="REST" GridPane.columnIndex="2" />
+        <Button onAction="#processarJsonRestAction" text="REST" GridPane.columnIndex="2" style="-fx-base: #337ab7"/>
     </GridPane>
 
     <TreeView fx:id="tree" GridPane.rowIndex="1"/>

@@ -154,6 +154,10 @@ public class MainController extends MainForm {
         lblItensEncontrado.setText(String.format("%s de %s", posicaoBusca, busca.size()));
     }
 
+    public void buscarElementsAction(){
+
+    }
+
     private Boolean validarTxtValor(){
         if(StringUtils.isEmpty(txtValor.getText())){
             Ui.alert(Alert.AlertType.WARNING, "É necessário ter algum valor para a opção selecionada");

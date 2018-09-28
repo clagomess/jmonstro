@@ -36,11 +36,17 @@
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
             <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" />
         </columnConstraints>
-        <TextField fx:id="txtBusca" GridPane.columnIndex="0"/>
-        <Button GridPane.columnIndex="1" text="Buscar" onAction="#buscarAction"/>
-        <Label fx:id="lblItensEncontrado" GridPane.columnIndex="2" text="0 de 0"/>
+        <TextField fx:id="txtBusca" GridPane.columnIndex="0" onAction="#buscarElementsAction"/>
+        <Button fx:id="btnBuscar" GridPane.columnIndex="1" text="Buscar" onAction="#buscarAction"/>
+        <Button fx:id="btnCollapse" GridPane.columnIndex="2" text="Collapse" onAction="#buscarAction"/>
+        <Button fx:id="btnBuscarPrev" GridPane.columnIndex="3" text="Anterior" onAction="#buscarElementsAction"/>
+        <Button fx:id="btnBuscarNext" GridPane.columnIndex="4" text="Próximo" onAction="#buscarElementsAction"/>
+        <Label fx:id="lblItensEncontrado" GridPane.columnIndex="5" text="0 de 0"/>
     </GridPane>
 
     <GridPane GridPane.rowIndex="3" layoutX="14.0" layoutY="14.0" hgap="10.0" vgap="10.0">

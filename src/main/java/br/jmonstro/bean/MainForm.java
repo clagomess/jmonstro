@@ -22,6 +22,18 @@ public class MainForm {
     protected TextField txtBusca;
 
     @FXML
+    protected Button btnBuscar;
+
+    @FXML
+    protected Button btnCollapse;
+
+    @FXML
+    protected Button btnBuscarPrev;
+
+    @FXML
+    protected Button btnBuscarNext;
+
+    @FXML
     protected Label lblItensEncontrado;
 
     protected int posicaoBusca = 0;

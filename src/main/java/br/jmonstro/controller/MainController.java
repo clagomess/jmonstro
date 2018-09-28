@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -17,7 +18,9 @@ import org.apache.commons.lang.StringUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 @Slf4j
 public class MainController extends MainForm {
@@ -136,10 +139,22 @@ public class MainController extends MainForm {
         hvc.init(this);
     }
 
+    private List<TreeItem<String>> busca = new ArrayList<>();
     public void buscarAction(){
         JMonstroService jms = new JMonstroService();
+        int qtd = 0;
 
-        int qtd = jms.buscar(this, tree.getRoot(), 0);
+
+        if(busca.isEmpty()) {
+            qtd = jms.buscar(this, tree.getRoot());
+            busca.addAll(jms.getBusca());
+        }else{
+            posicaoBusca++;
+        }
+
+        tree.getSelectionModel().select(busca.get(posicaoBusca));
+
+
         lblItensEncontrado.setText(String.format("%s de %s", posicaoBusca, qtd));
     }
 

@@ -5,6 +5,7 @@ import br.jmonstro.main.Ui;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.json.*;
@@ -12,7 +13,9 @@ import javax.json.stream.JsonParser;
 import java.io.File;
 import java.io.StringReader;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -71,7 +74,10 @@ public class JMonstroService {
         return root;
     }
 
-    public int buscar(MainForm mainForm, TreeItem<String> node, int posicao) {
+    @Getter
+    private List<TreeItem<String>> busca = new ArrayList<>();
+
+    public int buscar(MainForm mainForm, TreeItem<String> node) {
         int qtd = 0;
 
         if(node == null){
@@ -79,17 +85,19 @@ public class JMonstroService {
         }
 
         if(node.getValue().toLowerCase().contains(mainForm.getTxtBusca().getText().toLowerCase())){
-            if(posicao == mainForm.getPosicaoBusca()) {
-                mainForm.getTree().getSelectionModel().select(node);
-                mainForm.setPosicaoBusca(mainForm.getPosicaoBusca() + 1);
-            }
+//            if(posicao == mainForm.getPosicaoBusca()) {
+//                mainForm.getTree().getSelectionModel().select(node);
+//                mainForm.setPosicaoBusca(mainForm.getPosicaoBusca() + 1);
+//            }
 
-            return 1;
+            busca.add(node);
+
+            qtd = 1;
         }
 
         if(!node.getChildren().isEmpty()){
             for(TreeItem<String> item: node.getChildren()){
-                qtd += buscar(mainForm, item, posicao);
+                qtd += buscar(mainForm, item);
             }
         }
 

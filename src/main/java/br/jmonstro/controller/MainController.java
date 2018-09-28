@@ -142,20 +142,16 @@ public class MainController extends MainForm {
     private List<TreeItem<String>> busca = new ArrayList<>();
     public void buscarAction(){
         JMonstroService jms = new JMonstroService();
-        int qtd = 0;
-
 
         if(busca.isEmpty()) {
-            qtd = jms.buscar(this, tree.getRoot());
-            busca.addAll(jms.getBusca());
+            busca.addAll(jms.buscar(this, tree.getRoot()));
         }else{
             posicaoBusca++;
         }
 
         tree.getSelectionModel().select(busca.get(posicaoBusca));
 
-
-        lblItensEncontrado.setText(String.format("%s de %s", posicaoBusca, qtd));
+        lblItensEncontrado.setText(String.format("%s de %s", posicaoBusca, busca.size()));
     }
 
     private Boolean validarTxtValor(){

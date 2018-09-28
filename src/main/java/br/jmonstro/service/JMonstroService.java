@@ -74,34 +74,24 @@ public class JMonstroService {
         return root;
     }
 
-    @Getter
-    private List<TreeItem<String>> busca = new ArrayList<>();
-
-    public int buscar(MainForm mainForm, TreeItem<String> node) {
-        int qtd = 0;
+    public List<TreeItem<String>> buscar(MainForm mainForm, TreeItem<String> node) {
+        List<TreeItem<String>> busca = new ArrayList<>();
 
         if(node == null){
-            return 0;
+            return busca;
         }
 
         if(node.getValue().toLowerCase().contains(mainForm.getTxtBusca().getText().toLowerCase())){
-//            if(posicao == mainForm.getPosicaoBusca()) {
-//                mainForm.getTree().getSelectionModel().select(node);
-//                mainForm.setPosicaoBusca(mainForm.getPosicaoBusca() + 1);
-//            }
-
             busca.add(node);
-
-            qtd = 1;
         }
 
         if(!node.getChildren().isEmpty()){
             for(TreeItem<String> item: node.getChildren()){
-                qtd += buscar(mainForm, item);
+                busca.addAll(buscar(mainForm, item));
             }
         }
 
-        return qtd;
+        return busca;
     }
 
     private TreeItem<String> getNode(String nodeName, Object node){

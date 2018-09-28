@@ -136,6 +136,13 @@ public class MainController extends MainForm {
         hvc.init(this);
     }
 
+    public void buscarAction(){
+        JMonstroService jms = new JMonstroService();
+
+        int qtd = jms.buscar(this, tree.getRoot(), 0);
+        lblItensEncontrado.setText(String.format("%s de %s", posicaoBusca, qtd));
+    }
+
     private Boolean validarTxtValor(){
         if(StringUtils.isEmpty(txtValor.getText())){
             Ui.alert(Alert.AlertType.WARNING, "É necessário ter algum valor para a opção selecionada");

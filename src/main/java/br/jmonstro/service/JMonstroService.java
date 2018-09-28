@@ -71,6 +71,31 @@ public class JMonstroService {
         return root;
     }
 
+    public int buscar(MainForm mainForm, TreeItem<String> node, int posicao) {
+        int qtd = 0;
+
+        if(node == null){
+            return 0;
+        }
+
+        if(node.getValue().toLowerCase().contains(mainForm.getTxtBusca().getText().toLowerCase())){
+            if(posicao == mainForm.getPosicaoBusca()) {
+                mainForm.getTree().getSelectionModel().select(node);
+                mainForm.setPosicaoBusca(mainForm.getPosicaoBusca() + 1);
+            }
+
+            return 1;
+        }
+
+        if(!node.getChildren().isEmpty()){
+            for(TreeItem<String> item: node.getChildren()){
+                qtd += buscar(mainForm, item, posicao);
+            }
+        }
+
+        return qtd;
+    }
+
     private TreeItem<String> getNode(String nodeName, Object node){
         TreeItem<String> treeNode = new TreeItem<>(nodeName);
 

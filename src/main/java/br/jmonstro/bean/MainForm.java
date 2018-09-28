@@ -1,10 +1,7 @@
 package br.jmonstro.bean;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import lombok.Data;
 
 @Data
@@ -20,4 +17,12 @@ public class MainForm {
 
     @FXML
     protected ProgressBar progress;
+
+    @FXML
+    protected TextField txtBusca;
+
+    @FXML
+    protected Label lblItensEncontrado;
+
+    protected int posicaoBusca = 0;
 }

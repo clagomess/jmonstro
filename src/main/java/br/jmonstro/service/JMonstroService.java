@@ -5,7 +5,6 @@ import br.jmonstro.main.Ui;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.json.*;
@@ -138,5 +137,15 @@ public class JMonstroService {
         }
 
         return treeNode;
+    }
+
+    public void treeExpanded(TreeItem<String> node, Boolean expanded) {
+        if(node != null && !node.isLeaf()){
+            node.setExpanded(expanded);
+
+            for(TreeItem<String> item : node.getChildren()){
+                treeExpanded(item, expanded);
+            }
+        }
     }
 }

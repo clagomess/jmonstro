@@ -139,25 +139,6 @@ public class MainController extends MainForm {
         hvc.init(this);
     }
 
-    private List<TreeItem<String>> busca = new ArrayList<>();
-    public void buscarAction(){
-        JMonstroService jms = new JMonstroService();
-
-        if(busca.isEmpty()) {
-            busca.addAll(jms.buscar(this, tree.getRoot()));
-        }else{
-            posicaoBusca++;
-        }
-
-        tree.getSelectionModel().select(busca.get(posicaoBusca));
-
-        lblItensEncontrado.setText(String.format("%s de %s", posicaoBusca, busca.size()));
-    }
-
-    public void buscarElementsAction(){
-
-    }
-
     private Boolean validarTxtValor(){
         if(StringUtils.isEmpty(txtValor.getText())){
             Ui.alert(Alert.AlertType.WARNING, "É necessário ter algum valor para a opção selecionada");
@@ -165,5 +146,56 @@ public class MainController extends MainForm {
         }else{
             return true;
         }
+    }
+
+    // BUSCA
+    private List<TreeItem<String>> busca = new ArrayList<>();
+
+    private void buscaButtons(){
+        if(busca.isEmpty()){
+            btnBuscarPrev.setDisable(true);
+            btnBuscarNext.setDisable(true);
+            lblItensEncontrado.setText("0 de 0");
+        }else{
+            btnBuscarPrev.setDisable(posicaoBusca == 0);
+            btnBuscarNext.setDisable(busca.size() == posicaoBusca + 1);
+            lblItensEncontrado.setText(String.format("%s de %s", posicaoBusca + 1, busca.size()));
+        }
+    }
+
+    public void btnBuscarAction(){
+        busca.clear();
+        posicaoBusca = 0;
+        buscaButtons();
+
+        if(StringUtils.isEmpty(txtBusca.getText())){
+            Ui.alert(Alert.AlertType.WARNING, "É necessário preencher algum valor de busca");
+            return;
+        }
+
+        JMonstroService jms = new JMonstroService();
+        busca.addAll(jms.buscar(this, tree.getRoot()));
+
+        if(!busca.isEmpty()){
+            tree.getSelectionModel().select(busca.get(posicaoBusca));
+            buscaButtons();
+        }
+    }
+
+    public void btnCollapseAction(){
+        JMonstroService jms = new JMonstroService();
+        jms.treeExpanded(tree.getRoot(), false);
+    }
+
+    public void btnBuscarPrevAction(){
+        posicaoBusca--;
+        tree.getSelectionModel().select(busca.get(posicaoBusca));
+        buscaButtons();
+    }
+
+    public void btnBuscarNextAction(){
+        posicaoBusca++;
+        tree.getSelectionModel().select(busca.get(posicaoBusca));
+        buscaButtons();
     }
 }

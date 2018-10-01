@@ -41,11 +41,11 @@
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
             <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" />
         </columnConstraints>
-        <TextField fx:id="txtBusca" GridPane.columnIndex="0" onAction="#buscarElementsAction"/>
-        <Button fx:id="btnBuscar" GridPane.columnIndex="1" text="Buscar" onAction="#buscarAction"/>
-        <Button fx:id="btnCollapse" GridPane.columnIndex="2" text="Collapse" onAction="#buscarAction"/>
-        <Button fx:id="btnBuscarPrev" GridPane.columnIndex="3" text="Anterior" onAction="#buscarElementsAction"/>
-        <Button fx:id="btnBuscarNext" GridPane.columnIndex="4" text="Próximo" onAction="#buscarElementsAction"/>
+        <TextField fx:id="txtBusca" GridPane.columnIndex="0"/>
+        <Button fx:id="btnBuscar" GridPane.columnIndex="1" text="Buscar" onAction="#btnBuscarAction"/>
+        <Button fx:id="btnCollapse" GridPane.columnIndex="2" text="Collapse" onAction="#btnCollapseAction"/>
+        <Button fx:id="btnBuscarPrev" GridPane.columnIndex="3" text="Anterior" onAction="#btnBuscarPrevAction" disable="true"/>
+        <Button fx:id="btnBuscarNext" GridPane.columnIndex="4" text="Próximo" onAction="#btnBuscarNextAction" disable="true"/>
         <Label fx:id="lblItensEncontrado" GridPane.columnIndex="5" text="0 de 0"/>
     </GridPane>
 

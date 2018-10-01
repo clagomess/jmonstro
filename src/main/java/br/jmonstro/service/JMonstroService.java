@@ -12,8 +12,12 @@ import javax.json.stream.JsonParser;
 import java.io.File;
 import java.io.StringReader;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class JMonstroService {
@@ -71,6 +75,38 @@ public class JMonstroService {
         return root;
     }
 
+    public List<TreeItem<String>> buscar(MainForm mainForm, TreeItem<String> node) {
+        List<TreeItem<String>> busca = new ArrayList<>();
+
+        if(node == null){
+            return busca;
+        }
+
+        String txtValue = mainForm.getChkBuscaCaseSensitive().isSelected() ? node.getValue().trim() : node.getValue().toLowerCase().trim();
+        String txtBusca = mainForm.getChkBuscaCaseSensitive().isSelected() ? mainForm.getTxtBusca().getText().trim() : mainForm.getTxtBusca().getText().toLowerCase().trim();
+
+        if(mainForm.getChkBuscaRegex().isSelected()) {
+            Pattern p = Pattern.compile(txtBusca, Pattern.DOTALL);
+            Matcher m = p.matcher(txtValue);
+
+            if (m.find()) {
+                busca.add(node);
+            }
+        }else{
+            if(txtValue.contains(txtBusca)){
+                busca.add(node);
+            }
+        }
+
+        if(!node.getChildren().isEmpty()){
+            for(TreeItem<String> item: node.getChildren()){
+                busca.addAll(buscar(mainForm, item));
+            }
+        }
+
+        return busca;
+    }
+
     private TreeItem<String> getNode(String nodeName, Object node){
         TreeItem<String> treeNode = new TreeItem<>(nodeName);
 
@@ -115,5 +151,15 @@ public class JMonstroService {
         }
 
         return treeNode;
+    }
+
+    public void treeExpanded(TreeItem<String> node, Boolean expanded) {
+        if(node != null && !node.isLeaf()){
+            node.setExpanded(expanded);
+
+            for(TreeItem<String> item : node.getChildren()){
+                treeExpanded(item, expanded);
+            }
+        }
     }
 }

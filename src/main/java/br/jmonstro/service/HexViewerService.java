@@ -55,7 +55,7 @@ public class HexViewerService {
         }
 
         String result = null;
-        Pattern p = Pattern.compile("\\[[0-9]+\\] : (.*)");
+        Pattern p = Pattern.compile("\\[[0-9]+\\] : (.*)", Pattern.DOTALL);
         Matcher m = p.matcher(content);
 
         if(m.find()){
@@ -63,7 +63,7 @@ public class HexViewerService {
         }
 
         if(result == null){
-            p = Pattern.compile("(.+) : (.+)");
+            p = Pattern.compile("(.+) : (.+)", Pattern.DOTALL);
             m = p.matcher(content);
 
             if(m.find()){

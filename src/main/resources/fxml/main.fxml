@@ -5,13 +5,14 @@
 <?import javafx.scene.layout.*?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
           prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="br.jmonstro.controller.MainController">
+          fx:controller="br.jmonstro.controller.MainController" hgap="10.0" vgap="10.0">
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS"/>
     </columnConstraints>
     <rowConstraints>
         <RowConstraints prefHeight="40.0" vgrow="NEVER"/>
         <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints prefHeight="40.0" vgrow="NEVER"/>
         <RowConstraints prefHeight="40.0" vgrow="NEVER"/>
         <RowConstraints prefHeight="100.0" vgrow="NEVER"/>
         <RowConstraints prefHeight="40.0" vgrow="NEVER"/>
@@ -31,7 +32,28 @@
 
     <TreeView fx:id="tree" GridPane.rowIndex="1"/>
 
-    <GridPane GridPane.rowIndex="2" layoutX="14.0" layoutY="14.0" hgap="10.0" vgap="10.0">
+    <GridPane GridPane.rowIndex="2" hgap="10.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT"/>
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT"/>
+            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" />
+        </columnConstraints>
+        <CheckBox fx:id="chkBuscaRegex" GridPane.columnIndex="0" text="RegEx" />
+        <CheckBox fx:id="chkBuscaCaseSensitive" GridPane.columnIndex="1" text="Case Sensitive" />
+        <TextField fx:id="txtBusca" GridPane.columnIndex="2"/>
+        <Button fx:id="btnBuscar" GridPane.columnIndex="3" text="Buscar" onAction="#btnBuscarAction"/>
+        <Button fx:id="btnCollapse" GridPane.columnIndex="4" text="Collapse" onAction="#btnCollapseAction"/>
+        <Button fx:id="btnBuscarPrev" GridPane.columnIndex="5" text="&lt;" onAction="#btnBuscarPrevAction" disable="true"/>
+        <Button fx:id="btnBuscarNext" GridPane.columnIndex="6" text="&gt;" onAction="#btnBuscarNextAction" disable="true"/>
+        <Label fx:id="lblItensEncontrado" GridPane.columnIndex="7" text="0 de 0"/>
+    </GridPane>
+
+    <GridPane GridPane.rowIndex="3" layoutX="14.0" layoutY="14.0" hgap="10.0" vgap="10.0">
         <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
@@ -51,8 +73,8 @@
         <Button GridPane.columnIndex="5" text="Save Bin" onAction="#saveBinAction"/>
     </GridPane>
 
-    <TextArea fx:id="txtValor" GridPane.rowIndex="3" wrapText="true"/>
-    <ProgressBar fx:id="progress" GridPane.rowIndex="4" progress="0" prefWidth="600"/>
+    <TextArea fx:id="txtValor" GridPane.rowIndex="4" wrapText="true"/>
+    <ProgressBar fx:id="progress" GridPane.rowIndex="5" progress="0" prefWidth="600"/>
     <padding>
         <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
     </padding>

@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -17,7 +18,10 @@ import org.apache.commons.lang.StringUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class MainController extends MainForm {
@@ -143,5 +147,66 @@ public class MainController extends MainForm {
         }else{
             return true;
         }
+    }
+
+    // BUSCA
+    private List<TreeItem<String>> busca = new ArrayList<>();
+
+    private void buscaButtons(){
+        if(busca.isEmpty()){
+            btnBuscarPrev.setDisable(true);
+            btnBuscarNext.setDisable(true);
+            lblItensEncontrado.setText("0 de 0");
+        }else{
+            btnBuscarPrev.setDisable(posicaoBusca == 0);
+            btnBuscarNext.setDisable(busca.size() == posicaoBusca + 1);
+            lblItensEncontrado.setText(String.format("%s de %s", posicaoBusca + 1, busca.size()));
+        }
+    }
+
+    public void btnBuscarAction(){
+        busca.clear();
+        posicaoBusca = 0;
+        buscaButtons();
+
+        if(StringUtils.isEmpty(txtBusca.getText())){
+            Ui.alert(Alert.AlertType.WARNING, "É necessário preencher algum valor de busca");
+            return;
+        }
+
+        if(chkBuscaRegex.isSelected()){
+            try {
+                Pattern.compile(txtBusca.getText(), Pattern.DOTALL);
+            }catch (Throwable e){
+                Ui.alert(Alert.AlertType.WARNING, "RegEx é Inválido: " + e.getMessage());
+                return;
+            }
+        }
+
+        JMonstroService jms = new JMonstroService();
+        jms.treeExpanded(tree.getRoot(), false);
+        busca.addAll(jms.buscar(this, tree.getRoot()));
+
+        if(!busca.isEmpty()){
+            tree.getSelectionModel().select(busca.get(posicaoBusca));
+            buscaButtons();
+        }
+    }
+
+    public void btnCollapseAction(){
+        JMonstroService jms = new JMonstroService();
+        jms.treeExpanded(tree.getRoot(), false);
+    }
+
+    public void btnBuscarPrevAction(){
+        posicaoBusca--;
+        tree.getSelectionModel().select(busca.get(posicaoBusca));
+        buscaButtons();
+    }
+
+    public void btnBuscarNextAction(){
+        posicaoBusca++;
+        tree.getSelectionModel().select(busca.get(posicaoBusca));
+        buscaButtons();
     }
 }

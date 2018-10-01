@@ -41,6 +41,4 @@ public class MainForm {
 
     @FXML
     protected Label lblItensEncontrado;
-
-    protected int posicaoBusca = 0;
 }

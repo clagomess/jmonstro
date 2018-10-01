@@ -151,6 +151,7 @@ public class MainController extends MainForm {
 
     // BUSCA
     private List<TreeItem<String>> busca = new ArrayList<>();
+    private int posicaoBusca = 0;
 
     private void buscaButtons(){
         if(busca.isEmpty()){
@@ -162,6 +163,11 @@ public class MainController extends MainForm {
             btnBuscarNext.setDisable(busca.size() == posicaoBusca + 1);
             lblItensEncontrado.setText(String.format("%s de %s", posicaoBusca + 1, busca.size()));
         }
+    }
+
+    private void treeSelect(){
+        tree.getSelectionModel().select(busca.get(posicaoBusca));
+        tree.scrollTo(tree.getSelectionModel().getSelectedIndex());
     }
 
     public void btnBuscarAction(){
@@ -188,7 +194,7 @@ public class MainController extends MainForm {
         busca.addAll(jms.buscar(this, tree.getRoot()));
 
         if(!busca.isEmpty()){
-            tree.getSelectionModel().select(busca.get(posicaoBusca));
+            treeSelect();
             buscaButtons();
         }
     }
@@ -200,13 +206,13 @@ public class MainController extends MainForm {
 
     public void btnBuscarPrevAction(){
         posicaoBusca--;
-        tree.getSelectionModel().select(busca.get(posicaoBusca));
+        treeSelect();
         buscaButtons();
     }
 
     public void btnBuscarNextAction(){
         posicaoBusca++;
-        tree.getSelectionModel().select(busca.get(posicaoBusca));
+        treeSelect();
         buscaButtons();
     }
 }

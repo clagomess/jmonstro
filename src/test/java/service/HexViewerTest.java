@@ -25,5 +25,6 @@ public class HexViewerTest {
         Assert.assertEquals("equivalenttome", HexViewerService.parse("[13] : equivalenttome"));
         Assert.assertEquals("null", HexViewerService.parse("dispositivos : null"));
         Assert.assertEquals(" ", HexViewerService.parse(null));
+        Assert.assertEquals("foo\nbar", HexViewerService.parse("value : foo\nbar"));
     }
 }

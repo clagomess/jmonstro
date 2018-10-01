@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class MainController extends MainForm {
@@ -173,7 +174,17 @@ public class MainController extends MainForm {
             return;
         }
 
+        if(chkBuscaRegex.isSelected()){
+            try {
+                Pattern.compile(txtBusca.getText(), Pattern.DOTALL);
+            }catch (Throwable e){
+                Ui.alert(Alert.AlertType.WARNING, "RegEx é Inválido: " + e.getMessage());
+                return;
+            }
+        }
+
         JMonstroService jms = new JMonstroService();
+        jms.treeExpanded(tree.getRoot(), false);
         busca.addAll(jms.buscar(this, tree.getRoot()));
 
         if(!busca.isEmpty()){

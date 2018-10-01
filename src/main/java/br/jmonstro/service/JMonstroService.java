@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class JMonstroService {
@@ -80,8 +82,20 @@ public class JMonstroService {
             return busca;
         }
 
-        if(node.getValue().toLowerCase().contains(mainForm.getTxtBusca().getText().toLowerCase())){
-            busca.add(node);
+        String txtValue = mainForm.getChkBuscaCaseSensitive().isSelected() ? node.getValue().trim() : node.getValue().toLowerCase().trim();
+        String txtBusca = mainForm.getChkBuscaCaseSensitive().isSelected() ? mainForm.getTxtBusca().getText().trim() : mainForm.getTxtBusca().getText().toLowerCase().trim();
+
+        if(mainForm.getChkBuscaRegex().isSelected()) {
+            Pattern p = Pattern.compile(txtBusca, Pattern.DOTALL);
+            Matcher m = p.matcher(txtValue);
+
+            if (m.find()) {
+                busca.add(node);
+            }
+        }else{
+            if(txtValue.contains(txtBusca)){
+                busca.add(node);
+            }
         }
 
         if(!node.getChildren().isEmpty()){

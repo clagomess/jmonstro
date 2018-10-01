@@ -34,6 +34,8 @@
 
     <GridPane GridPane.rowIndex="2" hgap="10.0" vgap="10.0">
         <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT"/>
+            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT"/>
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
             <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" />
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
@@ -41,12 +43,14 @@
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
             <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" />
         </columnConstraints>
-        <TextField fx:id="txtBusca" GridPane.columnIndex="0"/>
-        <Button fx:id="btnBuscar" GridPane.columnIndex="1" text="Buscar" onAction="#btnBuscarAction"/>
-        <Button fx:id="btnCollapse" GridPane.columnIndex="2" text="Collapse" onAction="#btnCollapseAction"/>
-        <Button fx:id="btnBuscarPrev" GridPane.columnIndex="3" text="Anterior" onAction="#btnBuscarPrevAction" disable="true"/>
-        <Button fx:id="btnBuscarNext" GridPane.columnIndex="4" text="Próximo" onAction="#btnBuscarNextAction" disable="true"/>
-        <Label fx:id="lblItensEncontrado" GridPane.columnIndex="5" text="0 de 0"/>
+        <CheckBox fx:id="chkBuscaRegex" GridPane.columnIndex="0" text="RegEx" />
+        <CheckBox fx:id="chkBuscaCaseSensitive" GridPane.columnIndex="1" text="Case Sensitive" />
+        <TextField fx:id="txtBusca" GridPane.columnIndex="2"/>
+        <Button fx:id="btnBuscar" GridPane.columnIndex="3" text="Buscar" onAction="#btnBuscarAction"/>
+        <Button fx:id="btnCollapse" GridPane.columnIndex="4" text="Collapse" onAction="#btnCollapseAction"/>
+        <Button fx:id="btnBuscarPrev" GridPane.columnIndex="5" text="&lt;" onAction="#btnBuscarPrevAction" disable="true"/>
+        <Button fx:id="btnBuscarNext" GridPane.columnIndex="6" text="&gt;" onAction="#btnBuscarNextAction" disable="true"/>
+        <Label fx:id="lblItensEncontrado" GridPane.columnIndex="7" text="0 de 0"/>
     </GridPane>
 
     <GridPane GridPane.rowIndex="3" layoutX="14.0" layoutY="14.0" hgap="10.0" vgap="10.0">

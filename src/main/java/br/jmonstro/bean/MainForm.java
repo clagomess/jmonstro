@@ -19,6 +19,12 @@ public class MainForm {
     protected ProgressBar progress;
 
     @FXML
+    protected CheckBox chkBuscaRegex;
+
+    @FXML
+    protected CheckBox chkBuscaCaseSensitive;
+
+    @FXML
     protected TextField txtBusca;
 
     @FXML

@@ -30,9 +30,9 @@ public class MainController extends MainForm {
 
     public void processarJsonAction(){
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Selecionar JSON");
+        chooser.setTitle("Selecionar JSON/XML");
 
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON", "*.json");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON/XML", "*.json", "*.xml");
         chooser.getExtensionFilters().add(extFilter);
 
         File file = chooser.showOpenDialog(new Stage());

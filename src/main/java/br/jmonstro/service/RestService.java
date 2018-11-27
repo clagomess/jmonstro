@@ -9,12 +9,8 @@ import org.glassfish.jersey.client.ClientProperties;
 
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.Response;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.Writer;
 import java.util.Map;
-import java.util.UUID;
 
 @Slf4j
 public class RestService {
@@ -52,14 +48,24 @@ public class RestService {
             response = invocationBuilder.get();
         }
 
-        String jsonContent = response.readEntity(String.class);
+        String responseContent = response.readEntity(String.class);
 
-        File file = new File(UUID.randomUUID().toString() + ".json");
-        Writer bw = new BufferedWriter(new FileWriter(file));
-        bw.write(jsonContent);
-        bw.flush();
-        bw.close();
+        return JMonstroService.writeFile(responseContent, contentExtension(response.getHeaderString("content-type")));
+    }
 
-        return file;
+    static String contentExtension(String contentType){
+        if(contentType.contains("text/html")){
+            return "html";
+        }
+
+        if(contentType.contains("text/xml")){
+            return "xml";
+        }
+
+        if(contentType.contains("application/json")){
+            return "json";
+        }
+
+        return "bin";
     }
 }

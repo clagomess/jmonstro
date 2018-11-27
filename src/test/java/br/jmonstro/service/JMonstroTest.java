@@ -1,6 +1,5 @@
-package service;
+package br.jmonstro.service;
 
-import br.jmonstro.service.JMonstroService;
 import javafx.scene.control.TreeItem;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -91,5 +90,15 @@ public class JMonstroTest {
 
         Assert.assertEquals(1, root.getChildren().size());
         Assert.assertEquals("a : Ação Açucar", root.getChildren().get(0).getValue());
+    }
+
+    @Test
+    public void parseXml() throws Throwable {
+        URL sample05 = Thread.currentThread().getContextClassLoader().getResource("sample_05.xml");
+
+        JMonstroService jms = new JMonstroService();
+        File json = jms.parseXml(new File(sample05.getPath()));
+
+        Assert.assertTrue(json.isFile());
     }
 }

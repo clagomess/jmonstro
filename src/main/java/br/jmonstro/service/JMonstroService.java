@@ -6,22 +6,26 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.json.XML;
 
 import javax.json.*;
 import javax.json.stream.JsonParser;
-import java.io.File;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
 public class JMonstroService {
     private TreeItem<String> root;
+
+    File parseXml(File xmlFile) throws Throwable {
+        JSONObject xmlJSONObj = XML.toJSONObject(new String(Files.readAllBytes(xmlFile.toPath())));
+        String json = xmlJSONObj.toString(4);
+        return JMonstroService.writeFile(json, "json");
+    }
 
     public void processar(File file, MainForm mainForm){
         if(file == null || !file.isFile()) {
@@ -36,7 +40,17 @@ public class JMonstroService {
         new Thread(() -> {
             try {
                 JMonstroService jMonstroService = new JMonstroService();
-                TreeItem<String> root = jMonstroService.getTree(file);
+                File nFile = file;
+
+                if(file.getName().toLowerCase().contains(".xml")){
+                    nFile = jMonstroService.parseXml(file);
+                }
+
+                if(!nFile.getName().toLowerCase().contains(".json")){
+                    throw new Exception("O arquivo só pode ser um JSON ou um XML");
+                }
+
+                TreeItem<String> root = jMonstroService.getTree(nFile);
 
                 Platform.runLater(() -> {
                     mainForm.getTree().setRoot(root);
@@ -56,7 +70,7 @@ public class JMonstroService {
         }).start();
     }
 
-    public TreeItem<String> getTree(File file) throws Throwable {
+    TreeItem<String> getTree(File file) throws Throwable {
         String jsonName = file.getName();
         JsonParser parser = Json.createParser(new StringReader(new String(Files.readAllBytes(file.toPath()))));
 
@@ -161,5 +175,15 @@ public class JMonstroService {
                 treeExpanded(item, expanded);
             }
         }
+    }
+
+    static File writeFile(String fileContent, String fileExtension) throws IOException {
+        File file = new File(UUID.randomUUID().toString() + "." + fileExtension);
+        Writer bw = new BufferedWriter(new FileWriter(file));
+        bw.write(fileContent);
+        bw.flush();
+        bw.close();
+
+        return file;
     }
 }

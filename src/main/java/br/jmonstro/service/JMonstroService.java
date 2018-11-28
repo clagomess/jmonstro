@@ -6,12 +6,15 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tika.parser.txt.CharsetDetector;
+import org.apache.tika.parser.txt.CharsetMatch;
 import org.json.JSONObject;
 import org.json.XML;
 
 import javax.json.*;
 import javax.json.stream.JsonParser;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -72,7 +75,10 @@ public class JMonstroService {
 
     TreeItem<String> getTree(File file) throws Throwable {
         String jsonName = file.getName();
-        JsonParser parser = Json.createParser(new StringReader(new String(Files.readAllBytes(file.toPath()))));
+
+        Charset charset = Charset.forName(guessEncoding(new FileInputStream(file)));
+
+        JsonParser parser = Json.createParser(new StringReader(new String(Files.readAllBytes(file.toPath()), charset)));
 
         if(parser.hasNext()) {
             parser.next();
@@ -87,6 +93,14 @@ public class JMonstroService {
         }
 
         return root;
+    }
+
+    public String guessEncoding(InputStream is) throws IOException {
+        CharsetDetector charsetDetector = new CharsetDetector();
+        charsetDetector.setText( is instanceof BufferedInputStream ? is : new BufferedInputStream(is) );
+        charsetDetector.enableInputFilter(true);
+        CharsetMatch cm = charsetDetector.detect();
+        return cm.getName();
     }
 
     public List<TreeItem<String>> buscar(MainForm mainForm, TreeItem<String> node) {

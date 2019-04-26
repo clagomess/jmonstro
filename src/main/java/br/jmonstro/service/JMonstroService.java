@@ -2,12 +2,11 @@ package br.jmonstro.service;
 
 import br.jmonstro.bean.MainForm;
 import br.jmonstro.main.Ui;
+import com.github.clagomess.charsetdetector.CharsetDetectorUtil;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tika.parser.txt.CharsetDetector;
-import org.apache.tika.parser.txt.CharsetMatch;
 import org.json.JSONObject;
 import org.json.XML;
 
@@ -76,7 +75,7 @@ public class JMonstroService {
     TreeItem<String> getTree(File file) throws Throwable {
         String jsonName = file.getName();
 
-        Charset charset = Charset.forName(guessEncoding(new FileInputStream(file)));
+        Charset charset = CharsetDetectorUtil.detect(new FileInputStream(file));
 
         JsonParser parser = Json.createParser(new StringReader(new String(Files.readAllBytes(file.toPath()), charset)));
 
@@ -93,14 +92,6 @@ public class JMonstroService {
         }
 
         return root;
-    }
-
-    public String guessEncoding(InputStream is) throws IOException {
-        CharsetDetector charsetDetector = new CharsetDetector();
-        charsetDetector.setText( is instanceof BufferedInputStream ? is : new BufferedInputStream(is) );
-        charsetDetector.enableInputFilter(true);
-        CharsetMatch cm = charsetDetector.detect();
-        return cm.getName();
     }
 
     public List<TreeItem<String>> buscar(MainForm mainForm, TreeItem<String> node) {

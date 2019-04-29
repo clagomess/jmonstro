@@ -1,5 +1,6 @@
 package br.jmonstro.bean;
 
+import br.jmonstro.bean.postman.Environment;
 import br.jmonstro.bean.postman.collection.Item;
 import br.jmonstro.bean.postman.collection.Request;
 import br.jmonstro.bean.postman.collection.request.Param;
@@ -143,4 +144,10 @@ public class RestForm {
     // POSTMAN PANE
     @FXML
     protected TreeView<Item> postmanCollection;
+
+    @FXML
+    protected ChoiceBox<Environment> cbxEnviroment;
+
+    @FXML
+    protected TableView<RestForm.KeyValueTable> tblEnviroment;
 }

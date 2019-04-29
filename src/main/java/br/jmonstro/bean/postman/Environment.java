@@ -14,9 +14,14 @@ public class Environment {
 
     @Data
     @JsonIgnoreProperties({"description", "type"})
-    private static class Value {
+    public static class Value {
         private String key;
         private String value;
         private Boolean enabled;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

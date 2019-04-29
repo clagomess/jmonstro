@@ -3,11 +3,13 @@ package br.jmonstro.controller;
 import br.jmonstro.bean.MainForm;
 import br.jmonstro.bean.RestForm;
 import br.jmonstro.bean.RestParam;
+import br.jmonstro.bean.postman.Environment;
 import br.jmonstro.main.Ui;
 import br.jmonstro.service.JMonstroService;
 import br.jmonstro.service.PostmanService;
 import br.jmonstro.service.RestService;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +26,8 @@ public class RestController extends RestForm {
         Platform.runLater(() -> {
             try{
                 PostmanService ps = new PostmanService();
+
+                // Collections
                 this.postmanCollection.setShowRoot(false);
                 this.postmanCollection.setRoot(ps.getTree());
                 this.postmanCollection.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
@@ -31,6 +35,9 @@ public class RestController extends RestForm {
                         this.setFormValue(nv.getValue().getRequest());
                     }
                 });
+
+                // Environments
+                this.cbxEnviroment.setItems(FXCollections.observableArrayList(ps.readEnvironmentFolder()));
             }catch (IOException e){
                 // @TODO: botar alert panel aqui
                 log.error(RestController.class.getName(), e);
@@ -103,5 +110,18 @@ public class RestController extends RestForm {
 
     public void tblCookieRemoveAction(){
         tblCookie.getItems().remove(0, tblCookie.getItems().size());
+    }
+
+    // POSTMAN ACTIONS
+    public void cbxEnviromentAction(){
+        Environment environment = cbxEnviroment.getValue();
+
+        if(environment != null){
+            tblEnviroment.getItems().remove(0, tblEnviroment.getItems().size());
+
+            for (Environment.Value value : environment.getValues()){
+                tblEnviroment.getItems().add(new KeyValueTable(value.getKey(), value.getValue()));
+            }
+        }
     }
 }

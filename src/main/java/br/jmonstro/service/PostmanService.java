@@ -1,6 +1,7 @@
 package br.jmonstro.service;
 
 import br.jmonstro.bean.postman.Collection;
+import br.jmonstro.bean.postman.Environment;
 import br.jmonstro.bean.postman.collection.Item;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.TreeItem;
@@ -13,25 +14,43 @@ import java.util.List;
 
 @Slf4j
 public class PostmanService {
-    private Collection readFile(File json) throws IOException {
+    private File[] listDir(String name) throws IOException {
+        File dir = new File(name);
+
+        if(!dir.isDirectory()){
+            if(!dir.mkdir()){
+                throw new IOException(String.format("Falha ao criar diretorio \"%s\"", name));
+            }
+        }
+
+        return dir.listFiles();
+    }
+
+    private Collection readCollectionFile(File json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(json, Collection.class);
     }
 
-    private List<Collection> readFolder() throws IOException {
+    private Environment readEnvironmentFile(File json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, Environment.class);
+    }
+
+    private List<Collection> readCollectionFolder() throws IOException {
         List<Collection> toReturn = new LinkedList<>();
-        File dir = new File("postman_collections");
 
-        if(!dir.isDirectory()){
-            if(!dir.mkdir()){
-                throw new IOException("Falha ao criar diretorio \"postman_collections\"");
-            }
-
-            return toReturn;
+        for(File file : listDir("postman_collections")){
+            toReturn.add(readCollectionFile(file));
         }
 
-        for(File file : dir.listFiles()){
-            toReturn.add(readFile(file));
+        return toReturn;
+    }
+
+    public List<Environment> readEnvironmentFolder() throws IOException {
+        List<Environment> toReturn = new LinkedList<>();
+
+        for(File file : listDir("postman_environments")){
+            toReturn.add(readEnvironmentFile(file));
         }
 
         return toReturn;
@@ -40,7 +59,7 @@ public class PostmanService {
     public TreeItem<Item> getTree() throws IOException {
         TreeItem<Item> root = new TreeItem<>(new Item("Postman Collections"));
 
-        for(Collection collection : readFolder()){
+        for(Collection collection : readCollectionFolder()){
             TreeItem<Item> collItem = new TreeItem<>(new Item(collection.getInfo().getName()));
 
             if(collection.getItem() != null){

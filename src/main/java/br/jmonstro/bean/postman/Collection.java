@@ -12,7 +12,7 @@ public class Collection {
     private List<Item> item;
 
     @Data
-    private static class Info {
+    public static class Info {
         @JsonProperty(value = "_postman_id")
         private String id;
         private String name = "Collection";

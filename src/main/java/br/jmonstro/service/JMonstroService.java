@@ -183,7 +183,20 @@ public class JMonstroService {
     }
 
     static File writeFile(String fileContent, String fileExtension) throws IOException {
-        File file = new File(UUID.randomUUID().toString() + "." + fileExtension);
+        // mkdir
+        File dir = new File("temp");
+        if(!dir.isDirectory()){
+            dir.mkdir();
+        }
+
+        final String filename = String.format(
+            "temp%s%s.%s",
+            File.separator,
+            UUID.randomUUID().toString(),
+            fileExtension
+        );
+
+        File file = new File(filename);
         Writer bw = new BufferedWriter(new FileWriter(file));
         bw.write(fileContent);
         bw.flush();

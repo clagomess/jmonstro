@@ -63,6 +63,7 @@ public class RestService {
 
         // build dto
         RestResponseDto dto = new RestResponseDto();
+        dto.setUrl(restParam.getUrl());
         dto.setMethod(restParam.getMetodo().getValue());
         dto.setSize(responseContent.length());
         dto.setHeaders(response.getStringHeaders());

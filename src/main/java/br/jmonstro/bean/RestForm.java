@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;
@@ -153,4 +154,22 @@ public class RestForm {
 
     @FXML
     protected TableView<RestForm.KeyValueTable> tblGlobal;
+
+    @FXML
+    protected Text txtResponseMethod;
+
+    @FXML
+    protected Text txtResponseUrl;
+
+    @FXML
+    protected Text txtResponseTime;
+
+    @FXML
+    protected Text txtResponseStatus;
+
+    @FXML
+    protected Text txtResponseSize;
+
+    @FXML
+    protected TableView<RestForm.KeyValueTable> tblResponseHeader;
 }

@@ -11,6 +11,7 @@ public class RestResponseDto {
     private File file;
 
     // HTTP
+    private String url;
     private String method;
     private Long time;
     private Integer status;

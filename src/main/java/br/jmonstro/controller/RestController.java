@@ -15,6 +15,8 @@ import javafx.scene.control.Alert;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class RestController extends RestForm {
@@ -58,9 +60,25 @@ public class RestController extends RestForm {
         new Thread(() -> {
             try {
                 RestResponseDto dto = RestService.get(new RestParam(this));
-
                 Ui.alert(Alert.AlertType.INFORMATION, "Executado com sucesso!");
 
+                // reponse data
+                Platform.runLater(() -> {
+                    txtResponseMethod.setText(dto.getMethod());
+                    txtResponseUrl.setText(dto.getUrl());
+                    txtResponseTime.setText(dto.getTime().toString()); // @TODO: format
+                    txtResponseStatus.setText(dto.getStatus().toString()); // @TODO: format
+                    txtResponseSize.setText(dto.getSize().toString()); // @TODO: format
+
+                    tblResponseHeader.getItems().remove(0, tblResponseHeader.getItems().size());
+
+                    for (Map.Entry<String, List<String>> entry : dto.getHeaders().entrySet()){
+                        KeyValueTable kvt = new KeyValueTable(entry.getKey(), String.join(", ",  entry.getValue()));
+                        tblResponseHeader.getItems().add(kvt);
+                    }
+                });
+
+                // mount view
                 JMonstroService jMonstroService = new JMonstroService();
                 jMonstroService.processar(dto.getFile(), mainForm);
             }catch (Throwable e){

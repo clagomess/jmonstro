@@ -34,6 +34,11 @@ public class RestParam {
 
         this.url = form.txtUrl.getText();
 
+        // Injetar variáveis
+        for(RestForm.KeyValueTable item : form.tblEnviroment.getItems()){
+            this.url = this.url.replace(String.format("{{%s}}", item.getKey()), item.getValue());
+        }
+
         for(RestForm.KeyValueTable item : form.tblFormData.getItems()){
             if(!item.isEmpty()) {
                 this.formData.add(item.getKey(), item.getValue());

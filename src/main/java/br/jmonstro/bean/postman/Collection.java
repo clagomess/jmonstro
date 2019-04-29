@@ -17,5 +17,6 @@ public class Collection {
         private String id;
         private String name = "Collection";
         private String schema = "https://schema.getpostman.com/json/collection/v2.1.0/collection.json";
+        private String description;
     }
 }

@@ -3,30 +3,37 @@ package br.jmonstro.service;
 import br.jmonstro.bean.RestParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 
+import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @Slf4j
 public class RestService {
     public static File get(RestParam restParam) throws Throwable {
-        Client client;
+        ClientConfig config = new ClientConfig();
 
         if(restParam.getProxy() != null){
-            ClientConfig config = new ClientConfig();
             config.connectorProvider(new ApacheConnectorProvider());
             config.property(ClientProperties.PROXY_URI, restParam.getProxy().getUri());
             config.property(ClientProperties.PROXY_USERNAME, restParam.getProxy().getUsername());
             config.property(ClientProperties.PROXY_PASSWORD, restParam.getProxy().getPassword());
-            client = ClientBuilder.newClient(config);
-        }else{
-            client = ClientBuilder.newClient();
         }
+
+        ClientBuilder clientBuilder = ClientBuilder.newBuilder();
+        clientBuilder.withConfig(config);
+        clientBuilder.sslContext(sslContext());
+        Client client = clientBuilder.build();
 
         client.property(ClientProperties.FOLLOW_REDIRECTS, Boolean.TRUE);
         client.property(ClientProperties.CONNECT_TIMEOUT, 1000 * 10);
@@ -72,5 +79,9 @@ public class RestService {
         }
 
         return "bin";
+    }
+
+    private static SSLContext sslContext() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+        return SSLContexts.custom().loadTrustMaterial(null, (TrustStrategy) (x509Certificates, authType) -> true).build();
     }
 }

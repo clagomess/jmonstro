@@ -39,8 +39,8 @@ public class RestController extends RestForm {
                 // Environments
                 this.cbxEnviroment.setItems(FXCollections.observableArrayList(ps.readEnvironmentFolder()));
             }catch (IOException e){
-                // @TODO: botar alert panel aqui
                 log.error(RestController.class.getName(), e);
+                Ui.alert(Alert.AlertType.ERROR, e.getMessage());
             }
         });
     }

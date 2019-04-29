@@ -2,6 +2,7 @@ package br.jmonstro.bean;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.web.WebView;
 import lombok.Data;
 
 @Data
@@ -11,6 +12,9 @@ public class MainForm {
 
     @FXML
     protected TreeView<String> tree;
+
+    @FXML
+    protected WebView webView;
 
     @FXML
     protected TextArea txtValor;

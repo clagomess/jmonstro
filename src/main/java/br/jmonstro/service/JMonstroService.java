@@ -55,6 +55,9 @@ public class JMonstroService {
                 TreeItem<String> root = jMonstroService.getTree(nFile);
 
                 Platform.runLater(() -> {
+                    mainForm.getTree().setVisible(true);
+                    mainForm.getWebView().setVisible(false);
+
                     mainForm.getTree().setRoot(root);
                     mainForm.getTree().getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
                         if(nv != null) {
@@ -66,7 +69,15 @@ public class JMonstroService {
                 });
             }catch (Throwable e){
                 log.error(JMonstroService.class.getName(), e);
-                Platform.runLater(() -> mainForm.getProgress().setProgress(0));
+
+                Platform.runLater(() -> {
+                    mainForm.getProgress().setProgress(0);
+
+                    mainForm.getTree().setVisible(false);
+                    mainForm.getWebView().setVisible(true);
+                    mainForm.getWebView().getEngine().load("file://" + file.getAbsolutePath());
+                });
+
                 Ui.alert(Alert.AlertType.ERROR, e.toString());
             }
         }).start();

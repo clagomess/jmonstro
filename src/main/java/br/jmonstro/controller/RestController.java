@@ -3,11 +3,13 @@ package br.jmonstro.controller;
 import br.jmonstro.bean.MainForm;
 import br.jmonstro.bean.RestForm;
 import br.jmonstro.bean.RestParam;
+import br.jmonstro.bean.postman.collection.Item;
 import br.jmonstro.main.Ui;
 import br.jmonstro.service.JMonstroService;
 import br.jmonstro.service.RestService;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TreeItem;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -18,6 +20,10 @@ public class RestController extends RestForm {
 
     void init(MainForm mainForm){
         this.mainForm = mainForm;
+
+        // init postman collection
+        this.postmanCollection.setRoot(new TreeItem<>(new Item()));
+        this.postmanCollection.getRoot().getChildren().add(new TreeItem<>(new Item()));
     }
 
     public void executeAction(){

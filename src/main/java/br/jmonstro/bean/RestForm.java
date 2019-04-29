@@ -1,5 +1,6 @@
 package br.jmonstro.bean;
 
+import br.jmonstro.bean.postman.collection.Item;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -109,4 +110,8 @@ public class RestForm {
             this.value.set(value);
         }
     }
+
+    // POSTMAN PANE
+    @FXML
+    protected TreeView<Item> postmanCollection;
 }

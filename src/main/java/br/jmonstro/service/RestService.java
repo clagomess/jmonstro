@@ -28,6 +28,7 @@ public class RestService {
             client = ClientBuilder.newClient();
         }
 
+        client.property(ClientProperties.FOLLOW_REDIRECTS, Boolean.TRUE);
         client.property(ClientProperties.CONNECT_TIMEOUT, 1000 * 10);
 
         WebTarget webTarget = client.target(restParam.getUrl());
@@ -54,6 +55,10 @@ public class RestService {
     }
 
     static String contentExtension(String contentType){
+        if(contentType == null){
+            return "bin";
+        }
+
         if(contentType.contains("text/html")){
             return "html";
         }

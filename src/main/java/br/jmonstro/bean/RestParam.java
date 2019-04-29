@@ -32,32 +32,27 @@ public class RestParam {
             throw new Exception("É necessário informar a URL de requisição");
         }
 
-        this.url = form.txtUrl.getText();
-
-        // Injetar variáveis
-        for(RestForm.KeyValueTable item : form.tblEnviroment.getItems()){
-            this.url = this.url.replace(String.format("{{%s}}", item.getKey()), item.getValue());
-        }
+        this.url = injectVar(form, form.txtUrl.getText());
 
         for(RestForm.KeyValueTable item : form.tblFormData.getItems()){
             if(!item.isEmpty()) {
-                this.formData.add(item.getKey(), item.getValue());
+                this.formData.add(item.getKey(), injectVar(form, item.getValue()));
             }
         }
 
         for(RestForm.KeyValueTable item : form.tblHeader.getItems()){
             if(!item.isEmpty()) {
-                this.header.add(item.getKey(), item.getValue());
+                this.header.add(item.getKey(), injectVar(form, item.getValue()));
             }
         }
 
         for(RestForm.KeyValueTable item : form.tblCookie.getItems()){
             if(!item.isEmpty()) {
-                this.cookie.put(item.getKey(), item.getValue());
+                this.cookie.put(item.getKey(), injectVar(form, item.getValue()));
             }
         }
 
-        this.body = form.txtBodyJson.getText();
+        this.body = injectVar(form, form.txtBodyJson.getText());
 
         if(form.chxProxy.isSelected()){
             if(StringUtils.isEmpty(form.txtProxyUrl.getText())){
@@ -70,6 +65,22 @@ public class RestParam {
                     form.txtProxyPassword.getText()
             );
         }
+    }
+
+    private String injectVar(RestForm form, String input){
+        if(StringUtils.isEmpty(input)){
+            return input;
+        }
+
+        for(RestForm.KeyValueTable item : form.tblEnviroment.getItems()){
+            input = input.replace(String.format("{{%s}}", item.getKey()), item.getValue());
+        }
+
+        for(RestForm.KeyValueTable item : form.tblGlobal.getItems()){
+            input = input.replace(String.format("{{%s}}", item.getKey()), item.getValue());
+        }
+
+        return input;
     }
 
     public enum Metodo {

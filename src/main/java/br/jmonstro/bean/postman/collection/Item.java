@@ -8,7 +8,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-@JsonIgnoreProperties({"response", "event"})
+@JsonIgnoreProperties({"response", "event", "description"})
 public class Item {
     private String name = "item - name";
     private List<Item> item;

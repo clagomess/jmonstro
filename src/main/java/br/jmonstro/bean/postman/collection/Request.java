@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@JsonIgnoreProperties({"auth"})
+@JsonIgnoreProperties({"auth", "description"})
 public class Request {
     private String method;
     private List<Param> header;

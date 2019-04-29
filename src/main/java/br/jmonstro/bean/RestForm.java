@@ -2,6 +2,7 @@ package br.jmonstro.bean;
 
 import br.jmonstro.bean.postman.collection.Item;
 import br.jmonstro.bean.postman.collection.Request;
+import br.jmonstro.bean.postman.collection.request.Param;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -115,9 +116,27 @@ public class RestForm {
 
     public void setFormValue(Request request){
         Platform.runLater(() -> {
+            this.cbxMetodo.setValue(request.getMethod());
             this.txtUrl.setText(request.getUrl().getRaw());
 
-            //@TODO: implements other
+            // FORM DATA
+            tblFormData.getItems().remove(0, tblFormData.getItems().size());
+            if(request.getBody().getFormdata() != null) {
+                for (Param param : request.getBody().getFormdata()) {
+                    this.tblFormData.getItems().add(new KeyValueTable(param.getKey(), param.getValue()));
+                }
+            }
+
+            // HEADER
+            tblHeader.getItems().remove(0, tblHeader.getItems().size());
+            if(request.getHeader() != null) {
+                for (Param param : request.getHeader()) {
+                    this.tblHeader.getItems().add(new KeyValueTable(param.getKey(), param.getValue()));
+                }
+            }
+
+            // BODY
+            txtBodyJson.setText(request.getBody().getRaw());
         });
     }
 

@@ -21,14 +21,22 @@ public class RestController extends RestForm {
     void init(MainForm mainForm){
         this.mainForm = mainForm;
 
-        try{
-            PostmanService ps = new PostmanService();
-            this.postmanCollection.setShowRoot(false);
-            this.postmanCollection.setRoot(ps.getTree());
-        }catch (IOException e){
-            // @TODO: botar alert panel aqui
-            log.error(RestController.class.getName(), e);
-        }
+        Platform.runLater(() -> {
+            try{
+                PostmanService ps = new PostmanService();
+                this.postmanCollection.setShowRoot(false);
+                this.postmanCollection.setRoot(ps.getTree());
+                this.postmanCollection.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
+                    if(nv != null) {
+                        // @TODO: set main values
+                        log.info("{}", nv.getValue());
+                    }
+                });
+            }catch (IOException e){
+                // @TODO: botar alert panel aqui
+                log.error(RestController.class.getName(), e);
+            }
+        });
     }
 
     public void executeAction(){

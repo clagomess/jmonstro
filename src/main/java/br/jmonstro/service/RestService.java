@@ -1,6 +1,7 @@
 package br.jmonstro.service;
 
 import br.jmonstro.bean.RestParam;
+import br.jmonstro.bean.RestResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.conn.ssl.TrustStrategy;
@@ -12,7 +13,6 @@ import org.glassfish.jersey.client.ClientProperties;
 import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.Response;
-import java.io.File;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Slf4j
 public class RestService {
-    public static File get(RestParam restParam) throws Throwable {
+    public static RestResponseDto get(RestParam restParam) throws Throwable {
         ClientConfig config = new ClientConfig();
 
         if(restParam.getProxy() != null){
@@ -49,6 +49,7 @@ public class RestService {
         }
 
         Response response;
+        long requestTime = System.currentTimeMillis();
 
         if(restParam.getMetodo() == RestParam.Metodo.POST){
             response = invocationBuilder.post(!StringUtils.isEmpty(restParam.getBody()) ? Entity.json(restParam.getBody()) : Entity.form(restParam.getFormData()));
@@ -56,9 +57,20 @@ public class RestService {
             response = invocationBuilder.get();
         }
 
+        requestTime = System.currentTimeMillis() - requestTime;
+
         String responseContent = response.readEntity(String.class);
 
-        return JMonstroService.writeFile(responseContent, contentExtension(response.getHeaderString("content-type")));
+        // build dto
+        RestResponseDto dto = new RestResponseDto();
+        dto.setMethod(restParam.getMetodo().getValue());
+        dto.setSize(responseContent.length());
+        dto.setHeaders(response.getStringHeaders());
+        dto.setStatus(response.getStatus());
+        dto.setFile(JMonstroService.writeFile(responseContent, contentExtension(response.getHeaderString("content-type"))));
+        dto.setTime(requestTime);
+
+        return dto;
     }
 
     static String contentExtension(String contentType){

@@ -3,6 +3,7 @@ package br.jmonstro.controller;
 import br.jmonstro.bean.MainForm;
 import br.jmonstro.bean.RestForm;
 import br.jmonstro.bean.RestParam;
+import br.jmonstro.bean.RestResponseDto;
 import br.jmonstro.bean.postman.Environment;
 import br.jmonstro.main.Ui;
 import br.jmonstro.service.JMonstroService;
@@ -13,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
 import java.io.IOException;
 
 @Slf4j
@@ -57,12 +57,12 @@ public class RestController extends RestForm {
 
         new Thread(() -> {
             try {
-                File file = RestService.get(new RestParam(this));
+                RestResponseDto dto = RestService.get(new RestParam(this));
 
                 Ui.alert(Alert.AlertType.INFORMATION, "Executado com sucesso!");
 
                 JMonstroService jMonstroService = new JMonstroService();
-                jMonstroService.processar(file, mainForm);
+                jMonstroService.processar(dto.getFile(), mainForm);
             }catch (Throwable e){
                 log.error(JMonstroService.class.getName(), e);
                 Ui.alert(Alert.AlertType.ERROR, e.getMessage());

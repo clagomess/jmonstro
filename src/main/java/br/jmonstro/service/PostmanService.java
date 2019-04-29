@@ -46,11 +46,15 @@ public class PostmanService {
         return toReturn;
     }
 
-    public List<Environment> readEnvironmentFolder() throws IOException {
+    public List<Environment> readEnvironmentFolder(String scope) throws IOException {
         List<Environment> toReturn = new LinkedList<>();
 
         for(File file : listDir("postman_environments")){
-            toReturn.add(readEnvironmentFile(file));
+            Environment environment = readEnvironmentFile(file);
+
+            if(scope.equals(environment.getScope())) {
+                toReturn.add(readEnvironmentFile(file));
+            }
         }
 
         return toReturn;

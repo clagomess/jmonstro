@@ -40,7 +40,11 @@ public class RestController extends RestForm {
                 this.cbxEnviroment.setItems(FXCollections.observableArrayList(ps.readEnvironmentFolder("environment")));
 
                 // Globals
-                // @TODO: implements
+                for (Environment envs : ps.readEnvironmentFolder("globals")){
+                    for(Environment.Value value : envs.getValues()) {
+                        tblGlobal.getItems().add(new KeyValueTable(value.getKey(), value.getValue()));
+                    }
+                }
             }catch (IOException e){
                 log.error(RestController.class.getName(), e);
                 Ui.alert(Alert.AlertType.ERROR, e.getMessage());

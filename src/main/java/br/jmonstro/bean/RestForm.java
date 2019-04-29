@@ -150,4 +150,7 @@ public class RestForm {
 
     @FXML
     protected TableView<RestForm.KeyValueTable> tblEnviroment;
+
+    @FXML
+    protected TableView<RestForm.KeyValueTable> tblGlobal;
 }

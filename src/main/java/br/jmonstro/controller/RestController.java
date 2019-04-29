@@ -27,9 +27,8 @@ public class RestController extends RestForm {
                 this.postmanCollection.setShowRoot(false);
                 this.postmanCollection.setRoot(ps.getTree());
                 this.postmanCollection.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
-                    if(nv != null) {
-                        // @TODO: set main values
-                        log.info("{}", nv.getValue());
+                    if(nv != null && nv.getValue().getRequest() != null) {
+                        this.setFormValue(nv.getValue().getRequest());
                     }
                 });
             }catch (IOException e){

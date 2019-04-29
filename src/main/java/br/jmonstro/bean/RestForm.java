@@ -1,6 +1,8 @@
 package br.jmonstro.bean;
 
 import br.jmonstro.bean.postman.collection.Item;
+import br.jmonstro.bean.postman.collection.Request;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -109,6 +111,14 @@ public class RestForm {
         public void setValue(String value) {
             this.value.set(value);
         }
+    }
+
+    public void setFormValue(Request request){
+        Platform.runLater(() -> {
+            this.txtUrl.setText(request.getUrl().getRaw());
+
+            //@TODO: implements other
+        });
     }
 
     // POSTMAN PANE

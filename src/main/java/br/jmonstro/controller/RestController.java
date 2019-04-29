@@ -23,6 +23,7 @@ public class RestController extends RestForm {
 
         try{
             PostmanService ps = new PostmanService();
+            this.postmanCollection.setShowRoot(false);
             this.postmanCollection.setRoot(ps.getTree());
         }catch (IOException e){
             // @TODO: botar alert panel aqui

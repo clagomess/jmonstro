@@ -12,6 +12,7 @@ import br.jmonstro.service.RestService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -59,7 +60,14 @@ public class RestController extends RestForm {
 
         new Thread(() -> {
             try {
-                RestResponseDto dto = RestService.get(new RestParam(this));
+                final RestParam restParam = new RestParam(this);
+
+                Platform.runLater(() -> {
+                    Stage stage = (Stage) mainPane.getScene().getWindow();
+                    stage.setTitle(String.format("%s: %s", restParam.getMetodo(), restParam.getUrl()));
+                });
+
+                RestResponseDto dto = RestService.get(restParam);
                 Ui.alert(Alert.AlertType.INFORMATION, "Executado com sucesso!");
 
                 // reponse data

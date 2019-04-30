@@ -16,6 +16,9 @@ import org.apache.commons.lang.StringUtils;
 @Data
 public class RestForm {
     @FXML
+    protected SplitPane mainPane;
+
+    @FXML
     protected ChoiceBox<String> cbxMetodo;
 
     @FXML

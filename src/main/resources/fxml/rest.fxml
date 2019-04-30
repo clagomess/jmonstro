@@ -19,6 +19,7 @@
         xmlns="http://javafx.com/javafx/8"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="br.jmonstro.controller.RestController"
+        fx:id="mainPane"
 >
     <!-- POSTMAN COLLECTION -->
     <GridPane hgap="10.0" vgap="10.0">
@@ -313,7 +314,7 @@
             <Text GridPane.rowIndex="1" GridPane.columnIndex="4" text="-" fx:id="txtResponseSize"/>
         </GridPane>
 
-        <TableView GridPane.rowIndex="4" fx:id="tblResponseHeader">
+        <TableView GridPane.rowIndex="4" fx:id="tblResponseHeader" editable="true">
             <columns>
                 <TableColumn text="Key">
                     <cellValueFactory>

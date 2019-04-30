@@ -68,7 +68,6 @@ public class RestController extends RestForm {
                 });
 
                 RestResponseDto dto = RestService.get(restParam);
-                Ui.alert(Alert.AlertType.INFORMATION, "Executado com sucesso!");
 
                 // reponse data
                 Platform.runLater(() -> {

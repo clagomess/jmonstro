@@ -82,7 +82,7 @@ public class RestService {
         dto.setSize(responseContent.length());
         dto.setHeaders(response.getStringHeaders());
         dto.setStatus(response.getStatus());
-        dto.setFile(JMonstroService.writeFile(responseContent, contentExtension(response.getHeaderString("content-type"))));
+        dto.setFile(JMonstroService.writeFile(responseContent, response.getMediaType()));
         dto.setTime(requestTime);
 
         return dto;
@@ -110,26 +110,6 @@ public class RestService {
         }
 
         return toReturn;
-    }
-
-    static String contentExtension(String contentType){
-        if(contentType == null){
-            return "bin";
-        }
-
-        if(contentType.contains("text/html")){
-            return "html";
-        }
-
-        if(contentType.contains("text/xml")){
-            return "xml";
-        }
-
-        if(contentType.contains("application/json")){
-            return "json";
-        }
-
-        return "bin";
     }
 
     private static SSLContext sslContext() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {

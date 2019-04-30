@@ -12,6 +12,7 @@ import org.json.XML;
 
 import javax.json.*;
 import javax.json.stream.JsonParser;
+import javax.ws.rs.core.MediaType;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -192,6 +193,10 @@ public class JMonstroService {
                 treeExpanded(item, expanded);
             }
         }
+    }
+
+    static File writeFile(String fileContent, MediaType mediaType) throws IOException {
+        return writeFile(fileContent, mediaType.getSubtype());
     }
 
     static File writeFile(String fileContent, String fileExtension) throws IOException {

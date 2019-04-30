@@ -41,14 +41,6 @@ public class RestTest {
     }
 
     @Test
-    public void contentExtension() {
-        Assert.assertEquals("html", RestService.contentExtension("text/html"));
-        Assert.assertEquals("xml", RestService.contentExtension("text/xml"));
-        Assert.assertEquals("json", RestService.contentExtension("application/json"));
-        Assert.assertEquals("bin", RestService.contentExtension("text/plain"));
-    }
-
-    @Test
     public void post_form() throws Throwable {
         RestParam rp = new RestParam("https://postman-echo.com/post");
         rp.setMetodo(RestParam.Metodo.POST);

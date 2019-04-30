@@ -52,7 +52,15 @@ public class RestService {
         long requestTime = System.currentTimeMillis();
 
         if(restParam.getMetodo() == RestParam.Metodo.POST){
-            response = invocationBuilder.post(!StringUtils.isEmpty(restParam.getBody()) ? Entity.json(restParam.getBody()) : Entity.form(restParam.getFormData()));
+            Entity entity;
+
+            if(StringUtils.isNotEmpty(restParam.getBody())){
+                entity = Entity.json(restParam.getBody());
+            }else {
+                entity = Entity.form(restParam.getFormData());
+            }
+
+            response = invocationBuilder.post(entity);
         }else{
             response = invocationBuilder.get();
         }

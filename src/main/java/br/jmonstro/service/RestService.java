@@ -1,14 +1,13 @@
 package br.jmonstro.service;
 
-import br.jmonstro.bean.RestParam;
 import br.jmonstro.bean.RestResponseDto;
+import br.jmonstro.bean.restparam.RestParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.ssl.SSLContexts;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import javax.net.ssl.SSLContext;
@@ -17,7 +16,6 @@ import javax.ws.rs.core.Response;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -55,7 +53,7 @@ public class RestService {
         long requestTime = System.currentTimeMillis();
 
         // request
-        switch (restParam.getMetodo()){
+        switch (restParam.getMethod()){
             case POST:
                 response = invocationBuilder.post(buildEntity(restParam));
                 break;
@@ -78,7 +76,7 @@ public class RestService {
         // build dto
         RestResponseDto dto = new RestResponseDto();
         dto.setUrl(restParam.getUrl());
-        dto.setMethod(restParam.getMetodo().getValue());
+        dto.setMethod(restParam.getMethod().getValue());
         dto.setSize(responseContent.length());
         dto.setHeaders(response.getStringHeaders());
         dto.setStatus(response.getStatus());
@@ -91,18 +89,12 @@ public class RestService {
     private static Entity buildEntity(RestParam restParam){
         Entity toReturn = Entity.text(null);
 
-        switch (restParam.getBodyType()){
+        switch (restParam.getBody().getType()){
             case FORM_URLENCODED:
-                toReturn = Entity.form(restParam.getFormData());
+                toReturn = Entity.form(restParam.getBody().getFormUrlencoded());
                 break;
             case FORM_DATA:
-                FormDataMultiPart form = new FormDataMultiPart();
-
-                for (Map.Entry<String, List<String>> item : restParam.getFormData().entrySet()) {
-                    form.field(item.getKey(), item.getValue().get(0));
-                }
-
-                toReturn = Entity.entity(form, form.getMediaType());
+                toReturn = Entity.entity(restParam.getBody().getFormData(), restParam.getBody().getFormData().getMediaType());
                 break;
             case RAW:
                 toReturn = Entity.json(restParam.getBody()); // @TODO: implements content-type

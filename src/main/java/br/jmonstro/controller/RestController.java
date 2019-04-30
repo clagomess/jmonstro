@@ -2,9 +2,10 @@ package br.jmonstro.controller;
 
 import br.jmonstro.bean.MainForm;
 import br.jmonstro.bean.RestForm;
-import br.jmonstro.bean.RestParam;
 import br.jmonstro.bean.RestResponseDto;
 import br.jmonstro.bean.postman.Environment;
+import br.jmonstro.bean.restparam.Method;
+import br.jmonstro.bean.restparam.RestParam;
 import br.jmonstro.main.Ui;
 import br.jmonstro.service.JMonstroService;
 import br.jmonstro.service.PostmanService;
@@ -64,7 +65,7 @@ public class RestController extends RestForm {
 
                 Platform.runLater(() -> {
                     Stage stage = (Stage) mainPane.getScene().getWindow();
-                    stage.setTitle(String.format("%s: %s", restParam.getMetodo(), restParam.getUrl()));
+                    stage.setTitle(String.format("%s: %s", restParam.getMethod(), restParam.getUrl()));
                 });
 
                 RestResponseDto dto = RestService.perform(restParam);
@@ -106,7 +107,7 @@ public class RestController extends RestForm {
     }
 
     public void cbxMetodoAction(){
-        boolean disable = RestParam.Metodo.valueOf(cbxMetodo.getValue()) == RestParam.Metodo.GET;
+        boolean disable = Method.valueOf(cbxMetodo.getValue()) == Method.GET;
 
         tblFormData.setDisable(disable);
         txtBodyJson.setDisable(disable);

@@ -16,64 +16,64 @@ import org.apache.commons.lang.StringUtils;
 @Data
 public class RestForm {
     @FXML
-    protected SplitPane mainPane;
+    public SplitPane mainPane;
 
     @FXML
-    protected ChoiceBox<String> cbxMetodo;
+    public ChoiceBox<String> cbxMetodo;
 
     @FXML
-    protected TextField txtUrl;
+    public TextField txtUrl;
 
     @FXML
-    protected Button btnExecutar;
+    public Button btnExecutar;
 
     @FXML
-    protected TableView<RestForm.KeyValueTable> tblFormData;
+    public TableView<RestForm.KeyValueTable> tblFormData;
 
     @FXML
-    protected TextField tblFormDataKey;
+    public TextField tblFormDataKey;
 
     @FXML
-    protected TextField tblFormDataValue;
+    public TextField tblFormDataValue;
 
     @FXML
-    protected Button tblFormDataBtnAdd;
+    public Button tblFormDataBtnAdd;
 
     @FXML
-    protected Button tblFormDataBtnRemove;
+    public Button tblFormDataBtnRemove;
 
     @FXML
-    protected TableView<RestForm.KeyValueTable> tblHeader;
+    public TableView<RestForm.KeyValueTable> tblHeader;
 
     @FXML
-    protected TextField tblHeaderKey;
+    public TextField tblHeaderKey;
 
     @FXML
-    protected TextField tblHeaderValue;
+    public TextField tblHeaderValue;
 
     @FXML
-    protected TableView<RestForm.KeyValueTable> tblCookie;
+    public TableView<RestForm.KeyValueTable> tblCookie;
 
     @FXML
-    protected TextField tblCookieKey;
+    public TextField tblCookieKey;
 
     @FXML
-    protected TextField tblCookieValue;
+    public TextField tblCookieValue;
 
     @FXML
-    protected TextArea txtBodyJson;
+    public TextArea txtBodyJson;
 
     @FXML
-    protected CheckBox chxProxy;
+    public CheckBox chxProxy;
 
     @FXML
-    protected TextField txtProxyUrl;
+    public TextField txtProxyUrl;
 
     @FXML
-    protected TextField txtProxyUsername;
+    public TextField txtProxyUsername;
 
     @FXML
-    protected PasswordField txtProxyPassword;
+    public PasswordField txtProxyPassword;
 
     @NoArgsConstructor
     public static class KeyValueTable {
@@ -147,32 +147,32 @@ public class RestForm {
 
     // POSTMAN PANE
     @FXML
-    protected TreeView<Item> postmanCollection;
+    public TreeView<Item> postmanCollection;
 
     @FXML
-    protected ChoiceBox<Environment> cbxEnviroment;
+    public ChoiceBox<Environment> cbxEnviroment;
 
     @FXML
-    protected TableView<RestForm.KeyValueTable> tblEnviroment;
+    public TableView<RestForm.KeyValueTable> tblEnviroment;
 
     @FXML
-    protected TableView<RestForm.KeyValueTable> tblGlobal;
+    public TableView<RestForm.KeyValueTable> tblGlobal;
 
     @FXML
-    protected Text txtResponseMethod;
+    public Text txtResponseMethod;
 
     @FXML
-    protected Text txtResponseUrl;
+    public Text txtResponseUrl;
 
     @FXML
-    protected Text txtResponseTime;
+    public Text txtResponseTime;
 
     @FXML
-    protected Text txtResponseStatus;
+    public Text txtResponseStatus;
 
     @FXML
-    protected Text txtResponseSize;
+    public Text txtResponseSize;
 
     @FXML
-    protected TableView<RestForm.KeyValueTable> tblResponseHeader;
+    public TableView<RestForm.KeyValueTable> tblResponseHeader;
 }

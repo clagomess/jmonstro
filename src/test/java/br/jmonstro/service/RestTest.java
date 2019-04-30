@@ -1,7 +1,9 @@
 package br.jmonstro.service;
 
-import br.jmonstro.bean.RestParam;
 import br.jmonstro.bean.RestResponseDto;
+import br.jmonstro.bean.restparam.BodyType;
+import br.jmonstro.bean.restparam.Method;
+import br.jmonstro.bean.restparam.RestParam;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -43,11 +45,11 @@ public class RestTest {
     @Test
     public void post_form() throws Throwable {
         RestParam rp = new RestParam("https://postman-echo.com/post");
-        rp.setMetodo(RestParam.Metodo.POST);
-        rp.getFormData().add("param_123", "value_123");
+        rp.setMethod(Method.POST);
 
         // FORM_URLENCODED
-        rp.setBodyType(RestParam.BodyType.FORM_URLENCODED);
+        rp.getBody().setType(BodyType.FORM_URLENCODED);
+        rp.getBody().getFormUrlencoded().add("param_123", "value_123");
         RestResponseDto dto = RestService.perform(rp);
         String content = new String(Files.readAllBytes(dto.getFile().toPath()));
 
@@ -55,7 +57,8 @@ public class RestTest {
         Assert.assertTrue("not contains 'application/x-www-form-urlencoded'", content.contains("param_123"));
 
         // FORM_DATA
-        rp.setBodyType(RestParam.BodyType.FORM_DATA);
+        rp.getBody().setType(BodyType.FORM_DATA);
+        rp.getBody().getFormData().field("param_123", "value_123");
         dto = RestService.perform(rp);
         content = new String(Files.readAllBytes(dto.getFile().toPath()));
 

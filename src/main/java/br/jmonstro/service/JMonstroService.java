@@ -58,6 +58,7 @@ public class JMonstroService {
                     mainForm.getTree().setVisible(true);
                     mainForm.getWebView().setVisible(false);
 
+                    mainForm.getTree().setShowRoot(false);
                     mainForm.getTree().setRoot(root);
                     mainForm.getTree().getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
                         if(nv != null) {

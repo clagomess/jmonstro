@@ -15,11 +15,14 @@ import java.util.Map;
 public class RestParam {
     private String url = null;
     private Metodo metodo = Metodo.GET;
-    private MultivaluedMap<String, String> formData = new MultivaluedHashMap<>();
     private MultivaluedMap<String, Object> header = new MultivaluedHashMap<>();
     private Map<String, String> cookie = new HashMap<>();
-    private String body = null;
     private Proxy proxy = null;
+
+    // body
+    private MultivaluedMap<String, String> formData = new MultivaluedHashMap<>();
+    private String body = null;
+    private BodyType bodyType = BodyType.NONE;
 
     public RestParam(String url){
         this.url = url;
@@ -84,12 +87,27 @@ public class RestParam {
     }
 
     public enum Metodo {
-        POST("POST"), GET("GET");
+        POST("POST"), GET("GET"), PUT("PUT"), DELETE("DELETE");
 
         @Getter
         private final String value;
 
         Metodo(String value){
+            this.value = value;
+        }
+    }
+
+    public enum BodyType {
+        NONE("NONE"),
+        FORM_DATA("FORM_DATA"),
+        FORM_URLENCODED("FORM_URLENCODED"),
+        RAW("RAW"),
+        BINARY("BINARY");
+
+        @Getter
+        private final String value;
+
+        BodyType(String value){
             this.value = value;
         }
     }

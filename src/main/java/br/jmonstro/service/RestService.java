@@ -3,12 +3,13 @@ package br.jmonstro.service;
 import br.jmonstro.bean.RestParam;
 import br.jmonstro.bean.RestResponseDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.ssl.SSLContexts;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.*;
@@ -16,12 +17,14 @@ import javax.ws.rs.core.Response;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
 public class RestService {
-    public static RestResponseDto get(RestParam restParam) throws Throwable {
+    public static RestResponseDto perform(RestParam restParam) throws Throwable {
         ClientConfig config = new ClientConfig();
+        config.register(MultiPartFeature.class);
 
         if(restParam.getProxy() != null){
             config.connectorProvider(new ApacheConnectorProvider());
@@ -51,18 +54,21 @@ public class RestService {
         Response response;
         long requestTime = System.currentTimeMillis();
 
-        if(restParam.getMetodo() == RestParam.Metodo.POST){
-            Entity entity;
-
-            if(StringUtils.isNotEmpty(restParam.getBody())){
-                entity = Entity.json(restParam.getBody());
-            }else {
-                entity = Entity.form(restParam.getFormData());
-            }
-
-            response = invocationBuilder.post(entity);
-        }else{
-            response = invocationBuilder.get();
+        // request
+        switch (restParam.getMetodo()){
+            case POST:
+                response = invocationBuilder.post(buildEntity(restParam));
+                break;
+            case PUT:
+                response = invocationBuilder.put(buildEntity(restParam));
+                break;
+            case DELETE:
+                response = invocationBuilder.delete();
+                break;
+            case GET:
+            default:
+                response = invocationBuilder.get();
+                break;
         }
 
         requestTime = System.currentTimeMillis() - requestTime;
@@ -80,6 +86,30 @@ public class RestService {
         dto.setTime(requestTime);
 
         return dto;
+    }
+
+    private static Entity buildEntity(RestParam restParam){
+        Entity toReturn = Entity.text(null);
+
+        switch (restParam.getBodyType()){
+            case FORM_URLENCODED:
+                toReturn = Entity.form(restParam.getFormData());
+                break;
+            case FORM_DATA:
+                FormDataMultiPart form = new FormDataMultiPart();
+
+                for (Map.Entry<String, List<String>> item : restParam.getFormData().entrySet()) {
+                    form.field(item.getKey(), item.getValue().get(0));
+                }
+
+                toReturn = Entity.entity(form, form.getMediaType());
+                break;
+            case RAW:
+                toReturn = Entity.json(restParam.getBody()); // @TODO: implements content-type
+                break;
+        }
+
+        return toReturn;
     }
 
     static String contentExtension(String contentType){

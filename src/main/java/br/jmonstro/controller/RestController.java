@@ -67,7 +67,7 @@ public class RestController extends RestForm {
                     stage.setTitle(String.format("%s: %s", restParam.getMetodo(), restParam.getUrl()));
                 });
 
-                RestResponseDto dto = RestService.get(restParam);
+                RestResponseDto dto = RestService.perform(restParam);
 
                 // reponse data
                 Platform.runLater(() -> {

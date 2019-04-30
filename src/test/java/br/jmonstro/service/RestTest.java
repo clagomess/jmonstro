@@ -1,6 +1,7 @@
 package br.jmonstro.service;
 
 import br.jmonstro.bean.RestParam;
+import br.jmonstro.bean.RestResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -36,7 +37,7 @@ public class RestTest {
                                 .withBody(new String(Files.readAllBytes(json.toPath())))
                 );
 
-        RestService.get(new RestParam("http://127.0.0.1:8888/sample_01.json"));
+        RestService.perform(new RestParam("http://127.0.0.1:8888/sample_01.json"));
     }
 
     @Test
@@ -45,5 +46,28 @@ public class RestTest {
         Assert.assertEquals("xml", RestService.contentExtension("text/xml"));
         Assert.assertEquals("json", RestService.contentExtension("application/json"));
         Assert.assertEquals("bin", RestService.contentExtension("text/plain"));
+    }
+
+    @Test
+    public void post_form() throws Throwable {
+        RestParam rp = new RestParam("https://postman-echo.com/post");
+        rp.setMetodo(RestParam.Metodo.POST);
+        rp.getFormData().add("param_123", "value_123");
+
+        // FORM_URLENCODED
+        rp.setBodyType(RestParam.BodyType.FORM_URLENCODED);
+        RestResponseDto dto = RestService.perform(rp);
+        String content = new String(Files.readAllBytes(dto.getFile().toPath()));
+
+        Assert.assertTrue("not contains 'param_123'", content.contains("param_123"));
+        Assert.assertTrue("not contains 'application/x-www-form-urlencoded'", content.contains("param_123"));
+
+        // FORM_DATA
+        rp.setBodyType(RestParam.BodyType.FORM_DATA);
+        dto = RestService.perform(rp);
+        content = new String(Files.readAllBytes(dto.getFile().toPath()));
+
+        Assert.assertTrue("not contains 'param_123'", content.contains("param_123"));
+        Assert.assertTrue("not contains 'multipart/form-data'", content.contains("multipart/form-data"));
     }
 }

@@ -119,13 +119,28 @@
         </GridPane>
 
         <TabPane GridPane.rowIndex="1">
-            <Tab text="Form Data" closable="false">
+            <Tab text="Body" closable="false">
                 <GridPane hgap="10.0" vgap="10.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="ALWAYS" />
                     </columnConstraints>
 
                     <GridPane GridPane.rowIndex="0" hgap="10.0" vgap="10.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                        </columnConstraints>
+                        <RadioButton GridPane.columnIndex="0" toggleGroup="$tipBodyType" text="None" userData="NONE" mnemonicParsing="false" selected="true" />
+                        <RadioButton GridPane.columnIndex="1" toggleGroup="$tipBodyType" text="multipart/form-data" userData="FORM_DATA" mnemonicParsing="false" />
+                        <RadioButton GridPane.columnIndex="2" toggleGroup="$tipBodyType" text="application/x-www-form-urlencoded" userData="FORM_URLENCODED" mnemonicParsing="false" />
+                        <RadioButton GridPane.columnIndex="3" toggleGroup="$tipBodyType" text="RAW" userData="RAW" mnemonicParsing="false" />
+                        <RadioButton GridPane.columnIndex="4" toggleGroup="$tipBodyType" text="Binary / File" userData="BINARY" mnemonicParsing="false" />
+                    </GridPane>
+
+                    <GridPane GridPane.rowIndex="1" hgap="10.0" vgap="10.0">
                         <columnConstraints>
                             <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
                             <ColumnConstraints hgrow="ALWAYS" />
@@ -140,7 +155,7 @@
                         <Button fx:id="tblFormDataBtnRemove" onAction="#tblFormDataRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red" disable="true"/>
                     </GridPane>
 
-                    <TableView GridPane.rowIndex="1" editable="true" fx:id="tblFormData" disable="true">
+                    <TableView GridPane.rowIndex="2" editable="true" fx:id="tblFormData" disable="true">
                         <columns>
                             <TableColumn text="KEY">
                                 <cellValueFactory>

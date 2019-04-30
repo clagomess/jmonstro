@@ -75,6 +75,9 @@ public class RestForm {
     @FXML
     public PasswordField txtProxyPassword;
 
+    @FXML
+    public ToggleGroup tipBodyType;
+
     @NoArgsConstructor
     public static class KeyValueTable {
         private SimpleStringProperty key;

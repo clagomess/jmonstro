@@ -188,7 +188,7 @@
                         <Button onAction="#tblHeaderAddAction" GridPane.columnIndex="3" text="Add"/>
                         <Button onAction="#tblHeaderRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red"/>
                     </GridPane>
-                    <TableView GridPane.rowIndex="1" fx:id="tblHeader">
+                    <TableView GridPane.rowIndex="1" fx:id="tblHeader" editable="true">
                         <columns>
                             <TableColumn text="KEY">
                                 <cellValueFactory>
@@ -239,7 +239,7 @@
                         <Button onAction="#tblCookieRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red"/>
                     </GridPane>
 
-                    <TableView GridPane.rowIndex="1" fx:id="tblCookie">
+                    <TableView GridPane.rowIndex="1" fx:id="tblCookie" editable="true">
                         <columns>
                             <TableColumn text="KEY">
                                 <cellValueFactory>

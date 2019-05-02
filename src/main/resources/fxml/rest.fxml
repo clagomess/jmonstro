@@ -136,15 +136,11 @@
                             <ColumnConstraints hgrow="ALWAYS"/>
                         </columnConstraints>
 
-                        <!-- comentar quando usar o Scene Builder -->
-                        <fx:define>
-                            <ToggleGroup fx:id="tipBodyType" />
-                        </fx:define>
-                        <RadioButton GridPane.columnIndex="0" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="None" userData="NONE" mnemonicParsing="false" selected="true" />
-                        <RadioButton GridPane.columnIndex="1" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="multipart/form-data" userData="FORM_DATA" mnemonicParsing="false" />
-                        <RadioButton GridPane.columnIndex="2" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="application/x-www-form-urlencoded" userData="FORM_URLENCODED" mnemonicParsing="false" />
-                        <RadioButton GridPane.columnIndex="3" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="RAW" userData="RAW" mnemonicParsing="false" />
-                        <RadioButton GridPane.columnIndex="4" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="Binary / File" userData="BINARY" mnemonicParsing="false" />
+                        <RadioButton fx:id="rbBodyTypeNone" GridPane.columnIndex="0" onAction="#tipBodyTypeChange" text="None" userData="NONE" mnemonicParsing="false" selected="true" />
+                        <RadioButton fx:id="rbBodyTypeFormData" GridPane.columnIndex="1" onAction="#tipBodyTypeChange" text="multipart/form-data" userData="FORM_DATA" mnemonicParsing="false" />
+                        <RadioButton fx:id="rbBodyTypeFormUrlencoded" GridPane.columnIndex="2" onAction="#tipBodyTypeChange" text="application/x-www-form-urlencoded" userData="FORM_URLENCODED" mnemonicParsing="false" />
+                        <RadioButton fx:id="rbBodyTypeRaw" GridPane.columnIndex="3" onAction="#tipBodyTypeChange" text="RAW" userData="RAW" mnemonicParsing="false" />
+                        <RadioButton fx:id="rbBodyTypeBinary" GridPane.columnIndex="4" onAction="#tipBodyTypeChange" text="Binary / File" userData="BINARY" mnemonicParsing="false" />
                     </GridPane>
 
                     <GridPane fx:id="grpFormDataBtn" GridPane.rowIndex="1" hgap="10.0" vgap="10.0" visible="false">

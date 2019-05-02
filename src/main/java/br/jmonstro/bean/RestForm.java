@@ -5,13 +5,15 @@ import br.jmonstro.bean.postman.collection.Item;
 import br.jmonstro.bean.postman.collection.Request;
 import br.jmonstro.bean.postman.collection.request.Param;
 import br.jmonstro.bean.restform.KeyValueTable;
-import br.jmonstro.bean.restparam.BodyType;
+import br.jmonstro.bean.restparam.Method;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import lombok.Data;
+
+import java.util.Arrays;
 
 @Data
 public class RestForm {
@@ -35,7 +37,12 @@ public class RestForm {
     @FXML public TextField txtProxyUrl;
     @FXML public TextField txtProxyUsername;
     @FXML public PasswordField txtProxyPassword;
-    @FXML public ToggleGroup tipBodyType;
+    @FXML public ToggleGroup tipBodyType = new ToggleGroup();
+    @FXML public RadioButton rbBodyTypeNone;
+    @FXML public RadioButton rbBodyTypeFormData;
+    @FXML public RadioButton rbBodyTypeFormUrlencoded;
+    @FXML public RadioButton rbBodyTypeRaw;
+    @FXML public RadioButton rbBodyTypeBinary;
     @FXML public Tab tabBody;
     @FXML public GridPane grpFormDataBtn;
 
@@ -45,15 +52,23 @@ public class RestForm {
             this.txtUrl.setText(request.getUrl().getRaw());
 
             // BODY MODE
-            if(request.getBody() != null && request.getBody().getMode() != null){ //@TODO: fix select
+            if(
+                    Arrays.asList(Method.PUT.getValue(), Method.POST.getValue()).contains(request.getMethod()) &&
+                    request.getBody() != null &&
+                    request.getBody().getMode() != null
+            ){
                 switch (request.getBody().getMode()){
                     case "raw":
-                        this.tipBodyType.setUserData(BodyType.RAW.getValue());
+                        this.rbBodyTypeRaw.fire();
                         break;
                     case "urlencoded":
-                        this.tipBodyType.setUserData(BodyType.FORM_URLENCODED.getValue());
+                        this.rbBodyTypeFormUrlencoded.fire();
                         break;
+                    default:
+                        this.rbBodyTypeNone.fire();
                 }
+            }else{
+                this.rbBodyTypeNone.fire();
             }
 
             // FORM DATA

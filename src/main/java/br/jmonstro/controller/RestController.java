@@ -14,17 +14,20 @@ import br.jmonstro.service.PostmanService;
 import br.jmonstro.service.RestService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 @Slf4j
-public class RestController extends RestForm {
+public class RestController extends RestForm implements Initializable {
     private MainForm mainForm = null;
 
     void init(MainForm mainForm){
@@ -57,6 +60,15 @@ public class RestController extends RestForm {
                 Ui.alert(Alert.AlertType.ERROR, e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.rbBodyTypeNone.setToggleGroup(this.tipBodyType);
+        this.rbBodyTypeFormData.setToggleGroup(this.tipBodyType);
+        this.rbBodyTypeFormUrlencoded.setToggleGroup(this.tipBodyType);
+        this.rbBodyTypeRaw.setToggleGroup(this.tipBodyType);
+        this.rbBodyTypeBinary.setToggleGroup(this.tipBodyType);
     }
 
     public void executeAction(){

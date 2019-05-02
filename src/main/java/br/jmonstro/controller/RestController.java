@@ -5,6 +5,7 @@ import br.jmonstro.bean.RestForm;
 import br.jmonstro.bean.RestResponseDto;
 import br.jmonstro.bean.postman.Environment;
 import br.jmonstro.bean.restform.KeyValueTable;
+import br.jmonstro.bean.restparam.BodyType;
 import br.jmonstro.bean.restparam.Method;
 import br.jmonstro.bean.restparam.RestParam;
 import br.jmonstro.main.Ui;
@@ -109,18 +110,39 @@ public class RestController extends RestForm {
     }
 
     public void cbxMetodoAction(){
-        boolean disable = Method.valueOf(cbxMetodo.getValue()) == Method.GET;
+        Method method = Method.valueOf(cbxMetodo.getValue());
 
-        tblFormData.setDisable(disable);
-        txtBodyJson.setDisable(disable);
-        tblFormDataBtnAdd.setDisable(disable);
-        tblFormDataBtnRemove.setDisable(disable);
+        tabBody.setDisable(method == Method.GET || method == Method.DELETE);
     }
 
     public void tblFormDataAddAction(){
         tblFormData.getItems().add(new KeyValueTable(tblFormDataKey, tblFormDataValue));
         tblFormDataKey.setText("");
         tblFormDataValue.setText("");
+    }
+
+    public void tipBodyTypeChange(){
+        BodyType bodyType = BodyType.valueOf((String) tipBodyType.getSelectedToggle().getUserData());
+
+        // Desabilita tudo
+        this.grpFormDataBtn.setVisible(false);
+        this.tblFormData.setVisible(false);
+        this.txtBody.setVisible(false);
+
+        // Depois habilita conforme o tipo
+        switch (bodyType){
+            case FORM_URLENCODED: //@TODO: criar especifico para cada
+            case FORM_DATA:
+                this.grpFormDataBtn.setVisible(true);
+                this.tblFormData.setVisible(true);
+                break;
+            case RAW:
+                this.txtBody.setVisible(true);
+                break;
+            case BINARY:
+                //@TODO: implements
+                break;
+        }
     }
 
     public void tblFormDataRemoveAction(){

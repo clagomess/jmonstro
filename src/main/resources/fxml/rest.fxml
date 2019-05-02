@@ -111,6 +111,8 @@
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="GET" />
                         <String fx:value="POST" />
+                        <String fx:value="PUT" />
+                        <String fx:value="DELETE" />
                     </FXCollections>
                 </items>
             </ChoiceBox>
@@ -119,7 +121,7 @@
         </GridPane>
 
         <TabPane GridPane.rowIndex="1">
-            <Tab text="Body" closable="false">
+            <Tab fx:id="tabBody" text="Body" closable="false" disable="true">
                 <GridPane hgap="10.0" vgap="10.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="ALWAYS" />
@@ -133,14 +135,19 @@
                             <ColumnConstraints hgrow="ALWAYS"/>
                             <ColumnConstraints hgrow="ALWAYS"/>
                         </columnConstraints>
-                        <RadioButton GridPane.columnIndex="0" toggleGroup="$tipBodyType" text="None" userData="NONE" mnemonicParsing="false" selected="true" />
-                        <RadioButton GridPane.columnIndex="1" toggleGroup="$tipBodyType" text="multipart/form-data" userData="FORM_DATA" mnemonicParsing="false" />
-                        <RadioButton GridPane.columnIndex="2" toggleGroup="$tipBodyType" text="application/x-www-form-urlencoded" userData="FORM_URLENCODED" mnemonicParsing="false" />
-                        <RadioButton GridPane.columnIndex="3" toggleGroup="$tipBodyType" text="RAW" userData="RAW" mnemonicParsing="false" />
-                        <RadioButton GridPane.columnIndex="4" toggleGroup="$tipBodyType" text="Binary / File" userData="BINARY" mnemonicParsing="false" />
+
+                        <!-- comentar quando usar o Scene Builder -->
+                        <fx:define>
+                            <ToggleGroup fx:id="tipBodyType" />
+                        </fx:define>
+                        <RadioButton GridPane.columnIndex="0" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="None" userData="NONE" mnemonicParsing="false" selected="true" />
+                        <RadioButton GridPane.columnIndex="1" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="multipart/form-data" userData="FORM_DATA" mnemonicParsing="false" />
+                        <RadioButton GridPane.columnIndex="2" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="application/x-www-form-urlencoded" userData="FORM_URLENCODED" mnemonicParsing="false" />
+                        <RadioButton GridPane.columnIndex="3" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="RAW" userData="RAW" mnemonicParsing="false" />
+                        <RadioButton GridPane.columnIndex="4" toggleGroup="$tipBodyType" onAction="#tipBodyTypeChange" text="Binary / File" userData="BINARY" mnemonicParsing="false" />
                     </GridPane>
 
-                    <GridPane GridPane.rowIndex="1" hgap="10.0" vgap="10.0">
+                    <GridPane fx:id="grpFormDataBtn" GridPane.rowIndex="1" hgap="10.0" vgap="10.0" visible="false">
                         <columnConstraints>
                             <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
                             <ColumnConstraints hgrow="ALWAYS" />
@@ -155,7 +162,7 @@
                         <Button fx:id="tblFormDataBtnRemove" onAction="#tblFormDataRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red" disable="true"/>
                     </GridPane>
 
-                    <TableView GridPane.rowIndex="2" editable="true" fx:id="tblFormData" disable="true">
+                    <TableView GridPane.rowIndex="2" editable="true" fx:id="tblFormData" visible="false">
                         <columns>
                             <TableColumn text="KEY">
                                 <cellValueFactory>
@@ -178,6 +185,8 @@
                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                         </columnResizePolicy>
                     </TableView>
+
+                    <TextArea GridPane.rowIndex="2" fx:id="txtBody" promptText="Body RAW" visible="false"/>
 
                     <padding>
                         <Insets top="14.0" />
@@ -305,9 +314,7 @@
             </Tab>
         </TabPane>
 
-        <TextArea GridPane.rowIndex="2" fx:id="txtBodyJson" promptText="Body JSON" disable="true"/>
-
-        <GridPane GridPane.rowIndex="3" hgap="10.0" vgap="10.0">
+        <GridPane GridPane.rowIndex="2" hgap="10.0" vgap="10.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="ALWAYS"/>
                 <ColumnConstraints hgrow="ALWAYS"/>
@@ -329,7 +336,7 @@
             <Text GridPane.rowIndex="1" GridPane.columnIndex="4" text="-" fx:id="txtResponseSize"/>
         </GridPane>
 
-        <TableView GridPane.rowIndex="4" fx:id="tblResponseHeader" editable="true">
+        <TableView GridPane.rowIndex="3" fx:id="tblResponseHeader" editable="true">
             <columns>
                 <TableColumn text="Key">
                     <cellValueFactory>

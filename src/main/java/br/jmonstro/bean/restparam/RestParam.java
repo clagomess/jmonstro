@@ -35,7 +35,7 @@ public class RestParam {
         this.url = injectVar(form, form.txtUrl.getText());
 
         if(this.method == Method.POST || this.method == Method.PUT){
-            // this.body.setType(); @TODO: javafx
+            this.body.setType(BodyType.valueOf((String) form.tipBodyType.getSelectedToggle().getUserData()));
 
             switch (this.body.getType()){
                 case FORM_DATA:
@@ -53,7 +53,7 @@ public class RestParam {
                     }
                     break;
                 case RAW:
-                    this.body.setRaw(injectVar(form, form.txtBodyJson.getText())); //@TODO: change javafx var name
+                    this.body.setRaw(injectVar(form, form.txtBody.getText()));
                     break;
             }
         }

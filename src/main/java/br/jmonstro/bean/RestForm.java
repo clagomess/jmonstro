@@ -4,14 +4,12 @@ import br.jmonstro.bean.postman.Environment;
 import br.jmonstro.bean.postman.collection.Item;
 import br.jmonstro.bean.postman.collection.Request;
 import br.jmonstro.bean.postman.collection.request.Param;
+import br.jmonstro.bean.restform.KeyValueTable;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.commons.lang.StringUtils;
 
 @Data
 public class RestForm {
@@ -28,7 +26,7 @@ public class RestForm {
     public Button btnExecutar;
 
     @FXML
-    public TableView<RestForm.KeyValueTable> tblFormData;
+    public TableView<KeyValueTable> tblFormData;
 
     @FXML
     public TextField tblFormDataKey;
@@ -43,7 +41,7 @@ public class RestForm {
     public Button tblFormDataBtnRemove;
 
     @FXML
-    public TableView<RestForm.KeyValueTable> tblHeader;
+    public TableView<KeyValueTable> tblHeader;
 
     @FXML
     public TextField tblHeaderKey;
@@ -52,7 +50,7 @@ public class RestForm {
     public TextField tblHeaderValue;
 
     @FXML
-    public TableView<RestForm.KeyValueTable> tblCookie;
+    public TableView<KeyValueTable> tblCookie;
 
     @FXML
     public TextField tblCookieKey;
@@ -77,50 +75,6 @@ public class RestForm {
 
     @FXML
     public ToggleGroup tipBodyType;
-
-    @NoArgsConstructor
-    public static class KeyValueTable {
-        private SimpleStringProperty key;
-        private SimpleStringProperty value;
-
-        public KeyValueTable(TextField key, TextField value){
-            this.key = new SimpleStringProperty(key.getText());
-            this.value = new SimpleStringProperty(value.getText());
-        }
-
-        public KeyValueTable(String key, String value){
-            this.key = new SimpleStringProperty(key);
-            this.value = new SimpleStringProperty(value);
-        }
-
-        public boolean isEmpty(){
-            return StringUtils.isEmpty(getKey()) || StringUtils.isEmpty(getValue());
-        }
-
-        public String getKey() {
-            return key.get();
-        }
-
-        public SimpleStringProperty keyProperty() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key.set(key);
-        }
-
-        public String getValue() {
-            return value.get();
-        }
-
-        public SimpleStringProperty valueProperty() {
-            return value;
-        }
-
-        public void setValue(String value) {
-            this.value.set(value);
-        }
-    }
 
     public void setFormValue(Request request){
         Platform.runLater(() -> {
@@ -156,10 +110,10 @@ public class RestForm {
     public ChoiceBox<Environment> cbxEnviroment;
 
     @FXML
-    public TableView<RestForm.KeyValueTable> tblEnviroment;
+    public TableView<KeyValueTable> tblEnviroment;
 
     @FXML
-    public TableView<RestForm.KeyValueTable> tblGlobal;
+    public TableView<KeyValueTable> tblGlobal;
 
     @FXML
     public Text txtResponseMethod;
@@ -177,5 +131,5 @@ public class RestForm {
     public Text txtResponseSize;
 
     @FXML
-    public TableView<RestForm.KeyValueTable> tblResponseHeader;
+    public TableView<KeyValueTable> tblResponseHeader;
 }

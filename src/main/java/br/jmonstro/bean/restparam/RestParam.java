@@ -1,6 +1,7 @@
 package br.jmonstro.bean.restparam;
 
 import br.jmonstro.bean.RestForm;
+import br.jmonstro.bean.restform.KeyValueTable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;
@@ -38,14 +39,14 @@ public class RestParam {
 
             switch (this.body.getType()){
                 case FORM_DATA:
-                    for(RestForm.KeyValueTable item : form.tblFormData.getItems()){
+                    for(KeyValueTable item : form.tblFormData.getItems()){
                         if(!item.isEmpty()) {
                             this.body.getFormData().field(item.getKey(), injectVar(form, item.getValue()));
                         }
                     }
                     break;
                 case FORM_URLENCODED:
-                    for(RestForm.KeyValueTable item : form.tblFormData.getItems()){
+                    for(KeyValueTable item : form.tblFormData.getItems()){
                         if(!item.isEmpty()) {
                             this.body.getFormUrlencoded().add(item.getKey(), injectVar(form, item.getValue()));
                         }
@@ -57,13 +58,13 @@ public class RestParam {
             }
         }
 
-        for(RestForm.KeyValueTable item : form.tblHeader.getItems()){
+        for(KeyValueTable item : form.tblHeader.getItems()){
             if(!item.isEmpty()) {
                 this.header.add(item.getKey(), injectVar(form, item.getValue()));
             }
         }
 
-        for(RestForm.KeyValueTable item : form.tblCookie.getItems()){
+        for(KeyValueTable item : form.tblCookie.getItems()){
             if(!item.isEmpty()) {
                 this.cookie.put(item.getKey(), injectVar(form, item.getValue()));
             }
@@ -83,11 +84,11 @@ public class RestParam {
             return input;
         }
 
-        for(RestForm.KeyValueTable item : form.tblEnviroment.getItems()){
+        for(KeyValueTable item : form.tblEnviroment.getItems()){
             input = input.replace(String.format("{{%s}}", item.getKey()), item.getValue());
         }
 
-        for(RestForm.KeyValueTable item : form.tblGlobal.getItems()){
+        for(KeyValueTable item : form.tblGlobal.getItems()){
             input = input.replace(String.format("{{%s}}", item.getKey()), item.getValue());
         }
 

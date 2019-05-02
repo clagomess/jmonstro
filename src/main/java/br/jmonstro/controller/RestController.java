@@ -4,6 +4,7 @@ import br.jmonstro.bean.MainForm;
 import br.jmonstro.bean.RestForm;
 import br.jmonstro.bean.RestResponseDto;
 import br.jmonstro.bean.postman.Environment;
+import br.jmonstro.bean.restform.KeyValueTable;
 import br.jmonstro.bean.restparam.Method;
 import br.jmonstro.bean.restparam.RestParam;
 import br.jmonstro.main.Ui;

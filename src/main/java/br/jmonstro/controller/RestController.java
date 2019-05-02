@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -75,9 +76,9 @@ public class RestController extends RestForm {
                 Platform.runLater(() -> {
                     txtResponseMethod.setText(dto.getMethod());
                     txtResponseUrl.setText(dto.getUrl());
-                    txtResponseTime.setText(dto.getTime().toString()); // @TODO: format
-                    txtResponseStatus.setText(dto.getStatus().toString()); // @TODO: format
-                    txtResponseSize.setText(dto.getSize().toString()); // @TODO: format
+                    txtResponseTime.setText(dto.getTime().toString() + " ms");
+                    txtResponseStatus.setText(dto.getStatus().toString());
+                    txtResponseSize.setText(FileUtils.byteCountToDisplaySize(dto.getSize()));
 
                     tblResponseHeader.getItems().remove(0, tblResponseHeader.getItems().size());
 

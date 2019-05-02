@@ -5,6 +5,7 @@ import br.jmonstro.bean.postman.collection.Item;
 import br.jmonstro.bean.postman.collection.Request;
 import br.jmonstro.bean.postman.collection.request.Param;
 import br.jmonstro.bean.restform.KeyValueTable;
+import br.jmonstro.bean.restparam.BodyType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -42,6 +43,18 @@ public class RestForm {
         Platform.runLater(() -> {
             this.cbxMetodo.setValue(request.getMethod());
             this.txtUrl.setText(request.getUrl().getRaw());
+
+            // BODY MODE
+            if(request.getBody() != null && request.getBody().getMode() != null){ //@TODO: fix select
+                switch (request.getBody().getMode()){
+                    case "raw":
+                        this.tipBodyType.setUserData(BodyType.RAW.getValue());
+                        break;
+                    case "urlencoded":
+                        this.tipBodyType.setUserData(BodyType.FORM_URLENCODED.getValue());
+                        break;
+                }
+            }
 
             // FORM DATA
             tblFormData.getItems().remove(0, tblFormData.getItems().size());

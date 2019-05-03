@@ -107,9 +107,8 @@ public class RestController extends RestForm implements Initializable {
                 // reponse data
                 Platform.runLater(() -> {
                     txtResponseMethod.setText(dto.getMethod());
-                    txtResponseUrl.setText(dto.getUrl());
                     txtResponseTime.setText(dto.getTime().toString() + " ms");
-                    txtResponseStatus.setText(dto.getStatus().toString());
+                    txtResponseStatus.setText(dto.getStatus());
                     txtResponseSize.setText(FileUtils.byteCountToDisplaySize(dto.getSize()));
 
                     tblResponseHeader.getItems().remove(0, tblResponseHeader.getItems().size());

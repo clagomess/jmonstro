@@ -154,8 +154,8 @@
                         <Label text="Form Data" GridPane.rowIndex="0" />
                         <TextField fx:id="tblFormDataKey" GridPane.columnIndex="1" promptText="KEY" />
                         <TextField fx:id="tblFormDataValue" GridPane.columnIndex="2" promptText="VALUE" />
-                        <Button fx:id="tblFormDataBtnAdd" onAction="#tblFormDataAddAction" GridPane.columnIndex="3" text="Add" disable="true"/>
-                        <Button fx:id="tblFormDataBtnRemove" onAction="#tblFormDataRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red" disable="true"/>
+                        <Button fx:id="tblFormDataBtnAdd" onAction="#tblFormDataAddAction" GridPane.columnIndex="3" text="Add"/>
+                        <Button fx:id="tblFormDataBtnRemove" onAction="#tblFormDataRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red"/>
                     </GridPane>
 
                     <TableView GridPane.rowIndex="2" editable="true" fx:id="tblFormData" visible="false">
@@ -328,17 +328,14 @@
                 <ColumnConstraints hgrow="ALWAYS"/>
                 <ColumnConstraints hgrow="ALWAYS"/>
                 <ColumnConstraints hgrow="ALWAYS"/>
-                <ColumnConstraints hgrow="ALWAYS"/>
             </columnConstraints>
 
             <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Method" />
-            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" text="URL" />
             <Label GridPane.rowIndex="0" GridPane.columnIndex="2" text="Time" />
             <Label GridPane.rowIndex="0" GridPane.columnIndex="3" text="Status" />
             <Label GridPane.rowIndex="0" GridPane.columnIndex="4" text="Size" />
 
             <Text GridPane.rowIndex="1" GridPane.columnIndex="0" text="-" fx:id="txtResponseMethod"/>
-            <Text GridPane.rowIndex="1" GridPane.columnIndex="1" text="-" fx:id="txtResponseUrl"/>
             <Text GridPane.rowIndex="1" GridPane.columnIndex="2" text="-" fx:id="txtResponseTime"/>
             <Text GridPane.rowIndex="1" GridPane.columnIndex="3" text="-" fx:id="txtResponseStatus"/>
             <Text GridPane.rowIndex="1" GridPane.columnIndex="4" text="-" fx:id="txtResponseSize"/>

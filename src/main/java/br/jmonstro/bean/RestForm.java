@@ -136,7 +136,6 @@ public class RestForm {
     @FXML public TableView<KeyValueTable> tblEnviroment;
     @FXML public TableView<KeyValueTable> tblGlobal;
     @FXML public Text txtResponseMethod;
-    @FXML public Text txtResponseUrl;
     @FXML public Text txtResponseTime;
     @FXML public Text txtResponseStatus;
     @FXML public Text txtResponseSize;

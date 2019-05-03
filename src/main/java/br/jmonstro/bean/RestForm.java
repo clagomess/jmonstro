@@ -15,6 +15,7 @@ import lombok.Data;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
+import java.util.Base64;
 
 @Data
 public class RestForm {
@@ -97,6 +98,35 @@ public class RestForm {
 
             // BODY RAW
             txtRaw.setText(request.getBody().getRaw());
+
+            // AUTH - BEARER
+            if(request.getAuth() != null && "bearer".equals(request.getAuth().getType())){
+                this.tblHeader.getItems().add(new KeyValueTable(
+                   "Authorization",
+                   "Bearer " + request.getAuth().getBearer().get(0).getValue()
+                ));
+            }
+
+            // AUTH - BASIC
+            if(request.getAuth() != null && "basic".equals(request.getAuth().getType())){
+                String username = "";
+                String password = "";
+
+                for(Param param : request.getAuth().getBasic()){
+                    if("username".equals(param.getKey())){
+                        username = param.getValue();
+                    }
+
+                    if("password".equals(param.getKey())){
+                        password = param.getValue();
+                    }
+                }
+
+                this.tblHeader.getItems().add(new KeyValueTable(
+                    "Authorization",
+                    "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes())
+                ));
+            }
         });
     }
 

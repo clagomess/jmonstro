@@ -182,13 +182,8 @@
                         </columnResizePolicy>
                     </TableView>
 
-                    <GridPane fx:id="grpRaw" GridPane.rowIndex="1" hgap="10.0" vgap="10.0" visible="false">
-                        <columnConstraints>
-                            <ColumnConstraints hgrow="ALWAYS" />
-                        </columnConstraints>
-                        <ChoiceBox fx:id="cbxRawContentType" GridPane.rowIndex="0"/>
-                        <TextArea fx:id="txtRaw" GridPane.rowIndex="1" promptText="Body RAW"/>
-                    </GridPane>
+                    <ChoiceBox fx:id="cbxRawContentType" GridPane.rowIndex="1" visible="false"/>
+                    <TextArea fx:id="txtRaw" GridPane.rowIndex="2" visible="false" promptText="Body RAW"/>
 
                     <GridPane fx:id="grpBinary" GridPane.rowIndex="1" hgap="10.0" vgap="10.0" visible="false">
                         <columnConstraints>

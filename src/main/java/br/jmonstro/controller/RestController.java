@@ -158,7 +158,8 @@ public class RestController extends RestForm implements Initializable {
         // Desabilita tudo
         this.grpFormDataBtn.setVisible(false);
         this.tblFormData.setVisible(false);
-        this.grpRaw.setVisible(false);
+        this.cbxRawContentType.setVisible(false);
+        this.txtRaw.setVisible(false);
         this.grpBinary.setVisible(false);
 
         // Depois habilita conforme o tipo
@@ -169,7 +170,8 @@ public class RestController extends RestForm implements Initializable {
                 this.tblFormData.setVisible(true);
                 break;
             case RAW:
-                this.grpRaw.setVisible(true);
+                this.cbxRawContentType.setVisible(true);
+                this.txtRaw.setVisible(true);
                 break;
             case BINARY:
                 this.grpBinary.setVisible(true);

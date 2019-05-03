@@ -49,7 +49,6 @@ public class RestForm {
     @FXML public GridPane grpBinary;
     @FXML public ChoiceBox<MediaType> cbxBinaryContentType;
     @FXML public TextField txtBinaryPath;
-    @FXML public GridPane grpRaw;
     @FXML public ChoiceBox<MediaType> cbxRawContentType;
 
     public void setFormValue(Request request){

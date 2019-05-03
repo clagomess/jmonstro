@@ -70,6 +70,9 @@ public class RestForm {
                     case "urlencoded":
                         this.rbBodyTypeFormUrlencoded.fire();
                         break;
+                    case "formdata":
+                        this.rbBodyTypeFormData.fire();
+                        break;
                     default:
                         this.rbBodyTypeNone.fire();
                 }

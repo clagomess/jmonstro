@@ -1,3 +1,6 @@
 .idea
 *.iml
-target
+/target
+/temp
+/postman_environments
+/postman_collections

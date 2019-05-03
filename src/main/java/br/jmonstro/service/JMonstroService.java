@@ -7,11 +7,13 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.json.XML;
 
 import javax.json.*;
 import javax.json.stream.JsonParser;
+import javax.ws.rs.core.MediaType;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -44,29 +46,37 @@ public class JMonstroService {
                 JMonstroService jMonstroService = new JMonstroService();
                 File nFile = file;
 
-                if(file.getName().toLowerCase().contains(".xml")){
+                if(StringUtils.containsIgnoreCase(file.getName(), ".xml")){
                     nFile = jMonstroService.parseXml(file);
                 }
 
-                if(!nFile.getName().toLowerCase().contains(".json")){
-                    throw new Exception("O arquivo só pode ser um JSON ou um XML");
-                }
+                if(StringUtils.containsIgnoreCase(nFile.getName(), ".json")){
+                    TreeItem<String> root = jMonstroService.getTree(nFile);
 
-                TreeItem<String> root = jMonstroService.getTree(nFile);
+                    Platform.runLater(() -> {
+                        mainForm.getTree().setVisible(true);
+                        mainForm.getWebView().setVisible(false);
 
-                Platform.runLater(() -> {
-                    mainForm.getTree().setRoot(root);
-                    mainForm.getTree().getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
-                        if(nv != null) {
-                            mainForm.getTxtValor().setText(HexViewerService.parse(nv.getValue()));
-                        }
+                        mainForm.getTree().setRoot(root);
+                        mainForm.getTree().getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
+                            if(nv != null) {
+                                mainForm.getTxtValor().setText(HexViewerService.parse(nv.getValue()));
+                            }
+                        });
+
+                        mainForm.getProgress().setProgress(0);
                     });
+                }else{
+                    Platform.runLater(() -> {
+                        mainForm.getProgress().setProgress(0);
 
-                    mainForm.getProgress().setProgress(0);
-                });
+                        mainForm.getTree().setVisible(false);
+                        mainForm.getWebView().setVisible(true);
+                        mainForm.getWebView().getEngine().load("file://" + file.getAbsolutePath());
+                    });
+                }
             }catch (Throwable e){
                 log.error(JMonstroService.class.getName(), e);
-                Platform.runLater(() -> mainForm.getProgress().setProgress(0));
                 Ui.alert(Alert.AlertType.ERROR, e.toString());
             }
         }).start();
@@ -182,8 +192,27 @@ public class JMonstroService {
         }
     }
 
+    static File writeFile(String fileContent, MediaType mediaType) throws IOException {
+        String ext = mediaType == null || mediaType.getSubtype() == null ? "txt" : mediaType.getSubtype();
+
+        return writeFile(fileContent, ext);
+    }
+
     static File writeFile(String fileContent, String fileExtension) throws IOException {
-        File file = new File(UUID.randomUUID().toString() + "." + fileExtension);
+        // mkdir
+        File dir = new File("temp");
+        if(!dir.isDirectory()){
+            dir.mkdir();
+        }
+
+        final String filename = String.format(
+            "temp%s%s.%s",
+            File.separator,
+            UUID.randomUUID().toString(),
+            fileExtension
+        );
+
+        File file = new File(filename);
         Writer bw = new BufferedWriter(new FileWriter(file));
         bw.write(fileContent);
         bw.flush();

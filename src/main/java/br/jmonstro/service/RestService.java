@@ -1,34 +1,42 @@
 package br.jmonstro.service;
 
-import br.jmonstro.bean.RestParam;
+import br.jmonstro.bean.RestResponseDto;
+import br.jmonstro.bean.restparam.RestParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
+import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.Response;
-import java.io.File;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @Slf4j
 public class RestService {
-    public static File get(RestParam restParam) throws Throwable {
-        Client client;
+    public static RestResponseDto perform(RestParam restParam) throws Throwable {
+        ClientConfig config = new ClientConfig();
+        config.property(ClientProperties.FOLLOW_REDIRECTS, true);
+        config.property(ClientProperties.CONNECT_TIMEOUT, 1000 * 10);
+        config.register(MultiPartFeature.class);
 
         if(restParam.getProxy() != null){
-            ClientConfig config = new ClientConfig();
             config.connectorProvider(new ApacheConnectorProvider());
             config.property(ClientProperties.PROXY_URI, restParam.getProxy().getUri());
             config.property(ClientProperties.PROXY_USERNAME, restParam.getProxy().getUsername());
             config.property(ClientProperties.PROXY_PASSWORD, restParam.getProxy().getPassword());
-            client = ClientBuilder.newClient(config);
-        }else{
-            client = ClientBuilder.newClient();
         }
 
-        client.property(ClientProperties.CONNECT_TIMEOUT, 1000 * 10);
+        ClientBuilder clientBuilder = ClientBuilder.newBuilder();
+        clientBuilder.withConfig(config);
+        clientBuilder.sslContext(sslContext());
+        Client client = clientBuilder.build();
 
         WebTarget webTarget = client.target(restParam.getUrl());
         Invocation.Builder invocationBuilder = webTarget.request();
@@ -41,31 +49,64 @@ public class RestService {
         }
 
         Response response;
+        long requestTime = System.currentTimeMillis();
 
-        if(restParam.getMetodo() == RestParam.Metodo.POST){
-            response = invocationBuilder.post(!StringUtils.isEmpty(restParam.getBody()) ? Entity.json(restParam.getBody()) : Entity.form(restParam.getFormData()));
-        }else{
-            response = invocationBuilder.get();
+        // request
+        switch (restParam.getMethod()){
+            case POST:
+                response = invocationBuilder.post(buildEntity(restParam));
+                break;
+            case PUT:
+                response = invocationBuilder.put(buildEntity(restParam));
+                break;
+            case DELETE:
+                response = invocationBuilder.delete();
+                break;
+            case GET:
+            default:
+                response = invocationBuilder.get();
+                break;
         }
+
+        requestTime = System.currentTimeMillis() - requestTime;
 
         String responseContent = response.readEntity(String.class);
 
-        return JMonstroService.writeFile(responseContent, contentExtension(response.getHeaderString("content-type")));
+        // build dto
+        RestResponseDto dto = new RestResponseDto();
+        dto.setUrl(restParam.getUrl());
+        dto.setMethod(restParam.getMethod().getValue());
+        dto.setSize(responseContent.length());
+        dto.setHeaders(response.getStringHeaders());
+        dto.setStatus(response.getStatus() + " - " + response.getStatusInfo().getReasonPhrase());
+        dto.setFile(JMonstroService.writeFile(responseContent, response.getMediaType()));
+        dto.setTime(requestTime);
+
+        return dto;
     }
 
-    static String contentExtension(String contentType){
-        if(contentType.contains("text/html")){
-            return "html";
+    private static Entity buildEntity(RestParam restParam){
+        Entity toReturn = Entity.text(null);
+
+        switch (restParam.getBody().getType()){
+            case FORM_URLENCODED:
+                toReturn = Entity.form(restParam.getBody().getFormUrlencoded());
+                break;
+            case FORM_DATA:
+                toReturn = Entity.entity(restParam.getBody().getFormData(), restParam.getBody().getFormData().getMediaType());
+                break;
+            case RAW:
+                toReturn = Entity.entity(restParam.getBody().getRaw(), restParam.getBody().getRawContentType());
+                break;
+            case BINARY:
+                toReturn = Entity.entity(restParam.getBody().getBinary(), restParam.getBody().getBinaryContentType());
+                break;
         }
 
-        if(contentType.contains("text/xml")){
-            return "xml";
-        }
+        return toReturn;
+    }
 
-        if(contentType.contains("application/json")){
-            return "json";
-        }
-
-        return "bin";
+    private static SSLContext sslContext() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+        return SSLContexts.custom().loadTrustMaterial(null, (TrustStrategy) (x509Certificates, authType) -> true).build();
     }
 }

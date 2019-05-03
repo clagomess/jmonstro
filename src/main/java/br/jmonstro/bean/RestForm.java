@@ -1,112 +1,144 @@
 package br.jmonstro.bean;
 
-import javafx.beans.property.SimpleStringProperty;
+import br.jmonstro.bean.postman.Environment;
+import br.jmonstro.bean.postman.collection.Item;
+import br.jmonstro.bean.postman.collection.Request;
+import br.jmonstro.bean.postman.collection.request.Param;
+import br.jmonstro.bean.restform.KeyValueTable;
+import br.jmonstro.bean.restparam.Method;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.commons.lang.StringUtils;
+
+import javax.ws.rs.core.MediaType;
+import java.util.Arrays;
+import java.util.Base64;
 
 @Data
 public class RestForm {
-    @FXML
-    protected ChoiceBox<String> cbxMetodo;
+    @FXML public SplitPane mainPane;
+    @FXML public ChoiceBox<String> cbxMetodo;
+    @FXML public TextField txtUrl;
+    @FXML public Button btnExecutar;
+    @FXML public TableView<KeyValueTable> tblFormData;
+    @FXML public TextField tblFormDataKey;
+    @FXML public TextField tblFormDataValue;
+    @FXML public Button tblFormDataBtnAdd;
+    @FXML public Button tblFormDataBtnRemove;
+    @FXML public TableView<KeyValueTable> tblHeader;
+    @FXML public TextField tblHeaderKey;
+    @FXML public TextField tblHeaderValue;
+    @FXML public TableView<KeyValueTable> tblCookie;
+    @FXML public TextField tblCookieKey;
+    @FXML public TextField tblCookieValue;
+    @FXML public TextArea txtRaw;
+    @FXML public CheckBox chxProxy;
+    @FXML public TextField txtProxyUrl;
+    @FXML public TextField txtProxyUsername;
+    @FXML public PasswordField txtProxyPassword;
+    @FXML public ToggleGroup tipBodyType = new ToggleGroup();
+    @FXML public RadioButton rbBodyTypeNone;
+    @FXML public RadioButton rbBodyTypeFormData;
+    @FXML public RadioButton rbBodyTypeFormUrlencoded;
+    @FXML public RadioButton rbBodyTypeRaw;
+    @FXML public RadioButton rbBodyTypeBinary;
+    @FXML public Tab tabBody;
+    @FXML public GridPane grpFormDataBtn;
+    @FXML public GridPane grpBinary;
+    @FXML public ChoiceBox<MediaType> cbxBinaryContentType;
+    @FXML public TextField txtBinaryPath;
+    @FXML public ChoiceBox<MediaType> cbxRawContentType;
 
-    @FXML
-    protected TextField txtUrl;
+    public void setFormValue(Request request){
+        Platform.runLater(() -> {
+            this.cbxMetodo.setValue(request.getMethod());
+            this.txtUrl.setText(request.getUrl().getRaw());
 
-    @FXML
-    protected Button btnExecutar;
+            // BODY MODE
+            if(
+                    Arrays.asList(Method.PUT.getValue(), Method.POST.getValue()).contains(request.getMethod()) &&
+                    request.getBody() != null &&
+                    request.getBody().getMode() != null
+            ){
+                switch (request.getBody().getMode()){
+                    case "raw":
+                        this.rbBodyTypeRaw.fire();
+                        break;
+                    case "urlencoded":
+                        this.rbBodyTypeFormUrlencoded.fire();
+                        break;
+                    case "formdata":
+                        this.rbBodyTypeFormData.fire();
+                        break;
+                    default:
+                        this.rbBodyTypeNone.fire();
+                }
+            }else{
+                this.rbBodyTypeNone.fire();
+            }
 
-    @FXML
-    protected TableView<RestForm.KeyValueTable> tblFormData;
+            // FORM DATA
+            tblFormData.getItems().remove(0, tblFormData.getItems().size());
+            if(request.getBody().getFormdata() != null) {
+                for (Param param : request.getBody().getFormdata()) {
+                    this.tblFormData.getItems().add(new KeyValueTable(param.getKey(), param.getValue()));
+                }
+            }
 
-    @FXML
-    protected TextField tblFormDataKey;
+            // HEADER
+            tblHeader.getItems().remove(0, tblHeader.getItems().size());
+            if(request.getHeader() != null) {
+                for (Param param : request.getHeader()) {
+                    this.tblHeader.getItems().add(new KeyValueTable(param.getKey(), param.getValue()));
+                }
+            }
 
-    @FXML
-    protected TextField tblFormDataValue;
+            // BODY RAW
+            txtRaw.setText(request.getBody().getRaw());
 
-    @FXML
-    protected Button tblFormDataBtnAdd;
+            // AUTH - BEARER
+            if(request.getAuth() != null && "bearer".equals(request.getAuth().getType())){
+                this.tblHeader.getItems().add(new KeyValueTable(
+                   "Authorization",
+                   "Bearer " + request.getAuth().getBearer().get(0).getValue()
+                ));
+            }
 
-    @FXML
-    protected Button tblFormDataBtnRemove;
+            // AUTH - BASIC
+            if(request.getAuth() != null && "basic".equals(request.getAuth().getType())){
+                String username = "";
+                String password = "";
 
-    @FXML
-    protected TableView<RestForm.KeyValueTable> tblHeader;
+                for(Param param : request.getAuth().getBasic()){
+                    if("username".equals(param.getKey())){
+                        username = param.getValue();
+                    }
 
-    @FXML
-    protected TextField tblHeaderKey;
+                    if("password".equals(param.getKey())){
+                        password = param.getValue();
+                    }
+                }
 
-    @FXML
-    protected TextField tblHeaderValue;
-
-    @FXML
-    protected TableView<RestForm.KeyValueTable> tblCookie;
-
-    @FXML
-    protected TextField tblCookieKey;
-
-    @FXML
-    protected TextField tblCookieValue;
-
-    @FXML
-    protected TextArea txtBodyJson;
-
-    @FXML
-    protected CheckBox chxProxy;
-
-    @FXML
-    protected TextField txtProxyUrl;
-
-    @FXML
-    protected TextField txtProxyUsername;
-
-    @FXML
-    protected PasswordField txtProxyPassword;
-
-    @NoArgsConstructor
-    public static class KeyValueTable {
-        private SimpleStringProperty key;
-        private SimpleStringProperty value;
-
-        public KeyValueTable(TextField key, TextField value){
-            this.key = new SimpleStringProperty(key.getText());
-            this.value = new SimpleStringProperty(value.getText());
-        }
-
-        public KeyValueTable(String key, String value){
-            this.key = new SimpleStringProperty(key);
-            this.value = new SimpleStringProperty(value);
-        }
-
-        public boolean isEmpty(){
-            return StringUtils.isEmpty(getKey()) || StringUtils.isEmpty(getValue());
-        }
-
-        public String getKey() {
-            return key.get();
-        }
-
-        public SimpleStringProperty keyProperty() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key.set(key);
-        }
-
-        public String getValue() {
-            return value.get();
-        }
-
-        public SimpleStringProperty valueProperty() {
-            return value;
-        }
-
-        public void setValue(String value) {
-            this.value.set(value);
-        }
+                this.tblHeader.getItems().add(new KeyValueTable(
+                    "Authorization",
+                    "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes())
+                ));
+            }
+        });
     }
+
+    // POSTMAN PANE
+    @FXML public TreeView<Item> postmanCollection;
+    @FXML public ChoiceBox<Environment> cbxEnviroment;
+    @FXML public TableView<KeyValueTable> tblEnviroment;
+    @FXML public TableView<KeyValueTable> tblGlobal;
+    @FXML public Text txtResponseMethod;
+    @FXML public Text txtResponseUrl;
+    @FXML public Text txtResponseTime;
+    @FXML public Text txtResponseStatus;
+    @FXML public Text txtResponseSize;
+    @FXML public TableView<KeyValueTable> tblResponseHeader;
 }

@@ -1,6 +1,9 @@
 package br.jmonstro.service;
 
-import br.jmonstro.bean.RestParam;
+import br.jmonstro.bean.RestResponseDto;
+import br.jmonstro.bean.restparam.BodyType;
+import br.jmonstro.bean.restparam.Method;
+import br.jmonstro.bean.restparam.RestParam;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -36,14 +39,30 @@ public class RestTest {
                                 .withBody(new String(Files.readAllBytes(json.toPath())))
                 );
 
-        RestService.get(new RestParam("http://127.0.0.1:8888/sample_01.json"));
+        RestService.perform(new RestParam("http://127.0.0.1:8888/sample_01.json"));
     }
 
     @Test
-    public void contentExtension() {
-        Assert.assertEquals("html", RestService.contentExtension("text/html"));
-        Assert.assertEquals("xml", RestService.contentExtension("text/xml"));
-        Assert.assertEquals("json", RestService.contentExtension("application/json"));
-        Assert.assertEquals("bin", RestService.contentExtension("text/plain"));
+    public void post_form() throws Throwable {
+        RestParam rp = new RestParam("https://postman-echo.com/post");
+        rp.setMethod(Method.POST);
+
+        // FORM_URLENCODED
+        rp.getBody().setType(BodyType.FORM_URLENCODED);
+        rp.getBody().getFormUrlencoded().add("param_123", "value_123");
+        RestResponseDto dto = RestService.perform(rp);
+        String content = new String(Files.readAllBytes(dto.getFile().toPath()));
+
+        Assert.assertTrue("not contains 'param_123'", content.contains("param_123"));
+        Assert.assertTrue("not contains 'application/x-www-form-urlencoded'", content.contains("param_123"));
+
+        // FORM_DATA
+        rp.getBody().setType(BodyType.FORM_DATA);
+        rp.getBody().getFormData().field("param_123", "value_123");
+        dto = RestService.perform(rp);
+        content = new String(Files.readAllBytes(dto.getFile().toPath()));
+
+        Assert.assertTrue("not contains 'param_123'", content.contains("param_123"));
+        Assert.assertTrue("not contains 'multipart/form-data'", content.contains("multipart/form-data"));
     }
 }

@@ -133,7 +133,7 @@ public class MainController extends MainForm {
         Stage stage = new Stage();
         stage.setTitle("REST");
         stage.getIcons().add(new Image("icon.png"));
-        stage.setScene(new Scene(loader.getRoot(), 640, 600));
+        stage.setScene(new Scene(loader.getRoot(), 800, 600));
         stage.show();
 
         RestController hvc = loader.getController();

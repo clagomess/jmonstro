@@ -6,159 +6,370 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.String?>
-<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.jmonstro.controller.RestController">
-    <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS" />
-    </columnConstraints>
 
-    <GridPane GridPane.rowIndex="1">
+<?import javafx.scene.text.Text?>
+<SplitPane
+        dividerPositions="0.25"
+        maxHeight="-Infinity"
+        maxWidth="-Infinity"
+        minHeight="-Infinity"
+        minWidth="-Infinity"
+        prefHeight="600.0"
+        prefWidth="800.0"
+        xmlns="http://javafx.com/javafx/8"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="br.jmonstro.controller.RestController"
+        fx:id="mainPane"
+>
+    <!-- POSTMAN COLLECTION -->
+    <GridPane hgap="10.0" vgap="10.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
             <ColumnConstraints hgrow="ALWAYS" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" maxWidth="80"/>
         </columnConstraints>
-        <ChoiceBox fx:id="cbxMetodo" onAction="#cbxMetodoAction" value="GET" GridPane.columnIndex="0">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="GET" />
-                    <String fx:value="POST" />
-                </FXCollections>
-            </items>
-        </ChoiceBox>
-        <TextField fx:id="txtUrl" GridPane.columnIndex="1" promptText="URL" />
-        <Button fx:id="btnExecutar" onAction="#executeAction" GridPane.columnIndex="2" text="Executar" style="-fx-base: #337ab7"/>
+
+        <GridPane GridPane.rowIndex="0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+            <Label text="Environment:" GridPane.columnIndex="0" />
+            <ChoiceBox GridPane.columnIndex="1" fx:id="cbxEnviroment" onAction="#cbxEnviromentAction"/>
+        </GridPane>
+
+        <TableView GridPane.rowIndex="1" editable="true" fx:id="tblEnviroment">
+            <columns>
+                <TableColumn text="Variable">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="key" />
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn" />
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn text="Value">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="value" />
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn" />
+                    </cellFactory>
+                </TableColumn>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+
+        <Label text="Globals:" GridPane.rowIndex="2" />
+
+        <TableView GridPane.rowIndex="3" editable="true" fx:id="tblGlobal">
+            <columns>
+                <TableColumn text="Variable">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="key" />
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn" />
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn text="Value">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="value" />
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn" />
+                    </cellFactory>
+                </TableColumn>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+
+        <Label text="Postman Collections:" GridPane.rowIndex="4" />
+        <TreeView fx:id="postmanCollection" GridPane.rowIndex="5"/>
+
+        <padding>
+            <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+        </padding>
     </GridPane>
 
-    <GridPane GridPane.rowIndex="2" hgap="10.0" vgap="10.0">
+    <!-- REST MAIN -->
+    <GridPane hgap="10.0" vgap="10.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
             <ColumnConstraints hgrow="ALWAYS" />
-            <ColumnConstraints hgrow="ALWAYS" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
         </columnConstraints>
-        <Label text="Form Data" GridPane.rowIndex="0" />
-        <TextField fx:id="tblFormDataKey" GridPane.columnIndex="1" promptText="KEY" />
-        <TextField fx:id="tblFormDataValue" GridPane.columnIndex="2" promptText="VALUE" />
-        <Button fx:id="tblFormDataBtnAdd" onAction="#tblFormDataAddAction" GridPane.columnIndex="3" text="Add" disable="true"/>
-        <Button fx:id="tblFormDataBtnRemove" onAction="#tblFormDataRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red" disable="true"/>
+
+        <GridPane GridPane.rowIndex="0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" maxWidth="80"/>
+            </columnConstraints>
+            <ChoiceBox fx:id="cbxMetodo" onAction="#cbxMetodoAction" value="GET" GridPane.columnIndex="0">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="GET" />
+                        <String fx:value="POST" />
+                        <String fx:value="PUT" />
+                        <String fx:value="DELETE" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+            <TextField fx:id="txtUrl" GridPane.columnIndex="1" promptText="URL" />
+            <Button fx:id="btnExecutar" onAction="#executeAction" GridPane.columnIndex="2" text="Executar" style="-fx-base: #337ab7"/>
+        </GridPane>
+
+        <TabPane GridPane.rowIndex="1">
+            <Tab fx:id="tabBody" text="Body" closable="false" disable="true">
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+
+                    <GridPane GridPane.rowIndex="0" hgap="10.0" vgap="10.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <RadioButton fx:id="rbBodyTypeNone" GridPane.columnIndex="0" onAction="#tipBodyTypeChange" text="None" userData="NONE" mnemonicParsing="false" selected="true" />
+                        <RadioButton fx:id="rbBodyTypeFormData" GridPane.columnIndex="1" onAction="#tipBodyTypeChange" text="multipart/form-data" userData="FORM_DATA" mnemonicParsing="false" />
+                        <RadioButton fx:id="rbBodyTypeFormUrlencoded" GridPane.columnIndex="2" onAction="#tipBodyTypeChange" text="application/x-www-form-urlencoded" userData="FORM_URLENCODED" mnemonicParsing="false" />
+                        <RadioButton fx:id="rbBodyTypeRaw" GridPane.columnIndex="3" onAction="#tipBodyTypeChange" text="RAW" userData="RAW" mnemonicParsing="false" />
+                        <RadioButton fx:id="rbBodyTypeBinary" GridPane.columnIndex="4" onAction="#tipBodyTypeChange" text="Binary / File" userData="BINARY" mnemonicParsing="false" />
+                    </GridPane>
+
+                    <GridPane fx:id="grpFormDataBtn" GridPane.rowIndex="1" hgap="10.0" vgap="10.0" visible="false">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+                            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+                        </columnConstraints>
+                        <Label text="Form Data" GridPane.rowIndex="0" />
+                        <TextField fx:id="tblFormDataKey" GridPane.columnIndex="1" promptText="KEY" />
+                        <TextField fx:id="tblFormDataValue" GridPane.columnIndex="2" promptText="VALUE" />
+                        <Button fx:id="tblFormDataBtnAdd" onAction="#tblFormDataAddAction" GridPane.columnIndex="3" text="Add" disable="true"/>
+                        <Button fx:id="tblFormDataBtnRemove" onAction="#tblFormDataRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red" disable="true"/>
+                    </GridPane>
+
+                    <TableView GridPane.rowIndex="2" editable="true" fx:id="tblFormData" visible="false">
+                        <columns>
+                            <TableColumn text="KEY">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="key" />
+                                </cellValueFactory>
+                                <cellFactory>
+                                    <TextFieldTableCell fx:factory="forTableColumn" />
+                                </cellFactory>
+                            </TableColumn>
+                            <TableColumn text="VALUE">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="value" />
+                                </cellValueFactory>
+                                <cellFactory>
+                                    <TextFieldTableCell fx:factory="forTableColumn" />
+                                </cellFactory>
+                            </TableColumn>
+                        </columns>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
+
+                    <ChoiceBox fx:id="cbxRawContentType" GridPane.rowIndex="1" visible="false"/>
+                    <TextArea fx:id="txtRaw" GridPane.rowIndex="2" visible="false" promptText="Body RAW"/>
+
+                    <GridPane fx:id="grpBinary" GridPane.rowIndex="1" hgap="10.0" vgap="10.0" visible="false">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="150" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" maxWidth="80"/>
+                        </columnConstraints>
+                        <ChoiceBox fx:id="cbxBinaryContentType" GridPane.columnIndex="0"/>
+                        <TextField fx:id="txtBinaryPath" GridPane.columnIndex="1"/>
+                        <Button onAction="#selectBinary" text="Arquivo" GridPane.columnIndex="2" />
+                    </GridPane>
+
+                    <padding>
+                        <Insets top="14.0" />
+                    </padding>
+                </GridPane>
+            </Tab>
+
+            <Tab text="Header" closable="false">
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <GridPane GridPane.rowIndex="0" hgap="10.0" vgap="10.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+                            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+                        </columnConstraints>
+                        <Label text="Header" GridPane.rowIndex="0" />
+                        <TextField fx:id="tblHeaderKey" GridPane.columnIndex="1" promptText="KEY" />
+                        <TextField fx:id="tblHeaderValue" GridPane.columnIndex="2" promptText="VALUE" />
+                        <Button onAction="#tblHeaderAddAction" GridPane.columnIndex="3" text="Add"/>
+                        <Button onAction="#tblHeaderRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red"/>
+                    </GridPane>
+                    <TableView GridPane.rowIndex="1" fx:id="tblHeader" editable="true">
+                        <columns>
+                            <TableColumn text="KEY">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="key" />
+                                </cellValueFactory>
+                                <cellFactory>
+                                    <TextFieldTableCell fx:factory="forTableColumn" />
+                                </cellFactory>
+                            </TableColumn>
+                            <TableColumn text="VALUE">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="value" />
+                                </cellValueFactory>
+                                <cellFactory>
+                                    <TextFieldTableCell fx:factory="forTableColumn" />
+                                </cellFactory>
+                            </TableColumn>
+                        </columns>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
+
+                    <padding>
+                        <Insets top="14.0" />
+                    </padding>
+                </GridPane>
+            </Tab>
+
+            <Tab text="Cookie" closable="false">
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+
+                    <GridPane GridPane.rowIndex="0" hgap="10.0" vgap="10.0">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+                            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
+                        </columnConstraints>
+                        <Label text="Cookie" GridPane.rowIndex="0" />
+                        <TextField fx:id="tblCookieKey" GridPane.columnIndex="1" promptText="KEY" />
+                        <TextField fx:id="tblCookieValue" GridPane.columnIndex="2" promptText="VALUE" />
+                        <Button onAction="#tblCookieAddAction" GridPane.columnIndex="3" text="Add"/>
+                        <Button onAction="#tblCookieRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red"/>
+                    </GridPane>
+
+                    <TableView GridPane.rowIndex="1" fx:id="tblCookie" editable="true">
+                        <columns>
+                            <TableColumn text="KEY">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="key" />
+                                </cellValueFactory>
+                                <cellFactory>
+                                    <TextFieldTableCell fx:factory="forTableColumn" />
+                                </cellFactory>
+                            </TableColumn>
+                            <TableColumn text="VALUE">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="value" />
+                                </cellValueFactory>
+                                <cellFactory>
+                                    <TextFieldTableCell fx:factory="forTableColumn" />
+                                </cellFactory>
+                            </TableColumn>
+                        </columns>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
+
+                    <padding>
+                        <Insets top="14.0" />
+                    </padding>
+                </GridPane>
+            </Tab>
+
+            <Tab text="Proxy" closable="false">
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="25"/>
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <CheckBox fx:id="chxProxy" onAction="#chxProxyAction" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtProxyUrl" GridPane.columnIndex="1" promptText="Proxy URI" disable="true"/>
+                    <TextField fx:id="txtProxyUsername" GridPane.columnIndex="2" promptText="Proxy Username" disable="true"/>
+                    <PasswordField fx:id="txtProxyPassword" GridPane.columnIndex="3" promptText="Proxy Password" disable="true"/>
+
+                    <padding>
+                        <Insets top="14.0" />
+                    </padding>
+                </GridPane>
+            </Tab>
+        </TabPane>
+
+        <GridPane GridPane.rowIndex="2" hgap="10.0" vgap="10.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Method" />
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" text="URL" />
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="2" text="Time" />
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="3" text="Status" />
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="4" text="Size" />
+
+            <Text GridPane.rowIndex="1" GridPane.columnIndex="0" text="-" fx:id="txtResponseMethod"/>
+            <Text GridPane.rowIndex="1" GridPane.columnIndex="1" text="-" fx:id="txtResponseUrl"/>
+            <Text GridPane.rowIndex="1" GridPane.columnIndex="2" text="-" fx:id="txtResponseTime"/>
+            <Text GridPane.rowIndex="1" GridPane.columnIndex="3" text="-" fx:id="txtResponseStatus"/>
+            <Text GridPane.rowIndex="1" GridPane.columnIndex="4" text="-" fx:id="txtResponseSize"/>
+        </GridPane>
+
+        <TableView GridPane.rowIndex="3" fx:id="tblResponseHeader" editable="true">
+            <columns>
+                <TableColumn text="Key">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="key" />
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn" />
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn text="Value">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="value" />
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn" />
+                    </cellFactory>
+                </TableColumn>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+
+        <padding>
+            <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+        </padding>
     </GridPane>
-    <TableView editable="true" fx:id="tblFormData" disable="true" GridPane.rowIndex="3">
-        <columns>
-            <TableColumn text="KEY">
-                <cellValueFactory>
-                    <PropertyValueFactory property="key" />
-                </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn" />
-                </cellFactory>
-            </TableColumn>
-            <TableColumn text="VALUE">
-                <cellValueFactory>
-                    <PropertyValueFactory property="value" />
-                </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn" />
-                </cellFactory>
-            </TableColumn>
-        </columns>
-        <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-        </columnResizePolicy>
-    </TableView>
-
-    <GridPane GridPane.rowIndex="4" hgap="10.0" vgap="10.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
-            <ColumnConstraints hgrow="ALWAYS" />
-            <ColumnConstraints hgrow="ALWAYS" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
-        </columnConstraints>
-        <Label text="Header" GridPane.rowIndex="0" />
-        <TextField fx:id="tblHeaderKey" GridPane.columnIndex="1" promptText="KEY" />
-        <TextField fx:id="tblHeaderValue" GridPane.columnIndex="2" promptText="VALUE" />
-        <Button onAction="#tblHeaderAddAction" GridPane.columnIndex="3" text="Add"/>
-        <Button onAction="#tblHeaderRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red"/>
-    </GridPane>
-    <TableView fx:id="tblHeader" GridPane.rowIndex="5">
-        <columns>
-            <TableColumn text="KEY">
-                <cellValueFactory>
-                    <PropertyValueFactory property="key" />
-                </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn" />
-                </cellFactory>
-            </TableColumn>
-            <TableColumn text="VALUE">
-                <cellValueFactory>
-                    <PropertyValueFactory property="value" />
-                </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn" />
-                </cellFactory>
-            </TableColumn>
-        </columns>
-        <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-        </columnResizePolicy>
-    </TableView>
-
-    <GridPane GridPane.rowIndex="6" hgap="10.0" vgap="10.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="80" />
-            <ColumnConstraints hgrow="ALWAYS" />
-            <ColumnConstraints hgrow="ALWAYS" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" maxWidth="100"/>
-        </columnConstraints>
-        <Label text="Cookie" GridPane.rowIndex="0" />
-        <TextField fx:id="tblCookieKey" GridPane.columnIndex="1" promptText="KEY" />
-        <TextField fx:id="tblCookieValue" GridPane.columnIndex="2" promptText="VALUE" />
-        <Button onAction="#tblCookieAddAction" GridPane.columnIndex="3" text="Add"/>
-        <Button onAction="#tblCookieRemoveAction" GridPane.columnIndex="4" text="Limpar" style="-fx-base: red"/>
-    </GridPane>
-    <TableView fx:id="tblCookie" GridPane.rowIndex="7">
-        <columns>
-            <TableColumn text="KEY">
-                <cellValueFactory>
-                    <PropertyValueFactory property="key" />
-                </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn" />
-                </cellFactory>
-            </TableColumn>
-            <TableColumn text="VALUE">
-                <cellValueFactory>
-                    <PropertyValueFactory property="value" />
-                </cellValueFactory>
-                <cellFactory>
-                    <TextFieldTableCell fx:factory="forTableColumn" />
-                </cellFactory>
-            </TableColumn>
-        </columns>
-        <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-        </columnResizePolicy>
-    </TableView>
-
-    <TextArea fx:id="txtBodyJson" GridPane.rowIndex="8" promptText="Body JSON" disable="true"/>
-
-    <GridPane GridPane.rowIndex="9" hgap="10.0" vgap="10.0">
-        <columnConstraints>
-            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="25"/>
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
-        </columnConstraints>
-        <CheckBox fx:id="chxProxy" onAction="#chxProxyAction" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtProxyUrl" GridPane.columnIndex="1" promptText="Proxy URI" disable="true"/>
-        <TextField fx:id="txtProxyUsername" GridPane.columnIndex="2" promptText="Proxy Username" disable="true"/>
-        <PasswordField fx:id="txtProxyPassword" GridPane.columnIndex="3" promptText="Proxy Password" disable="true"/>
-    </GridPane>
-
-    <padding>
-        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
-    </padding>
-</GridPane>
+</SplitPane>

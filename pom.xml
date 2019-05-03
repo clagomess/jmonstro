@@ -6,7 +6,7 @@
     <artifactId>jmonstro</artifactId>
     <modelVersion>4.0.0</modelVersion>
     <groupId>br.jmonstro</groupId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.glassfish/javax.json -->
@@ -44,11 +44,25 @@
             <version>2.23</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-multipart -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>2.23</version>
+        </dependency>
+
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -77,6 +91,12 @@
             <groupId>com.github.clagomess</groupId>
             <artifactId>charset-detector</artifactId>
             <version>[1.0.0,)</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.7.4</version>
         </dependency>
     </dependencies>
 

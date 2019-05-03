@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +55,10 @@ public class RestParam {
                     break;
                 case RAW:
                     this.body.setRaw(injectVar(form, form.txtBody.getText()));
+                    break;
+                case BINARY:
+                    this.body.setBinaryContentType(form.cbxBinaryContentType.getValue());
+                    this.body.setBinary(new File(form.txtBinaryPath.getText()));
                     break;
             }
         }

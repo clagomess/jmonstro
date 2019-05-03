@@ -184,6 +184,17 @@
 
                     <TextArea GridPane.rowIndex="2" fx:id="txtBody" promptText="Body RAW" visible="false"/>
 
+                    <GridPane fx:id="grpBinary" GridPane.rowIndex="1" hgap="10.0" vgap="10.0" visible="false">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="150" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                            <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" maxWidth="80"/>
+                        </columnConstraints>
+                        <ChoiceBox fx:id="cbxBinaryContentType" GridPane.columnIndex="0"/>
+                        <TextField fx:id="txtBinaryPath" GridPane.columnIndex="1"/>
+                        <Button onAction="#selectBinary" text="Arquivo" GridPane.columnIndex="2" />
+                    </GridPane>
+
                     <padding>
                         <Insets top="14.0" />
                     </padding>

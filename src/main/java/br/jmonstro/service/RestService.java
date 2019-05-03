@@ -12,6 +12,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -97,7 +98,10 @@ public class RestService {
                 toReturn = Entity.entity(restParam.getBody().getFormData(), restParam.getBody().getFormData().getMediaType());
                 break;
             case RAW:
-                toReturn = Entity.json(restParam.getBody()); // @TODO: implements content-type
+                toReturn = Entity.entity(restParam.getBody().getRaw(), MediaType.APPLICATION_OCTET_STREAM_TYPE); // @TODO: implements content-type
+                break;
+            case BINARY:
+                toReturn = Entity.entity(restParam.getBody().getBinary(), restParam.getBody().getBinaryContentType());
                 break;
         }
 

@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import lombok.Data;
 
+import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
 
 @Data
@@ -45,6 +46,9 @@ public class RestForm {
     @FXML public RadioButton rbBodyTypeBinary;
     @FXML public Tab tabBody;
     @FXML public GridPane grpFormDataBtn;
+    @FXML public GridPane grpBinary;
+    @FXML public ChoiceBox<MediaType> cbxBinaryContentType;
+    @FXML public TextField txtBinaryPath;
 
     public void setFormValue(Request request){
         Platform.runLater(() -> {

@@ -16,12 +16,16 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
+import javax.ws.rs.core.MediaType;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -69,6 +73,14 @@ public class RestController extends RestForm implements Initializable {
         this.rbBodyTypeFormUrlencoded.setToggleGroup(this.tipBodyType);
         this.rbBodyTypeRaw.setToggleGroup(this.tipBodyType);
         this.rbBodyTypeBinary.setToggleGroup(this.tipBodyType);
+
+        // body type
+        this.cbxBinaryContentType.setItems(FXCollections.observableArrayList(Arrays.asList(
+                MediaType.APPLICATION_JSON_TYPE,
+                MediaType.APPLICATION_XML_TYPE,
+                MediaType.TEXT_PLAIN_TYPE,
+                MediaType.APPLICATION_OCTET_STREAM_TYPE
+        )));
     }
 
     public void executeAction(){
@@ -140,6 +152,7 @@ public class RestController extends RestForm implements Initializable {
         this.grpFormDataBtn.setVisible(false);
         this.tblFormData.setVisible(false);
         this.txtBody.setVisible(false);
+        this.grpBinary.setVisible(false);
 
         // Depois habilita conforme o tipo
         switch (bodyType){
@@ -152,7 +165,7 @@ public class RestController extends RestForm implements Initializable {
                 this.txtBody.setVisible(true);
                 break;
             case BINARY:
-                //@TODO: implements
+                this.grpBinary.setVisible(true);
                 break;
         }
     }
@@ -179,6 +192,15 @@ public class RestController extends RestForm implements Initializable {
 
     public void tblCookieRemoveAction(){
         tblCookie.getItems().remove(0, tblCookie.getItems().size());
+    }
+
+    public void selectBinary(){
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Binary");
+
+        File file = chooser.showOpenDialog(new Stage());
+
+        this.txtBinaryPath.setText(file.getAbsolutePath());
     }
 
     // POSTMAN ACTIONS

@@ -22,6 +22,8 @@ import java.util.Map;
 public class RestService {
     public static RestResponseDto perform(RestParam restParam) throws Throwable {
         ClientConfig config = new ClientConfig();
+        config.property(ClientProperties.FOLLOW_REDIRECTS, true);
+        config.property(ClientProperties.CONNECT_TIMEOUT, 1000 * 10);
         config.register(MultiPartFeature.class);
 
         if(restParam.getProxy() != null){
@@ -35,9 +37,6 @@ public class RestService {
         clientBuilder.withConfig(config);
         clientBuilder.sslContext(sslContext());
         Client client = clientBuilder.build();
-
-        client.property(ClientProperties.FOLLOW_REDIRECTS, Boolean.TRUE);
-        client.property(ClientProperties.CONNECT_TIMEOUT, 1000 * 10);
 
         WebTarget webTarget = client.target(restParam.getUrl());
         Invocation.Builder invocationBuilder = webTarget.request();
@@ -79,7 +78,7 @@ public class RestService {
         dto.setMethod(restParam.getMethod().getValue());
         dto.setSize(responseContent.length());
         dto.setHeaders(response.getStringHeaders());
-        dto.setStatus(response.getStatus());
+        dto.setStatus(response.getStatus() + " - " + response.getStatusInfo().getReasonPhrase());
         dto.setFile(JMonstroService.writeFile(responseContent, response.getMediaType()));
         dto.setTime(requestTime);
 

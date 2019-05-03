@@ -14,7 +14,7 @@ public class RestResponseDto {
     private String url;
     private String method;
     private Long time;
-    private Integer status;
+    private String status;
     private Integer size;
     private Map<String, List<String>> headers;
 }

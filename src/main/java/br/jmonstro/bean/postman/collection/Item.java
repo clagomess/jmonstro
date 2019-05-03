@@ -20,6 +20,10 @@ public class Item {
 
     @Override
     public String toString() {
-        return name;
+        if(request != null){
+            return String.format("%s %s", request.getMethod(), name);
+        }else{
+            return name;
+        }
     }
 }

@@ -14,6 +14,7 @@ public class Body {
     private String raw;
     private File binary;
     private MediaType binaryContentType;
+    private MediaType rawContentType;
 
     // Form
     private FormDataMultiPart formData = new FormDataMultiPart();

@@ -14,6 +14,7 @@ import br.jmonstro.service.PostmanService;
 import br.jmonstro.service.RestService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
@@ -74,13 +75,19 @@ public class RestController extends RestForm implements Initializable {
         this.rbBodyTypeRaw.setToggleGroup(this.tipBodyType);
         this.rbBodyTypeBinary.setToggleGroup(this.tipBodyType);
 
-        // body type
-        this.cbxBinaryContentType.setItems(FXCollections.observableArrayList(Arrays.asList(
+        // ContentType list
+        ObservableList<MediaType> mediaTypeList = FXCollections.observableArrayList(Arrays.asList(
                 MediaType.APPLICATION_JSON_TYPE,
                 MediaType.APPLICATION_XML_TYPE,
                 MediaType.TEXT_PLAIN_TYPE,
                 MediaType.APPLICATION_OCTET_STREAM_TYPE
-        )));
+        ));
+
+        // body type
+        this.cbxBinaryContentType.setItems(mediaTypeList);
+        this.cbxRawContentType.setItems(mediaTypeList);
+        this.cbxBinaryContentType.setValue(MediaType.APPLICATION_JSON_TYPE);
+        this.cbxRawContentType.setValue(MediaType.APPLICATION_JSON_TYPE);
     }
 
     public void executeAction(){
@@ -151,7 +158,7 @@ public class RestController extends RestForm implements Initializable {
         // Desabilita tudo
         this.grpFormDataBtn.setVisible(false);
         this.tblFormData.setVisible(false);
-        this.txtBody.setVisible(false);
+        this.grpRaw.setVisible(false);
         this.grpBinary.setVisible(false);
 
         // Depois habilita conforme o tipo
@@ -162,7 +169,7 @@ public class RestController extends RestForm implements Initializable {
                 this.tblFormData.setVisible(true);
                 break;
             case RAW:
-                this.txtBody.setVisible(true);
+                this.grpRaw.setVisible(true);
                 break;
             case BINARY:
                 this.grpBinary.setVisible(true);

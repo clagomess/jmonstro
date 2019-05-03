@@ -33,7 +33,7 @@ public class RestForm {
     @FXML public TableView<KeyValueTable> tblCookie;
     @FXML public TextField tblCookieKey;
     @FXML public TextField tblCookieValue;
-    @FXML public TextArea txtBody;
+    @FXML public TextArea txtRaw;
     @FXML public CheckBox chxProxy;
     @FXML public TextField txtProxyUrl;
     @FXML public TextField txtProxyUsername;
@@ -49,6 +49,8 @@ public class RestForm {
     @FXML public GridPane grpBinary;
     @FXML public ChoiceBox<MediaType> cbxBinaryContentType;
     @FXML public TextField txtBinaryPath;
+    @FXML public GridPane grpRaw;
+    @FXML public ChoiceBox<MediaType> cbxRawContentType;
 
     public void setFormValue(Request request){
         Platform.runLater(() -> {
@@ -91,8 +93,8 @@ public class RestForm {
                 }
             }
 
-            // BODY
-            txtBody.setText(request.getBody().getRaw());
+            // BODY RAW
+            txtRaw.setText(request.getBody().getRaw());
         });
     }
 

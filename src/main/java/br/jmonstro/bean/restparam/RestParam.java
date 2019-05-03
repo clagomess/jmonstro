@@ -54,7 +54,8 @@ public class RestParam {
                     }
                     break;
                 case RAW:
-                    this.body.setRaw(injectVar(form, form.txtBody.getText()));
+                    this.body.setRawContentType(form.cbxRawContentType.getValue());
+                    this.body.setRaw(injectVar(form, form.txtRaw.getText()));
                     break;
                 case BINARY:
                     this.body.setBinaryContentType(form.cbxBinaryContentType.getValue());

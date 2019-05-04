@@ -11,24 +11,25 @@
         <ColumnConstraints hgrow="ALWAYS"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints prefHeight="40.0" vgrow="NEVER"/>
+        <RowConstraints vgrow="NEVER"/>
         <RowConstraints vgrow="ALWAYS"/>
-        <RowConstraints prefHeight="40.0" vgrow="NEVER"/>
-        <RowConstraints prefHeight="40.0" vgrow="NEVER"/>
+        <RowConstraints vgrow="NEVER"/>
+        <RowConstraints vgrow="NEVER"/>
         <RowConstraints prefHeight="100.0" vgrow="NEVER"/>
-        <RowConstraints prefHeight="40.0" vgrow="NEVER"/>
         <RowConstraints/>
     </rowConstraints>
 
     <GridPane GridPane.rowIndex="0" hgap="10.0" vgap="10.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" percentWidth="15"/>
+            <ColumnConstraints hgrow="NEVER"/>
+            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="15"/>
             <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" percentWidth="15" />
         </columnConstraints>
-        <TextField fx:id="txtPathJson" GridPane.rowIndex="0"/>
-        <Button onAction="#processarJsonAction" text="Arquivo" GridPane.columnIndex="1" />
-        <Button onAction="#processarJsonRestAction" text="REST" GridPane.columnIndex="2" style="-fx-base: #337ab7"/>
+        <ProgressBar fx:id="progress" GridPane.rowIndex="0" progress="0" prefWidth="40"/>
+        <TextField fx:id="txtPathJson" GridPane.columnIndex="1"/>
+        <Button onAction="#processarJsonAction" text="Arquivo" GridPane.columnIndex="2" />
+        <Button onAction="#processarJsonRestAction" text="REST" GridPane.columnIndex="3" style="-fx-base: #337ab7"/>
     </GridPane>
 
     <WebView fx:id="webView" GridPane.rowIndex="1" visible="false"/>
@@ -36,13 +37,13 @@
 
     <GridPane GridPane.rowIndex="2" hgap="10.0" vgap="10.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT"/>
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT"/>
+            <ColumnConstraints hgrow="NEVER" halignment="LEFT"/>
+            <ColumnConstraints hgrow="NEVER" halignment="LEFT"/>
             <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="LEFT" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+            <ColumnConstraints hgrow="NEVER" halignment="LEFT" />
+            <ColumnConstraints hgrow="NEVER" halignment="CENTER" />
+            <ColumnConstraints hgrow="NEVER" halignment="CENTER" />
+            <ColumnConstraints hgrow="NEVER" halignment="CENTER" />
             <ColumnConstraints hgrow="ALWAYS" halignment="RIGHT" />
         </columnConstraints>
         <CheckBox fx:id="chkBuscaRegex" GridPane.columnIndex="0" text="RegEx" />
@@ -55,28 +56,17 @@
         <Label fx:id="lblItensEncontrado" GridPane.columnIndex="7" text="0 de 0"/>
     </GridPane>
 
-    <GridPane GridPane.rowIndex="3" layoutX="14.0" layoutY="14.0" hgap="10.0" vgap="10.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
-            <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints prefHeight="30" vgrow="ALWAYS" />
-        </rowConstraints>
-        <Button GridPane.columnIndex="0" text="Hex View - Base64" onAction="#hexViewAction"/>
-        <Button GridPane.columnIndex="1" text="Image View" onAction="#imageViewAction"/>
-        <Button GridPane.columnIndex="2" text="RawToImage" onAction="#rawToImageAction"/>
-        <Button GridPane.columnIndex="3" text="Save Bin - Base64" onAction="#saveBinAction"/>
-        <Button GridPane.columnIndex="4" text="Hex View" onAction="#hexViewAction"/>
-        <Button GridPane.columnIndex="5" text="Save Bin" onAction="#saveBinAction"/>
-    </GridPane>
+    <HBox GridPane.rowIndex="3" spacing="10">
+        <Button text="Hex View - Base64" onAction="#hexViewAction"/>
+        <Button text="Image View" onAction="#imageViewAction"/>
+        <Button text="RawToImage" onAction="#rawToImageAction"/>
+        <Button text="Save Bin - Base64" onAction="#saveBinAction"/>
+        <Button text="Hex View" onAction="#hexViewAction"/>
+        <Button text="Save Bin" onAction="#saveBinAction"/>
+    </HBox>
 
     <TextArea fx:id="txtValor" GridPane.rowIndex="4" wrapText="true"/>
-    <ProgressBar fx:id="progress" GridPane.rowIndex="5" progress="0" prefWidth="600"/>
+
     <padding>
         <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
     </padding>

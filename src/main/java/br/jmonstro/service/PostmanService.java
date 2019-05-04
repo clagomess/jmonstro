@@ -4,11 +4,15 @@ import br.jmonstro.bean.postman.Collection;
 import br.jmonstro.bean.postman.Environment;
 import br.jmonstro.bean.postman.collection.Item;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -79,7 +83,13 @@ public class PostmanService {
     }
 
     private TreeItem<Item> getNode(Item item){
-        TreeItem<Item> treeNode = new TreeItem<>(item);
+        Node icon = null;
+
+        if(item.getRequest() != null){
+            icon = getIcon(item.getRequest().getMethod());
+        }
+
+        TreeItem<Item> treeNode = icon != null ? new TreeItem<>(item, icon) : new TreeItem<>(item);
 
         if(item.getItem() != null){
             for(Item cItem : item.getItem()){
@@ -88,5 +98,15 @@ public class PostmanService {
         }
 
         return treeNode;
+    }
+
+    private Node getIcon(String method){
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(String.format("images/%s.png", method));
+
+        if(is == null){
+            return null;
+        }
+
+        return new ImageView(new Image(is));
     }
 }
